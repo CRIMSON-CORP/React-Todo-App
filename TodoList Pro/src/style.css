@@ -202,6 +202,11 @@ div.label .Todo > span {
     margin-left: 20px;
     font-size: 18px;
     position: relative;
+    transition: 0.4s ease-out;
+    -webkit-transition: 0.4s ease-out;
+    -moz-transition: 0.4s ease-out;
+    -ms-transition: 0.4s ease-out;
+    -o-transition: 0.4s ease-out;
 }
 
 div.label span span.cross {
@@ -217,6 +222,11 @@ div.label span span.cross {
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
     background: white;
+    transition: 0.4s ease-out;
+    -webkit-transition: 0.4s ease-out;
+    -moz-transition: 0.4s ease-out;
+    -ms-transition: 0.4s ease-out;
+    -o-transition: 0.4s ease-out;
 }
 
 .checkbox {
