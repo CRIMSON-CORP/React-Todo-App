@@ -261,11 +261,11 @@ input[type="checkbox"]:checked ~ div span span.cross {
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
-    /* transition: 0.4s ease-out;
+    transition: 0.4s ease-out;
     -webkit-transition: 0.4s ease-out;
     -moz-transition: 0.4s ease-out;
     -ms-transition: 0.4s ease-out;
-    -o-transition: 0.4s ease-out; */
+    -o-transition: 0.4s ease-out;
 }
 
 .checkbox_inner span:nth-child(1) {
@@ -276,7 +276,7 @@ input[type="checkbox"]:checked ~ div span span.cross {
 .checkbox_inner span:nth-child(2) {
     width: 0px;
     height: 4px;
-    /* transition-delay: 0.125s; */
+    transition-delay: 0.125s;
 }
 
 input[type="checkbox"]:checked + div div div span:nth-child(1) {

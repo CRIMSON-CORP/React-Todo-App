@@ -1,28 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Input({ props: { handleProps } }) {
-    const [Todo, setTodo] = useState({});
-    function sendProps() {
-        Todo.Todo === null ? alert("Fill Box") : setSend();
-    }
-    function sendKeyProps({ keyCode }) {
-        if (Todo.Todo !== null) {
-            if (keyCode === 13) setSend();
-        } else alert("Fill Box");
-    }
-
-    function setSend() {
-        setTodo((prev) => {
-            return {};
-        });
-        document.getElementById("inputBox").value = null;
-        handleProps(Todo.Todo, Todo.completed);
-    }
-
-    function setInput({ target: { value } }) {
-        setTodo({ Todo: value, completed: false });
-    }
-
+function Input({ props: { sendProps, sendKeyProps, setInput } }) {
     return (
         <div className="inputBlock" style={{ margin: "15px 0px" }}>
             <div className="input-container">

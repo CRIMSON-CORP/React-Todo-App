@@ -2,21 +2,16 @@ import React, { useState, useEffect } from "react";
 
 function EachTodo({
     props: {
-        EachTodo: {
-            Todo: { id, completed, task },
-        },
+        EachTodo: { id, completed, Todo },
         updateTodo,
-        setTodoListArray,
-        TodoListArray,
-        removeTodo
+        removeTodo,
     },
 }) {
     const [Id, setId] = useState("");
 
     useEffect(() => {
         setId(id);
-    }, [task, id]);
-
+    }, [Todo, id]);
     var comp = completed;
     var Done = {
         opacity: 0.4,
@@ -48,7 +43,7 @@ function EachTodo({
                         </div>
                     </div>
                     <span style={comp ? Done : null}>
-                        {task} <span className="cross"></span>
+                        {Todo} <span className="cross"></span>
                     </span>
                 </div>
             </label>
