@@ -113,6 +113,13 @@ input:valid + div::before {
     top: 25%;
     left: 30%;
     display: block;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
 
 div.plus span {
