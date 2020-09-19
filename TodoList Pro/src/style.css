@@ -5,11 +5,16 @@
     box-sizing: border-box;
     color: white;
 }
+
+body {
+    min-height: 100vh;
+}
 #root {
     width: 100%;
     min-height: 100vh;
     background: #333;
     user-select: none;
+    padding-top: 100px;
 }
 
 .input {
@@ -53,12 +58,18 @@ input[type="text"] {
     -ms-transition: 0.5s ease;
     -o-transition: 0.5s ease;
     width: 100%;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
 .input-container {
     width: 87%;
     height: 45px;
     position: relative;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
 }
 
 input:focus,
@@ -101,16 +112,15 @@ input:valid + div::before {
 .input::before {
     width: calc(100% + 6px);
     height: calc(100% + 6px);
-    background: rgb(0, 195, 255);
+    background: #6544ff;
     z-index: 10;
 }
 
 .container {
     width: 40%;
     min-height: 1px;
-    margin: auto;
-    position: absolute;
-    top: 25%;
+    position: relative;
+    top: 0%;
     left: 30%;
     display: block;
     background: rgba(0, 0, 0, 0.5);
@@ -139,6 +149,7 @@ div.plus span {
     justify-content: center;
     cursor: pointer;
     font-size: 18px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
 .inputBlock {
@@ -326,4 +337,129 @@ label {
     display: flex;
     align-items: center;
     flex: 80%;
+}
+
+.control {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.container button.clear,
+.container button.disable {
+    margin-left: auto;
+    display: inline-block;
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    cursor: pointer;
+    background: #d32f2f;
+    box-shadow: 0px 3px 8px #3f0101;
+    font-weight: 600;
+    transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -ms-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+}
+
+.container button.disable {
+    background: rgb(77, 77, 77);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* progress bar */
+
+.box {
+    display: flex;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    justify-content: center;
+    align-items: center;
+}
+
+.box .percent {
+    position: relative;
+    height: 90px;
+    width: 90px;
+}
+
+.box svg {
+    width: 90px;
+    height: 90px;
+    position: relative;
+}
+
+.box svg circle {
+    width: 90px;
+    height: 90px;
+    fill: none;
+    stroke-width: 10px;
+    stroke-dasharray: 251;
+    stroke-dashoffset: 251;
+    stroke-linecap: round;
+    transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -ms-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    position: relative;
+}
+.box svg circle.dark {
+    stroke: rgba(0, 0, 0, 0.5);
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+}
+
+.box svg circle + circle {
+    stroke: url("#grad");
+}
+
+.box .number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    grid-template-rows: 80% 30%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.number span {
+    font-size: 12px;
+}
+
+.number h2 {
+    font-size: 22px;
+}
+
+span.comp {
+    font-size: 9px;
+    font-weight: 400;
+    transform: translateY(-5px);
+    -webkit-transform: translateY(-5px);
+    -moz-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    -o-transform: translateY(-5px);
+}
+h2.empty {
+    font-size: 12px;
 }
