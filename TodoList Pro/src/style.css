@@ -6,9 +6,6 @@
     color: white;
 }
 
-body {
-    min-height: 100vh;
-}
 #root {
     width: 100%;
     min-height: 100vh;
@@ -22,18 +19,10 @@ body {
     position: absolute;
     overflow: hidden;
     border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
     height: 45px;
     top: 50%;
     left: 50%;
     transform: translate(-49.8%, -50%);
-    -webkit-transform: translate(-49.8%, -50%);
-    -moz-transform: translate(-49.8%, -50%);
-    -ms-transform: translate(-49.8%, -50%);
-    -o-transform: translate(-49.8%, -50%);
 }
 input[type="text"] {
     padding: 12px 15px;
@@ -41,10 +30,6 @@ input[type="text"] {
     display: block;
     color: #333;
     border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
     outline: none;
     border: none;
     width: calc(100% - 5.5px);
@@ -53,10 +38,6 @@ input[type="text"] {
     z-index: 15;
     position: relative;
     transition: 0.5s ease;
-    -webkit-transition: 0.5s ease;
-    -moz-transition: 0.5s ease;
-    -ms-transition: 0.5s ease;
-    -o-transition: 0.5s ease;
     width: 100%;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
 }
@@ -66,10 +47,6 @@ input[type="text"] {
     height: 45px;
     position: relative;
     border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
 }
 
 input:focus,
@@ -84,29 +61,13 @@ input:valid {
     top: 0%;
     left: 50%;
     transform: translate(-50%, -101%);
-    -webkit-transform: translate(-50%, -101%);
-    -moz-transform: translate(-50%, -101%);
-    -ms-transform: translate(-50%, -101%);
-    -o-transform: translate(-50%, -101%);
     border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
     transition: 0.5s ease;
-    -webkit-transition: 0.5s ease;
-    -moz-transition: 0.5s ease;
-    -ms-transition: 0.5s ease;
-    -o-transition: 0.5s ease;
 }
 
 input:focus + div::before,
 input:valid + div::before {
     transform: translate(-50%, 0);
-    -webkit-transform: translate(-50%, 0);
-    -moz-transform: translate(-50%, 0);
-    -ms-transform: translate(-50%, 0);
-    -o-transform: translate(-50%, 0);
 }
 
 .input::before {
@@ -126,20 +87,12 @@ input:valid + div::before {
     background: rgba(0, 0, 0, 0.5);
     padding: 30px;
     border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
 }
 
 div.plus span {
     background: white;
     padding: 5px;
     border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
     color: #333;
     height: 50px;
     width: 50px;
@@ -167,19 +120,11 @@ div.plus span {
 .listContainer {
     background: #222;
     border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
     padding: 10px 15px;
     min-height: 45px;
     display: flex;
     flex-direction: column-reverse;
     transition: height 0.4s ease-out;
-    -webkit-transition: height 0.4s ease-out;
-    -moz-transition: height 0.4s ease-out;
-    -ms-transition: height 0.4s ease-out;
-    -o-transition: height 0.4s ease-out;
 }
 
 input[type="checkbox"] {
@@ -197,19 +142,11 @@ div.label {
     from {
         opacity: 0;
         transform: translateY(-50%);
-        -webkit-transform: translateY(-50%);
-        -moz-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        -o-transform: translateY(-50%);
     }
 
     to {
         opacity: 1;
         transform: translateY(0);
-        -webkit-transform: translateY(0);
-        -moz-transform: translateY(0);
-        -ms-transform: translateY(0);
-        -o-transform: translateY(0);
     }
 }
 div.label:first-child {
@@ -220,11 +157,6 @@ div.label .Todo > span {
     margin-left: 20px;
     font-size: 18px;
     position: relative;
-    transition: 0.4s ease-out;
-    -webkit-transition: 0.4s ease-out;
-    -moz-transition: 0.4s ease-out;
-    -ms-transition: 0.4s ease-out;
-    -o-transition: 0.4s ease-out;
 }
 
 div.label span span.cross {
@@ -235,16 +167,8 @@ div.label span span.cross {
     transform: translateY(-50%);
     top: 50%;
     left: 0;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
     background: white;
     transition: 0.4s ease-out;
-    -webkit-transition: 0.4s ease-out;
-    -moz-transition: 0.4s ease-out;
-    -ms-transition: 0.4s ease-out;
-    -o-transition: 0.4s ease-out;
 }
 
 .checkbox {
@@ -253,9 +177,6 @@ div.label span span.cross {
     height: 35px;
     border-radius: 10px;
     background: #888;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
     position: relative;
     -o-border-radius: 10px;
     justify-content: center;
@@ -273,10 +194,6 @@ input[type="checkbox"]:checked ~ div span span.cross {
     display: inline-flex;
     align-items: center;
     transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
     margin-left: 10px;
 }
 
@@ -285,15 +202,7 @@ input[type="checkbox"]:checked ~ div span span.cross {
     background: white;
     content: "";
     border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
     transition: 0.4s ease-out;
-    -webkit-transition: 0.4s ease-out;
-    -moz-transition: 0.4s ease-out;
-    -ms-transition: 0.4s ease-out;
-    -o-transition: 0.4s ease-out;
 }
 
 .checkbox_inner span:nth-child(1) {
@@ -355,19 +264,11 @@ label {
     outline: none;
     padding: 8px 16px;
     border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
     cursor: pointer;
     background: #d32f2f;
     box-shadow: 0px 3px 8px #3f0101;
     font-weight: 600;
     transition: 0.5s ease;
-    -webkit-transition: 0.5s ease;
-    -moz-transition: 0.5s ease;
-    -ms-transition: 0.5s ease;
-    -o-transition: 0.5s ease;
 }
 
 .container button.disable {
@@ -407,10 +308,6 @@ label {
     stroke-dashoffset: 251;
     stroke-linecap: round;
     transition: 0.5s ease;
-    -webkit-transition: 0.5s ease;
-    -moz-transition: 0.5s ease;
-    -ms-transition: 0.5s ease;
-    -o-transition: 0.5s ease;
     position: relative;
 }
 .box svg circle.dark {
@@ -431,10 +328,6 @@ label {
     height: 100%;
     transform: translate(-50%, -50%);
     font-size: 18px;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
     grid-template-rows: 80% 30%;
     text-align: center;
     display: flex;
@@ -455,10 +348,6 @@ span.comp {
     font-size: 9px;
     font-weight: 400;
     transform: translateY(-5px);
-    -webkit-transform: translateY(-5px);
-    -moz-transform: translateY(-5px);
-    -ms-transform: translateY(-5px);
-    -o-transform: translateY(-5px);
 }
 h2.empty {
     font-size: 12px;
