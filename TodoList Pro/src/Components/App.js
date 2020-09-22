@@ -23,9 +23,31 @@ export default function App() {
     }, [progress, TodoListArray]);
 
     useEffect(() => {
+        function FilterLogic() {
+            switch (status) {
+                case "Completed":
+                    setFiltered(TodoListArray.filter((arr) => arr.completed === true));
+                    break;
+                case "Uncompleted":
+                    setFiltered(TodoListArray.filter((arr) => arr.completed === false));
+                    break;
+                default:
+                    setFiltered(TodoListArray);
+            }
+        }
         FilterLogic();
-        // eslint-disable-next-line
     }, [status, TodoListArray]);
+
+    useEffect(() => {
+        if (localStorage.getItem("todoLocal") == null)
+            localStorage.setItem("todoLocal", JSON.stringify([]));
+        else var TodoLocal = localStorage.getItem("todoLocal");
+        setTodoListArray(JSON.parse(TodoLocal));
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("todoLocal", JSON.stringify(TodoListArray));
+    }, [TodoListArray]);
 
     function sendProps() {
         Todo.Todo === undefined ? alert("Please write a Task") : setSend();
@@ -66,19 +88,6 @@ export default function App() {
 
     function clearDone() {
         setTodoListArray(TodoListArray.filter((arr) => arr.completed === false));
-    }
-
-    function FilterLogic() {
-        switch (status) {
-            case "Completed":
-                setFiltered(TodoListArray.filter((arr) => arr.completed === true));
-                break;
-            case "Uncompleted":
-                setFiltered(TodoListArray.filter((arr) => arr.completed === false));
-                break;
-            default:
-                setFiltered(TodoListArray);
-        }
     }
 
     function statusHandler({ target: { value } }) {
