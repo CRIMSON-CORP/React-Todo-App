@@ -15,15 +15,9 @@ function EachTodo({
     var comp = completed;
     var Done = {
         opacity: 0.4,
-        transform: "skewx(-20deg)",
+        textDecoration: "line-through",
     };
 
-    var span1 = {
-        height: 12,
-    };
-    var span2 = {
-        width: 22,
-    };
     return (
         <div className="label" data-id={`${Id}`}>
             <label>
@@ -36,11 +30,14 @@ function EachTodo({
                     }}
                 />
                 <div className="Todo">
-                    <div className="checkbox" style={{ background: comp ? "#333" : null }}>
-                        <div className="checkbox_inner">
-                            <span style={comp ? span1 : null}></span>
-                            <span style={comp ? span2 : null}></span>
-                        </div>
+                    <div className="checkbox-container">
+                        <svg viewBox="0 0 100 100" className="checkbox">
+                            <path
+                                className="st0"
+                                d="M85,92H15c-3.9,0-7-3.1-7-7V15c0-3.9,3.1-7,7-7h70c3.9,0,7,3.1,7,7v70C92,88.9,88.9,92,85,92z"
+                            />
+                            <polyline className="check" points="22.5,47.5 42.5,67.5 78.5,31.5 " />
+                        </svg>
                     </div>
                     <span style={comp ? Done : null}>
                         {Todo} <span className="cross"></span>

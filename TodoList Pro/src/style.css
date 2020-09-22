@@ -14,238 +14,17 @@
     padding-top: 100px;
 }
 
-.input {
-    width: calc(100% + 5px);
-    position: absolute;
-    overflow: hidden;
-    border-radius: 8px;
-    height: 45px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-49.8%, -50%);
-}
-input[type="text"] {
-    padding: 12px 15px;
-    font-size: 18px;
-    display: block;
-    color: #333;
-    border-radius: 8px;
-    outline: none;
-    border: none;
-    width: calc(100% - 5.5px);
-    height: calc(100% - 5px);
-    margin: 2.5px auto 0;
-    z-index: 15;
-    position: relative;
-    transition: 0.5s ease;
-    width: 100%;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
-}
-
-.input-container {
-    width: 87%;
-    height: 45px;
-    position: relative;
-    border-radius: 8px;
-}
-
-input:focus,
-input:valid {
-    color: white;
-    background-color: #333;
-}
-
-.input::before {
-    content: "";
-    position: absolute;
-    top: 0%;
-    left: 50%;
-    transform: translate(-50%, -101%);
-    border-radius: 8px;
-    transition: 0.5s ease;
-}
-
-input:focus + div::before,
-input:valid + div::before {
-    transform: translate(-50%, 0);
-}
-
-.input::before {
-    width: calc(100% + 6px);
-    height: calc(100% + 6px);
-    background: #6544ff;
-    z-index: 10;
-}
-
 .container {
-    width: 40%;
-    min-height: 1px;
+    width: 600px;
+    margin: auto;
     position: relative;
-    top: 0%;
-    left: 30%;
-    display: block;
     background: rgba(0, 0, 0, 0.5);
     padding: 30px;
-    border-radius: 20px;
-}
-
-div.plus span {
-    background: white;
-    padding: 5px;
-    border-radius: 50%;
-    color: #333;
-    height: 50px;
-    width: 50px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
-}
-
-.inputBlock {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 50px;
-}
-
-.plus {
-    display: flex;
-    align-items: center;
-}
-
-.listContainer {
-    background: #222;
     border-radius: 10px;
-    padding: 10px 15px;
-    min-height: 45px;
-    display: flex;
-    flex-direction: column-reverse;
-    transition: height 0.4s ease-out;
-}
-
-input[type="checkbox"] {
-    display: none;
-}
-div.label {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #555;
-    animation: slide 0.5s ease-out;
-    -webkit-animation: slide 0.5s ease-out;
-}
-
-@keyframes slide {
-    from {
-        opacity: 0;
-        transform: translateY(-50%);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-div.label:first-child {
-    border: none;
-}
-
-div.label .Todo > span {
-    margin-left: 20px;
-    font-size: 18px;
-    position: relative;
-}
-
-div.label span span.cross {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 3px;
-    transform: translateY(-50%);
-    top: 50%;
-    left: 0;
-    background: white;
-    transition: 0.4s ease-out;
-}
-
-.checkbox {
-    display: inline-flex;
-    width: 35px;
-    height: 35px;
-    border-radius: 10px;
-    background: #888;
-    position: relative;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
     -o-border-radius: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
-input[type="checkbox"]:checked ~ div span span.cross {
-    width: 100%;
-}
-
-.checkbox_inner {
-    position: relative;
-    width: 70%;
-    height: 70%;
-    display: inline-flex;
-    align-items: center;
-    transform: rotate(-45deg);
-    margin-left: 10px;
-}
-
-.checkbox_inner span {
-    position: absolute;
-    background: white;
-    content: "";
-    border-radius: 10px;
-    transition: 0.4s ease-out;
-}
-
-.checkbox_inner span:nth-child(1) {
-    width: 4px;
-    height: 0px;
-    top: 0;
-}
-.checkbox_inner span:nth-child(2) {
-    width: 0px;
-    height: 4px;
-    transition-delay: 0.125s;
-}
-
-input[type="checkbox"]:checked + div div div span:nth-child(1) {
-    height: 12px;
-}
-
-input[type="checkbox"]:checked + div div div span:nth-child(2) {
-    width: 22px;
-}
-label {
-    flex: 70%;
-    display: inline-block;
-    cursor: pointer;
-    padding: 15px;
-}
-
-.close {
-    color: red;
-    font-size: 18px;
-    text-shadow: 0px 0px 5px red;
-    display: inline-grid;
-    margin-left: auto;
-    height: 35px;
-    width: 35px;
-    place-items: center;
-    cursor: pointer;
-}
-
-.Todo {
-    display: flex;
-    align-items: center;
-    flex: 80%;
 }
 
 .control {
@@ -253,62 +32,35 @@ label {
     flex-flow: row wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
 }
-
-.container button.clear,
-.container button.disable {
-    margin-left: auto;
-    display: inline-block;
-    border: none;
-    outline: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    background: #d32f2f;
-    box-shadow: 0px 3px 8px #3f0101;
-    font-weight: 600;
-    transition: 0.5s ease;
-}
-
-.container button.disable {
-    background: rgb(77, 77, 77);
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
-}
-
-/* progress bar */
 
 .box {
-    display: flex;
+    display: grid;
+    grid-template-columns: 90px;
+    grid-template-rows: 90px;
     position: relative;
-    width: 90px;
-    height: 90px;
-    justify-content: center;
-    align-items: center;
 }
 
 .box .percent {
     position: relative;
-    height: 90px;
-    width: 90px;
+    width: 100%;
+    height: 100%;
 }
 
 .box svg {
-    width: 90px;
-    height: 90px;
-    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-.box svg circle {
-    width: 90px;
-    height: 90px;
+.box circle {
+    width: 100%;
+    height: 100%;
     fill: none;
     stroke-width: 10px;
     stroke-dasharray: 251;
     stroke-dashoffset: 251;
     stroke-linecap: round;
     transition: 0.5s ease;
-    position: relative;
 }
 .box svg circle.dark {
     stroke: rgba(0, 0, 0, 0.5);
@@ -322,13 +74,11 @@ label {
 
 .box .number {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    transform: translate(-50%, -50%);
     font-size: 18px;
-    grid-template-rows: 80% 30%;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -336,7 +86,7 @@ label {
     flex-direction: column;
 }
 
-.number span {
+.number span.perc {
     font-size: 12px;
 }
 
@@ -351,4 +101,336 @@ span.comp {
 }
 h2.empty {
     font-size: 12px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 90px;
+}
+
+.buttons button,
+.buttons select {
+    display: inline-block;
+    border: none;
+    outline: none;
+    width: 115px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 12px;
+    padding: 5px;
+    letter-spacing: 1px;
+    transition: 0.5s ease;
+}
+
+.buttons button.disable {
+    background: rgb(77, 77, 77);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+.buttons button.clear {
+    background: #d32f2f;
+    box-shadow: 0px 3px 8px #3f0101;
+}
+
+select {
+    background: #222;
+    color: white;
+    background: rgb(77, 77, 77);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+.inputBlock {
+    display: grid;
+    place-items: center;
+    grid-template-columns: auto 45px;
+    column-gap: 3%;
+    height: 50px;
+    margin: 15px 0;
+}
+
+.input-container {
+    width: 100%;
+    height: 45px;
+    position: relative;
+    border-radius: 10px;
+}
+
+input[type="text"] {
+    padding: 12px 15px;
+    font-size: 16px;
+    display: inline-block;
+    color: #333;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    width: calc(100% - 5.5px);
+    height: calc(100% - 5px);
+    margin: 2.5px 0 0 2.5px;
+    z-index: 15;
+    position: relative;
+    transition: 0.5s ease;
+    width: 100%;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+input:focus,
+input:valid {
+    color: white;
+    background-color: #333;
+}
+
+.input {
+    width: calc(100% + 5px);
+    position: absolute;
+    overflow: hidden;
+    border-radius: 8px;
+    height: 45px;
+    top: 0%;
+    left: 0%;
+}
+
+.input::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translate(0%, -100%);
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    background: #6544ff;
+    z-index: 10;
+    transition: 0.5s ease;
+}
+
+input:focus + div::before,
+input:valid + div::before {
+    transform: translate(0%, 0%);
+}
+
+.plus {
+    background: white;
+    padding: 5px;
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.plus span {
+    color: #333;
+}
+
+.listContainer {
+    background: #222;
+    border-radius: 10px;
+    padding: 0px 10px;
+    min-height: 45px;
+    display: flex;
+    flex-direction: column-reverse;
+    transition: height 0.4s ease-out;
+}
+
+div.label {
+    height: 100%;
+    display: flex;
+    min-height: 45px;
+    align-items: center;
+    border-bottom: 1px solid #555;
+    animation: slide 0.5s ease-out;
+    -webkit-animation: slide 0.5s ease-out;
+}
+
+label {
+    flex: 70%;
+    display: inline-block;
+    cursor: pointer;
+    padding: 20px 10px;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+@keyframes slide {
+    from {
+        opacity: 0;
+        transform: translateY(-50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+div.label:first-child {
+    border: none;
+}
+
+.checkbox-container {
+    height: 30px;
+}
+.checkbox {
+    stroke: white;
+    stroke-width: 8;
+    fill: transparent;
+    width: 30px;
+}
+
+.checkbox path {
+    stroke-dasharray: 324.0476989746094;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.4s;
+}
+
+.check {
+    fill: none;
+    stroke-dasharray: 79.19596099853516;
+    stroke-dashoffset: 79.19596099853516;
+    transition: stroke-dashoffset 0.4s;
+}
+
+input[type="checkbox"]:checked + div svg path {
+    stroke-dashoffset: 324.0476989746094;
+}
+input[type="checkbox"]:checked + div svg .check {
+    stroke-dashoffset: 0;
+    fill: none;
+}
+
+.Todo {
+    display: grid;
+    grid-template-columns: 30px auto;
+    align-items: center;
+    column-gap: 5%;
+    flex: 80%;
+}
+
+.Todo > span {
+    font-size: 16px;
+    position: relative;
+    word-break: break-all;
+}
+
+input[type="checkbox"]:checked + div div div span:nth-child(1) {
+    height: 12px;
+}
+
+input[type="checkbox"]:checked + div div div span:nth-child(2) {
+    width: 22px;
+}
+
+.close {
+    color: red;
+    font-size: 18px;
+    text-shadow: 0px 0px 5px rgba(255, 0, 0, 0.6);
+    display: inline-grid;
+    height: 35px;
+    width: 35px;
+    place-items: center;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 900px) {
+    .container {
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 700px) {
+    .box {
+        transform: scale(0.7) translateY(-15%);
+        transform-origin: left 50%;
+    }
+
+    .control {
+        height: 70px;
+        align-items: unset;
+    }
+
+    .buttons {
+        height: 70px;
+        justify-content: space-between;
+    }
+
+    .buttons button,
+    .buttons select {
+        height: 25px;
+        width: 90px;
+        font-size: 9px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .container {
+        padding: 15px;
+        border-radius: 10px;
+        width: 90%;
+    }
+
+    div.plus {
+        width: 35px;
+        height: 35px;
+        font-size: 12px;
+        transform: translateY(-5%);
+    }
+
+    .inputBlock,
+    .listContainer {
+        min-height: 40px;
+    }
+
+    .inputBlock {
+        margin: 10px 0;
+    }
+
+    .input {
+        height: 40px;
+    }
+
+    #inputBox {
+        padding: 5px 10px;
+        font-size: 12px;
+        height: 35px;
+        border-radius: 5px;
+    }
+
+    .checkbox-container {
+        height: 20px;
+    }
+
+    .checkbox {
+        width: 20px;
+        height: 20px;
+    }
+
+    label {
+        padding: 10px;
+        padding-left: 0;
+    }
+
+    .Todo {
+        grid-template-columns: 20px auto;
+        height: 20px;
+    }
+
+    div.label .Todo > span {
+        font-size: 10px;
+    }
+
+    div.close {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+    }
 }

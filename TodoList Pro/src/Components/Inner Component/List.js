@@ -2,10 +2,10 @@ import React from "react";
 // import uuid from "uuid";
 import EachTodo from "./EachTodo";
 
-function List({ props: { removeTodo, updateTodo, TodoListArray } }) {
+export default function List({ props: { removeTodo, updateTodo, TodoListArray, filtered } }) {
     if (TodoListArray.length === 0) return <div className="listContainer"></div>;
 
-    var TodoBlocks = TodoListArray.map((eachTodo, index) => {
+    var TodoBlocks = filtered.map((eachTodo, index) => {
         return (
             <EachTodo
                 key={index}
@@ -20,5 +20,3 @@ function List({ props: { removeTodo, updateTodo, TodoListArray } }) {
 
     return <div className="listContainer">{TodoBlocks}</div>;
 }
-
-export default List;

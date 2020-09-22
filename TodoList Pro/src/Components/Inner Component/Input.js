@@ -1,8 +1,8 @@
 import React from "react";
 
-function Input({ props: { sendProps, sendKeyProps, setInput } }) {
+export default function Input({ props: { sendProps, sendKeyProps, setInput } }) {
     return (
-        <div className="inputBlock" style={{ margin: "15px 0px" }}>
+        <div className="inputBlock">
             <div className="input-container">
                 <input
                     id="inputBox"
@@ -24,5 +24,3 @@ function Input({ props: { sendProps, sendKeyProps, setInput } }) {
         </div>
     );
 }
-
-export default Input;
