@@ -50,6 +50,7 @@ export default function App() {
     function sendProps(event) {
         event.preventDefault();
         let { Todo: todo } = Todo;
+        console.log(todo);
         if (todo === "" || todo === undefined) return alert("Please write a Task");
         Todo.id = uuid.v4();
         Todo.completed = false;

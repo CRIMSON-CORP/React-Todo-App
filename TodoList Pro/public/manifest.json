@@ -7,9 +7,14 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo1280.png",
+      "src": "logo192.png",
       "type": "image/png",
-      "sizes": "1280x1280"
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",
