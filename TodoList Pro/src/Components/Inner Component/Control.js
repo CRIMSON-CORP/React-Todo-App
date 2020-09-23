@@ -18,7 +18,10 @@ export default function Control({
                             cx="50%"
                             cy="50%"
                             r="40"
-                            style={{ strokeDashoffset: 251 - (251 * progress) / 100 }}
+                            style={{
+                                strokeDashoffset:
+                                    250.92137145996094 - (250.92137145996094 * progress) / 100,
+                            }}
                         ></circle>
                     </svg>
                     <div className="number">

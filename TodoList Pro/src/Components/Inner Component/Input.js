@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function Input({ props: { sendProps, sendKeyProps, setInput } }) {
+export default function Input({ props: { sendProps, setInput } }) {
     return (
-        <div className="inputBlock">
+        <form className="inputBlock" onSubmit={sendProps}>
             <div className="input-container">
                 <input
                     id="inputBox"
@@ -10,17 +10,16 @@ export default function Input({ props: { sendProps, sendKeyProps, setInput } }) 
                     name="inputBlock"
                     placeholder="What Do you want Todo?..."
                     onChange={setInput}
-                    onKeyUp={sendKeyProps}
                     autoComplete="off"
                     required="required"
                 />
                 <div className="input"></div>
             </div>
-            <div className="plus" onClick={sendProps}>
+            <button className="plus" type="submit">
                 <span aria-label="addTodo" role="img">
                     &#10133;
                 </span>
-            </div>
-        </div>
+            </button>
+        </form>
     );
 }

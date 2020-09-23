@@ -13,9 +13,7 @@ export default function App() {
     const [status, setStatus] = useState("All");
 
     useEffect(() => {
-        const DoneTodos = TodoListArray.filter((arr) => {
-            return arr.completed === true;
-        });
+        const DoneTodos = TodoListArray.filter((arr) => arr.completed === true);
         var progress = Math.floor((DoneTodos.length / TodoListArray.length) * 100);
         if (isNaN(progress)) progress = 0;
         setProgress(progress);
@@ -39,7 +37,7 @@ export default function App() {
     }, [status, TodoListArray]);
 
     useEffect(() => {
-        if (localStorage.getItem("todoLocal") == null)
+        if (localStorage.getItem("todoLocal") === null)
             localStorage.setItem("todoLocal", JSON.stringify([]));
         else var TodoLocal = localStorage.getItem("todoLocal");
         setTodoListArray(JSON.parse(TodoLocal));
@@ -49,22 +47,19 @@ export default function App() {
         localStorage.setItem("todoLocal", JSON.stringify(TodoListArray));
     }, [TodoListArray]);
 
-    function sendProps() {
-        Todo.Todo === undefined ? alert("Please write a Task") : setSend();
+    function sendProps(event) {
+        event.preventDefault();
+        let { Todo: todo } = Todo;
+        todo === "" || todo === undefined ? alert("Please write a Task") : setSend();
         document.getElementById("inputBox").focus();
-    }
-    function sendKeyProps({ keyCode }) {
-        if (Todo.Todo !== undefined) {
-            if (keyCode === 13) setSend();
-        } else alert("Please write a Task");
+        setTodo({});
     }
 
     function setSend() {
-        setTodo({});
-        document.getElementById("inputBox").value = null;
         Todo.id = uuid.v4();
         Todo.completed = false;
         setTodoListArray((prev) => [...prev, Todo]);
+        document.getElementById("inputBox").value = null;
     }
 
     function setInput({ target: { value } }) {
@@ -74,9 +69,7 @@ export default function App() {
     function updateTodo(id) {
         setTodoListArray(
             TodoListArray.map((arr) => {
-                if (arr.id === id) {
-                    arr.completed = !arr.completed;
-                }
+                if (arr.id === id) arr.completed = !arr.completed;
                 return arr;
             })
         );
@@ -108,7 +101,6 @@ export default function App() {
             <Input
                 props={{
                     sendProps: sendProps,
-                    sendKeyProps: sendKeyProps,
                     setInput: setInput,
                 }}
             />

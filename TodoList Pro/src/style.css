@@ -58,8 +58,8 @@
     height: 100%;
     fill: none;
     stroke-width: 10px;
-    stroke-dasharray: 251;
-    stroke-dashoffset: 251;
+    stroke-dasharray: 250.92137145996094;
+    stroke-dashoffset: 250.92137145996094;
     stroke-linecap: round;
     transition: 0.5s ease;
 }
@@ -221,6 +221,8 @@ input:valid + div::before {
     border-radius: 50%;
     height: 45px;
     width: 45px;
+    border: none;
+    outline: none;
     display: grid;
     place-items: center;
     cursor: pointer;
