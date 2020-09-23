@@ -12,13 +12,19 @@
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "logo1280.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "1280x1280"
     }
   ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background": {
+    "src": "logo1280.png",
+    "type": "image/png",
+    "sizes": "1280x720"
+  },
+  "background_color": "#333"
+
 }

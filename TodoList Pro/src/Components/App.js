@@ -50,16 +50,14 @@ export default function App() {
     function sendProps(event) {
         event.preventDefault();
         let { Todo: todo } = Todo;
-        todo === "" || todo === undefined ? alert("Please write a Task") : setSend();
-        document.getElementById("inputBox").focus();
-        setTodo({});
-    }
-
-    function setSend() {
+        if (todo === "" || todo === undefined) return alert("Please write a Task");
         Todo.id = uuid.v4();
         Todo.completed = false;
         setTodoListArray((prev) => [...prev, Todo]);
-        document.getElementById("inputBox").value = null;
+        var inputBox = document.getElementById("inputBox");
+        inputBox.value = null;
+        inputBox.focus();
+        setTodo({});
     }
 
     function setInput({ target: { value } }) {
