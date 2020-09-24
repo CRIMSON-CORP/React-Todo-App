@@ -61,7 +61,7 @@
     stroke-dasharray: 250.92137145996094;
     stroke-dashoffset: 250.92137145996094;
     stroke-linecap: round;
-    transition: 0.5s ease;
+    transition: stroke-dashoffset 0.5s ease, stroke-width 0.5s ease;
 }
 .box svg circle.dark {
     stroke: rgba(0, 0, 0, 0.5);

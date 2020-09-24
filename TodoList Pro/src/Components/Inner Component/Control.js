@@ -22,6 +22,7 @@ export default function Control({
                             style={{
                                 strokeDashoffset:
                                     250.92137145996094 - (250.92137145996094 * progress) / 100,
+                                strokeWidth: progress === 0 ? "0px" : "10px",
                             }}
                         ></circle>
                     </svg>
