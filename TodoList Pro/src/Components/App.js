@@ -49,12 +49,15 @@ export default function App() {
 
     function sendProps(event) {
         event.preventDefault();
+        var inputBox = document.getElementById("inputBox");
         let { Todo: todo } = Todo;
-        if (todo === "" || todo === undefined) return alert("Please write a Task");
+        if (todo.trim() === "" || todo.trim() === undefined) {
+            inputBox.value = null;
+            return alert("Please write a Task");
+        }
         Todo.id = uuid.v4();
         Todo.completed = false;
         setTodoListArray((prev) => [...prev, Todo]);
-        var inputBox = document.getElementById("inputBox");
         inputBox.value = null;
         inputBox.focus();
         setTodo({});

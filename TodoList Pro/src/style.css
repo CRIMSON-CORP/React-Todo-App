@@ -11,7 +11,7 @@
     height: 100vh;
     background: #333;
     user-select: none;
-    padding-top: 100px;
+    padding: 100px 0;
     overflow-x: hidden;
 }
 
@@ -219,8 +219,8 @@ input:valid + div::before {
     background: white;
     padding: 5px;
     border-radius: 50%;
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
     border: none;
     outline: none;
     display: grid;
@@ -375,22 +375,27 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 }
 
 @media only screen and (max-width: 500px) {
+    #root {
+        padding: 0;
+    }
     .container {
-        padding: 15px;
+        padding: 50px 20px;
         border-radius: 10px;
-        width: 90%;
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0px;
     }
 
-    div.plus {
+    button.plus {
         width: 35px;
         height: 35px;
         font-size: 12px;
-        transform: translateY(-5%);
     }
 
     .inputBlock,
-    .listContainer {
-        min-height: 40px;
+    .listContainer,
+    .input-container {
+        height: 40px;
     }
 
     .inputBlock {
@@ -424,7 +429,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 
     .Todo {
         grid-template-columns: 20px auto;
-        height: 20px;
+        min-height: 20px;
     }
 
     div.label .Todo > span {
