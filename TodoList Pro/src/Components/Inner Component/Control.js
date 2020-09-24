@@ -12,12 +12,13 @@ export default function Control({
                             <stop offset="0%" stopColor="#ff0612"></stop>
                             <stop offset="100%" stopColor="#6544ff"></stop>
                         </linearGradient>
-                        <circle cx="50%" cy="50%" r="40" className="dark"></circle>
+                        <circle cx="50%" cy="50%" r="40" className="dark circle"></circle>
 
                         <circle
                             cx="50%"
                             cy="50%"
                             r="40"
+                            className="grad circle"
                             style={{
                                 strokeDashoffset:
                                     250.92137145996094 - (250.92137145996094 * progress) / 100,
