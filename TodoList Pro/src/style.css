@@ -393,9 +393,12 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     }
 
     .inputBlock,
-    .listContainer,
     .input-container {
         height: 40px;
+    }
+
+    .listContainer {
+        min-height: 40px;
     }
 
     .inputBlock {
