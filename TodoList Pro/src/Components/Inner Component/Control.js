@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Control({
-    props: { progress, TodoListArray, clearDone, done, statusHandler },
+    props: { progress, TodoListArray, clearDone, done, statusHandler, status },
 }) {
     return (
         <div className="control">
@@ -49,7 +49,7 @@ export default function Control({
                 >
                     &#10005; Clear Done
                 </button>
-                <select name="filter" id="filter" onChange={statusHandler}>
+                <select name="filter" id="filter" onChange={statusHandler} value={status}>
                     <option value="All">All</option>
                     <option value="Completed">Completed</option>
                     <option value="Uncompleted">Uncompleted</option>

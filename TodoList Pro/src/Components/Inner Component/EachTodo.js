@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 function EachTodo({
     props: {
@@ -7,11 +7,6 @@ function EachTodo({
         removeTodo,
     },
 }) {
-    const [Id, setId] = useState("");
-
-    useEffect(() => {
-        setId(id);
-    }, [Todo, id]);
     var comp = completed;
     var Done = {
         opacity: 0.4,
@@ -19,14 +14,14 @@ function EachTodo({
     };
 
     return (
-        <div className="label" data-id={`${Id}`}>
+        <div className="label" data-id={`${id}`}>
             <label>
                 <input
                     type="checkbox"
-                    data-id={`${Id}`}
+                    data-id={`${id}`}
                     checked={comp}
                     onChange={() => {
-                        updateTodo(Id);
+                        updateTodo(id);
                     }}
                 />
                 <div className="Todo">
@@ -46,11 +41,14 @@ function EachTodo({
             </label>
             <div
                 className={"close"}
-                style={{ display: comp ? "inline-grid" : "none", fontWeight: "bolder" }}
-                onClick={() => {
-                    removeTodo(Id);
+                style={{
+                    transform: comp ? "scale(1)" : "scale(0)",
+                    fontWeight: "bolder",
                 }}
-                data-id={Id}
+                onClick={() => {
+                    removeTodo(id);
+                }}
+                data-id={id}
             >
                 &#10005;
             </div>

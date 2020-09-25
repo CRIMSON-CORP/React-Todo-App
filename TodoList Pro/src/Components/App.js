@@ -34,7 +34,7 @@ export default function App() {
             }
         }
         FilterLogic();
-    }, [status, TodoListArray]);
+    }, [TodoListArray, status]);
 
     useEffect(() => {
         if (localStorage.getItem("todoLocal") === null)
@@ -61,6 +61,7 @@ export default function App() {
         inputBox.value = null;
         inputBox.focus();
         setTodo({});
+        setStatus("All");
     }
 
     function setInput({ target: { value } }) {
@@ -96,6 +97,7 @@ export default function App() {
                     TodoListArray: TodoListArray,
                     clearDone: clearDone,
                     done: done,
+                    status: status,
                     statusHandler: statusHandler,
                 }}
             />
