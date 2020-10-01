@@ -37,6 +37,17 @@ export default function App() {
     }, [TodoListArray, status]);
 
     useEffect(() => {
+        var path = document.querySelectorAll(".checkbox path");
+        var check = document.querySelectorAll(".check");
+
+        if (path !== null && check !== null) {
+            for (let i = 0; i < path.length; i++) {
+                path[i].style.transition = check[i].style.transition = "none";
+            }
+        }
+    }, [status]);
+
+    useEffect(() => {
         if (localStorage.getItem("todoLocal") === null)
             localStorage.setItem("todoLocal", JSON.stringify([]));
         else var TodoLocal = localStorage.getItem("todoLocal");
@@ -69,6 +80,15 @@ export default function App() {
     }
 
     function updateTodo(id) {
+        var path = document.querySelectorAll(".checkbox path");
+        var check = document.querySelectorAll(".check");
+
+        if (path !== null && check !== null) {
+            for (let i = 0; i < path.length; i++) {
+                path[i].style.transition = check[i].style.transition = ".4s";
+            }
+        }
+
         setTodoListArray(
             TodoListArray.map((arr) => {
                 if (arr.id === id) arr.completed = !arr.completed;
