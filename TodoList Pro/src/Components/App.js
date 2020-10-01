@@ -3,6 +3,7 @@ import uuid from "uuid";
 import Input from "./Inner Component/Input";
 import List from "./Inner Component/List";
 import Control from "./Inner Component/Control";
+import $ from "jquery";
 
 export default function App() {
     const [Todo, setTodo] = useState({});
@@ -37,14 +38,7 @@ export default function App() {
     }, [TodoListArray, status]);
 
     useEffect(() => {
-        var path = document.querySelectorAll(".checkbox path");
-        var check = document.querySelectorAll(".check");
-
-        if (path !== null && check !== null) {
-            for (let i = 0; i < path.length; i++) {
-                path[i].style.transition = check[i].style.transition = "none";
-            }
-        }
+        Trans(false);
     }, [status]);
 
     useEffect(() => {
@@ -58,19 +52,28 @@ export default function App() {
         localStorage.setItem("todoLocal", JSON.stringify(TodoListArray));
     }, [TodoListArray]);
 
+    function Trans(x) {
+        if (x) {
+            $(".checkbox path").css("transition", ".4s");
+            $(".check").css("transition", ".4s");
+        } else {
+            $(".checkbox path").css("transition", "none");
+            $(".check").css("transition", "none");
+        }
+    }
+
     function sendProps(event) {
         event.preventDefault();
-        var inputBox = document.getElementById("inputBox");
+        var inputBox = $("#inputBox");
         let { Todo: todo } = Todo;
         if (todo.trim() === "" || todo.trim() === undefined) {
-            inputBox.value = null;
+            inputBox.val("").focus();
             return alert("Please write a Task");
         }
         Todo.id = uuid.v4();
         Todo.completed = false;
         setTodoListArray((prev) => [...prev, Todo]);
-        inputBox.value = null;
-        inputBox.focus();
+        inputBox.val("").focus();
         setTodo({});
         setStatus("All");
     }
@@ -80,15 +83,7 @@ export default function App() {
     }
 
     function updateTodo(id) {
-        var path = document.querySelectorAll(".checkbox path");
-        var check = document.querySelectorAll(".check");
-
-        if (path !== null && check !== null) {
-            for (let i = 0; i < path.length; i++) {
-                path[i].style.transition = check[i].style.transition = ".4s";
-            }
-        }
-
+        Trans(true);
         setTodoListArray(
             TodoListArray.map((arr) => {
                 if (arr.id === id) arr.completed = !arr.completed;
@@ -98,10 +93,12 @@ export default function App() {
     }
 
     function removeTodo(id) {
+        Trans(false);
         setTodoListArray(TodoListArray.filter((arr) => arr.id !== id));
     }
 
     function clearDone() {
+        Trans(false);
         setTodoListArray(TodoListArray.filter((arr) => arr.completed === false));
     }
 
