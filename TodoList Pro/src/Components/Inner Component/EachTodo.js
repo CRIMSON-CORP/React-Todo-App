@@ -1,4 +1,5 @@
 import React from "react";
+import { MdClear } from "react-icons/md";
 
 function EachTodo({
     props: {
@@ -39,8 +40,9 @@ function EachTodo({
                     </span>
                 </div>
             </label>
-            <div
+            <MdClear
                 className={"close"}
+                fill="red"
                 style={{
                     transform: comp ? "scale(1)" : "scale(0)",
                     fontWeight: "bolder",
@@ -49,9 +51,7 @@ function EachTodo({
                     removeTodo(id);
                 }}
                 data-id={id}
-            >
-                &#10005;
-            </div>
+            />
         </div>
     );
 }

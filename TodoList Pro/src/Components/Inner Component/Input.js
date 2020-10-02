@@ -5,7 +5,7 @@ export default function Input({ props: { sendProps, setInput } }) {
         <form className="inputBlock" onSubmit={sendProps}>
             <div className="input-container">
                 <input
-                    id="inputBox"
+                    className="inputBox"
                     type="text"
                     name="inputBlock"
                     placeholder="What Do you want Todo?..."

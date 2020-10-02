@@ -5,13 +5,14 @@ import List from "./Inner Component/List";
 import Control from "./Inner Component/Control";
 import $ from "jquery";
 
-export default function App() {
+export default function App({ props: { app } }) {
     const [Todo, setTodo] = useState({});
     const [TodoListArray, setTodoListArray] = useState([]);
     const [done, setDone] = useState(0);
     const [progress, setProgress] = useState("");
     const [filtered, setFiltered] = useState([]);
     const [status, setStatus] = useState("All");
+    const [id] = useState(app.id);
 
     useEffect(() => {
         const DoneTodos = TodoListArray.filter((arr) => arr.completed === true);
@@ -42,15 +43,15 @@ export default function App() {
     }, [status]);
 
     useEffect(() => {
-        if (localStorage.getItem("todoLocal") === null)
-            localStorage.setItem("todoLocal", JSON.stringify([]));
-        else var TodoLocal = localStorage.getItem("todoLocal");
-        setTodoListArray(JSON.parse(TodoLocal));
-    }, []);
+        var TodoLocal = localStorage.getItem(id);
+        if (TodoLocal === null || TodoLocal === undefined)
+            localStorage.setItem(id, JSON.stringify([]));
+        else setTodoListArray(JSON.parse(TodoLocal));
+    }, [id]);
 
     useEffect(() => {
-        localStorage.setItem("todoLocal", JSON.stringify(TodoListArray));
-    }, [TodoListArray]);
+        localStorage.setItem(id, JSON.stringify(TodoListArray));
+    }, [TodoListArray, id]);
 
     function Trans(x) {
         if (x) {
@@ -64,16 +65,16 @@ export default function App() {
 
     function sendProps(event) {
         event.preventDefault();
-        var inputBox = $("#inputBox");
+        var inputBox = $(".inputBox");
         let { Todo: todo } = Todo;
         if (todo.trim() === "" || todo.trim() === undefined) {
-            inputBox.val("").focus();
+            inputBox.val(null).focus();
             return alert("Please write a Task");
         }
         Todo.id = uuid.v4();
         Todo.completed = false;
         setTodoListArray((prev) => [...prev, Todo]);
-        inputBox.val("").focus();
+        inputBox.val(null).focus();
         setTodo({});
         setStatus("All");
     }
@@ -108,6 +109,7 @@ export default function App() {
 
     return (
         <div className="container">
+            <h1 className="ListName">{app.name}</h1>
             <Control
                 props={{
                     progress: progress,
