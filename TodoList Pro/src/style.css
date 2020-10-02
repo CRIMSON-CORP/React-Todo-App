@@ -16,7 +16,7 @@
 }
 
 .ham {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 80;
@@ -25,13 +25,12 @@
     padding: 10px 20px;
     display: flex;
     align-items: center;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .icon {
-    width: 35px;
-    height: 35px;
-    padding: 5px;
-    font-size: 1.2rem;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
     display: inline-block;
 }
@@ -51,9 +50,11 @@ div.close.closeSideBar {
     background: rgba(0, 0, 0, 0.4);
 }
 
-div.modal {
+.modal {
     z-index: 101;
     width: clamp(300px, 50%, 600px);
+    max-height: 95vh;
+
     position: fixed;
     background-color: #333;
     border-radius: 10px;
@@ -93,7 +94,7 @@ div.modalCont.rename.closeModal {
 }
 
 .modal .setName,
-.delete .canceldelete {
+.canceldelete {
     float: right;
     padding: 10px;
     color: white;
@@ -103,6 +104,11 @@ div.modalCont.rename.closeModal {
     border: none;
     cursor: pointer;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.modal .setName:active,
+.canceldelete:active {
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
 .noList {
@@ -125,13 +131,23 @@ div.modalCont.rename.closeModal {
 
 .sideBar {
     position: absolute;
-    width: clamp(320px, 70%, 500px);
+    width: clamp(280px, 70%, 500px);
     top: 0;
     left: 0;
     background: #222;
     z-index: 99;
     height: 100vh;
-    transition: transform 0.4s ease-out;
+    transition: all 0.4s ease-out;
+    overflow-y: scroll;
+}
+
+.sideBar::-webkit-scrollbar {
+    width: 5px;
+    background: rgba(0, 0, 0, 0.1);
+}
+.sideBar::-webkit-scrollbar-thumb {
+    width: 5px;
+    background: rgba(0, 0, 0, 0.3);
 }
 .sideBar.closeBar {
     transform: translateX(-100%);
@@ -139,7 +155,8 @@ div.modalCont.rename.closeModal {
 }
 .sideBar.openBar {
     transform: translateX(0);
-    box-shadow: 30px 0px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 10px 0px 20px rgba(0, 0, 0, 0.5);
+    user-select: select auto;
 }
 
 .sideBar h2 {
@@ -148,25 +165,51 @@ div.modalCont.rename.closeModal {
     justify-content: space-between;
     align-items: center;
     height: 55px;
-    font-weight: 300;
     letter-spacing: 2px;
+    font-size: 1rem;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .listSet {
     color: white;
     width: 100%;
-    height: 50px;
-    background: #111;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 1rem;
+    padding: 1rem;
+}
+
+hr {
+    display: block;
+    margin: 10px auto;
+    height: 1px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.listSet.active {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.icons {
+    display: flex;
+    align-items: center;
 }
 
 .listSet .icon {
-    margin: 0px 5px;
-    padding: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.listSet .tag {
+    display: flex;
+    align-items: center;
+}
+
+.listSet .tag svg,
+.listSet .edit {
+    margin-right: 10px;
 }
 
 .listSet svg.addList {
@@ -185,6 +228,34 @@ div.modalCont.rename.closeModal {
     display: block !important;
     margin: 10px auto;
     float: none !important;
+}
+
+.copy {
+    padding: 5px 10px;
+    margin-top: 20px;
+    color: white;
+    background: #444;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.canceldelete {
+    padding: 0 !important;
+}
+.donateModal .info-block {
+    margin: 20px auto;
+}
+.donateModal h4 {
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.donateModal p,
+.donateModal pre {
+    font-size: 10px;
 }
 
 .container {
@@ -390,7 +461,6 @@ input:valid + div::before {
 
 .plus {
     background: white;
-    padding: 5px;
     border-radius: 50%;
     height: 40px;
     width: 40px;
@@ -401,10 +471,6 @@ input:valid + div::before {
     cursor: pointer;
     font-size: 18px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
-}
-
-.plus span {
-    color: #333;
 }
 
 .listContainer {

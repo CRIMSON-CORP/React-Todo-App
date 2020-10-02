@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { MdDehaze, MdClear, MdAdd, MdEdit, MdDelete } from "react-icons/md";
+import { MdDehaze, MdClear, MdAdd, MdEdit, MdDelete, MdList } from "react-icons/md";
+import { FiHeart } from "react-icons/fi";
 import $ from "jquery";
 
 function OuterControl({
-    props: { app, setNewListName, addList, setCurrentList, setRename, updateList, deleteList },
+    props: {
+        app,
+        setNewListName,
+        addList,
+        setCurrentList,
+        setRename,
+        updateList,
+        deleteList,
+        currentList,
+    },
 }) {
     const [side, setSide] = useState(false);
     const [list, setList] = useState([]);
@@ -23,9 +33,14 @@ function OuterControl({
                         }
                         setCurrentList(index);
                         setSide(false);
+                        $(".listSet").removeClass("active");
+                        $(`.listSet[data-id="${app.id}"]`).addClass("active");
                     }}
                 >
-                    <h3>{app.name}</h3>
+                    <div className="tag">
+                        <MdList className="icon" />
+                        <h3>{app.name}</h3>
+                    </div>
                     <div className="icons">
                         <MdEdit
                             data-id={app.id}
@@ -52,8 +67,14 @@ function OuterControl({
         setList(list);
     }, [app, setCurrentList]);
 
-    if (side) $(".container").css("pointer-events", "none");
-    else $(".container").css("pointer-events", "auto");
+    if (side) {
+        $(".container").click(() => {
+            setSide(false);
+        });
+    }
+
+    $(`.listSet`).removeClass("active");
+    $(`.listSet:eq(${currentList})`).addClass("active");
 
     return (
         <>
@@ -71,7 +92,6 @@ function OuterControl({
                 <h2>
                     Your List Set
                     <MdClear
-                        fill="red"
                         className={"icon"}
                         onClick={() => {
                             setSide(false);
@@ -81,6 +101,7 @@ function OuterControl({
 
                 <ul>
                     {list}
+                    <hr />
                     <li
                         className="addNew listSet"
                         onClick={() => {
@@ -88,18 +109,41 @@ function OuterControl({
                             $(".new").focus();
                         }}
                     >
-                        Add New List <MdAdd className="addList" />
+                        <div className="tag">
+                            <MdAdd className="addList" />
+                            Add New List
+                        </div>
                     </li>
+                    <li
+                        className="donate listSet"
+                        onClick={() => {
+                            $(".donateModal").fadeIn();
+                        }}
+                    >
+                        <div className="tag">
+                            <FiHeart fill="white" className="donateIcon" />
+                            Donate
+                        </div>
+                    </li>
+                    <hr />
                 </ul>
             </div>
             <div className={`modalCont newModal`} style={{ display: "none" }}>
-                <div className="modal">
+                <form
+                    className="modal"
+                    onSubmit={(event) => {
+                        event.preventDefault();
+                        $(".newModal").fadeOut();
+                        $(".inputBox").val(null);
+                        addList();
+                        setSide(false);
+                    }}
+                >
                     <MdClear
                         className={"icon"}
                         style={{
                             display: "block",
                             marginLeft: "auto",
-                            fill: "red",
                         }}
                         onClick={() => {
                             $(".newModal").fadeOut();
@@ -122,28 +166,29 @@ function OuterControl({
                         />
                         <div className="input"></div>
                     </div>
-                    <button
-                        className="setName"
-                        onClick={() => {
-                            $(".newModal").fadeOut();
-                            $(".inputBox").val(null);
-                            addList();
-                            setSide(false);
-                        }}
-                    >
+                    <button className="setName" type="submit">
                         Set Name
                     </button>
-                </div>
+                </form>
             </div>
 
             <div className="modalCont rename" style={{ display: "none" }}>
-                <div className="modal">
+                <form
+                    className="modal"
+                    onSubmit={(event) => {
+                        event.preventDefault();
+
+                        $(".rename").fadeOut();
+                        $(".inputBox").val(null);
+                        updateList(currentListId);
+                        setCurrentListId("");
+                    }}
+                >
                     <MdClear
                         className={"icon"}
                         style={{
                             display: "block",
                             marginLeft: "auto",
-                            fill: "red",
                         }}
                         onClick={() => {
                             $(".rename").fadeOut();
@@ -166,18 +211,10 @@ function OuterControl({
                         />
                         <div className="input"></div>
                     </div>
-                    <button
-                        className="setName"
-                        onClick={() => {
-                            $(".rename").fadeOut();
-                            $(".inputBox").val(null);
-                            updateList(currentListId);
-                            setCurrentListId("");
-                        }}
-                    >
+                    <button className="setName" type="submit">
                         Set Name
                     </button>
-                </div>
+                </form>
             </div>
 
             <div className="modalCont delete" style={{ display: "none" }}>
@@ -211,6 +248,61 @@ function OuterControl({
                         }}
                     >
                         Cancel
+                    </button>
+                </div>
+            </div>
+
+            <div className="modalCont donateModal" style={{ display: "none", userSelect: "text" }}>
+                <div className="modal">
+                    <MdClear
+                        className={"icon"}
+                        style={{
+                            display: "block",
+                            marginLeft: "auto",
+                        }}
+                        onClick={() => {
+                            $(".donateModal").fadeOut();
+                        }}
+                    />
+
+                    <h3>Donate</h3>
+                    <div className="info-block">
+                        <h4>- About Me</h4>
+                        <p>
+                            My Name is Oluwatowo Rosanwo Mayowa, I'm a 200L Student of The
+                            University Of Ibadan studying Food Technology, I started Web Development
+                            in 2018 and Now I'm an Intermediate Web Developer and Aspiring UI/UX
+                            Deisgner, Im also a Logo/Video Editor.
+                        </p>
+                    </div>
+                    <div className="info-block">
+                        <h4>- Donate</h4>
+                        <p>
+                            Please if You really Like my Work and have a Dollar or two to spare,
+                            Kindly make a Donation To me as This will enhance my Progress and
+                            Productivity and also make me work harder and Develop more Apps that you
+                            will Definately find usefull
+                        </p>
+                    </div>
+
+                    <h4>Account Details:</h4>
+                    <pre>
+                        Bank: First Bank <br />
+                        Account Number: <span id="acc">3123872415</span> <br />
+                        Account Name: Oluwatowo Rosanwo <br />
+                    </pre>
+                    <button
+                        className="copy"
+                        onClick={() => {
+                            var temp = $("<input>");
+                            $(".donateModal .modal").append(temp);
+                            temp.val($("#acc").text()).select();
+                            document.execCommand("copy");
+                            temp.remove();
+                            alert("Account Number Copied, Thank You So Much!");
+                        }}
+                    >
+                        Copy Account Number
                     </button>
                 </div>
             </div>

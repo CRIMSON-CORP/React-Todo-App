@@ -1,4 +1,5 @@
 import React from "react";
+import { MdAdd } from "react-icons/md";
 
 export default function Input({ props: { sendProps, setInput } }) {
     return (
@@ -16,9 +17,7 @@ export default function Input({ props: { sendProps, setInput } }) {
                 <div className="input"></div>
             </div>
             <button className="plus" type="submit">
-                <span aria-label="addTodo" role="img">
-                    &#10133;
-                </span>
+                <MdAdd fill="#222" className="icon" />
             </button>
         </form>
     );

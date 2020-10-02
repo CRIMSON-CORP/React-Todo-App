@@ -5,26 +5,26 @@ import OuterControl from "./OuterControl";
 import { MdDehaze } from "react-icons/md";
 
 function Main() {
-    const [app, setApp] = useState([]);
-
-    const [currentList, setCurrentList] = useState(app.length - 1);
+    const [app, setApp] = useState(() => {
+        var ListLocal = localStorage.getItem("AppLocal");
+        if (ListLocal === null || ListLocal === undefined) return [];
+        else return JSON.parse(ListLocal);
+    });
+    const [currentList, setCurrentList] = useState(() => {
+        var index = localStorage.getItem("Index");
+        if (index === null || index === undefined) return 0;
+        else return Number.parseInt(index);
+    });
     const [newListName, setNewListName] = useState("");
     const [reName, setRename] = useState("");
-
-    useEffect(() => {
-        var ListLocal = localStorage.getItem("AppLocal");
-        if (ListLocal === null || ListLocal === undefined)
-            localStorage.setItem("AppLocal", JSON.stringify([]));
-        else setApp(JSON.parse(ListLocal));
-    }, []);
 
     useEffect(() => {
         localStorage.setItem("AppLocal", JSON.stringify(app));
     }, [app]);
 
     useEffect(() => {
-        setCurrentList(app.length - 1);
-    }, [app.length]);
+        localStorage.setItem("Index", JSON.stringify(currentList));
+    }, [currentList]);
 
     function addList() {
         let NewListProps = {
@@ -44,7 +44,6 @@ function Main() {
                 return app;
             })
         );
-        setRename("");
     }
 
     function deleteList(id) {
@@ -53,6 +52,18 @@ function Main() {
         setCurrentList(filteredList.length - 1);
         setApp(filteredList);
     }
+
+    var content;
+    app.length <= 0
+        ? (content = (
+              <div className="noList">
+                  <h1>No Lists</h1>
+                  <p>
+                      Click <MdDehaze className="dir" /> to make a List
+                  </p>
+              </div>
+          ))
+        : (content = <App key={app[currentList].id} props={{ app: app[currentList] }} />);
     return (
         <div>
             <OuterControl
@@ -64,18 +75,10 @@ function Main() {
                     setRename: setRename,
                     updateList: updateList,
                     deleteList: deleteList,
+                    currentList: currentList,
                 }}
             />
-            {app.length <= 0 || currentList < 0 ? (
-                <div className="noList">
-                    <h1>No Lists</h1>
-                    <p>
-                        Click <MdDehaze className="dir" /> to make a List
-                    </p>
-                </div>
-            ) : (
-                <App key={app[currentList].id} props={{ app: app[currentList] }} />
-            )}
+            {content}
         </div>
     );
 }
