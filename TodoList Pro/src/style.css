@@ -1,18 +1,18 @@
 * {
-    font-family: montserrat;
+    font-family: "Gilroy Light";
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: white;
 }
 
 #root {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     background: #333;
     user-select: none;
     padding: 100px 0;
     overflow-x: hidden;
+    color: white;
 }
 
 .ham {
@@ -20,19 +20,23 @@
     top: 0;
     left: 0;
     z-index: 80;
-    background: #333;
     width: 100%;
     padding: 10px 20px;
     display: flex;
     align-items: center;
+    background: #444;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
 }
 
 .icon {
-    width: 30px;
-    height: 30px;
     cursor: pointer;
     display: inline-block;
+    transition: 0.3s;
+}
+
+.deleteIcon {
+    fill: #d32f2f !important;
 }
 
 div.close.closeSideBar {
@@ -42,7 +46,7 @@ div.close.closeSideBar {
 .modalCont {
     width: 100%;
     height: 100%;
-    display: block;
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -54,7 +58,6 @@ div.close.closeSideBar {
     z-index: 101;
     width: clamp(300px, 50%, 600px);
     max-height: 95vh;
-
     position: fixed;
     background-color: #333;
     border-radius: 10px;
@@ -62,63 +65,100 @@ div.close.closeSideBar {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
+    transition: 0.3s;
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.5), 0px 12px 20px rgba(0, 0, 0, 0.3);
-}
-
-div.modalCont.openModal {
-    display: block;
-}
-div.modalCont.closeModal {
-    display: none;
-}
-
-div.modalCont.rename.openModal {
-    display: block;
-}
-div.modalCont.rename.closeModal {
-    display: none;
 }
 
 .modal h3 {
     font: size 1.3rem;
-    font-weight: lighter;
 }
 .modal .input-container {
     margin: 20px auto;
 }
 
-.modal input {
-    color: white;
-    background-color: #333;
-    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.5) !important;
-}
-
-.modal .setName,
-.canceldelete {
-    float: right;
-    padding: 10px;
-    color: white;
-    background: #444;
-    border-radius: 5px;
-    outline: none;
+.modalBtn {
+    display: inline-grid;
+    grid-template-columns: 25px auto;
+    place-items: center;
     border: none;
+    background: #444;
+    min-width: 1px;
+    min-height: 25px;
+    margin-left: 15px;
+    float: right;
+    border-radius: 5px;
+    overflow: hidden;
     cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+    color: white;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
 }
 
-.modal .setName:active,
-.canceldelete:active {
-    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.5);
+.modalBtn svg {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    fill: white !important;
+}
+
+.modalBtn span {
+    padding: 5px 10px;
+    font-weight: 900;
+}
+
+.del,
+.save,
+.send {
+    background: #444 !important;
+}
+.del svg {
+    background: #b71c1c;
+}
+.del span {
+    background: #d32f2f;
+}
+
+.del span,
+.save span,
+.send span {
+    color: white !important;
+}
+
+.save svg {
+    background: #388e3c;
+}
+.save span {
+    background: #4caf50;
+}
+.send {
+    float: none;
+    margin-left: 0;
+}
+.send svg {
+    background: #532f92;
+}
+.send span {
+    background: #9252ff;
+}
+
+.delete .modalBtn,
+.clearListModal .modalBtn {
+    text-align: center;
+    float: none;
 }
 
 .noList {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-flow: wrap column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
 }
 
 .dir {
@@ -136,8 +176,9 @@ div.modalCont.rename.closeModal {
     left: 0;
     background: #222;
     z-index: 99;
-    height: 100vh;
-    transition: all 0.4s ease-out;
+    min-height: 100vh;
+    height: 100%;
+    transition: all 0.3s ease-out;
     overflow-y: scroll;
 }
 
@@ -166,18 +207,31 @@ div.modalCont.rename.closeModal {
     align-items: center;
     height: 55px;
     letter-spacing: 2px;
-    font-size: 1rem;
     background: rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
 }
 
-.listSet {
+.sideBar h3,
+.sideBar h2 {
+    font-size: 1rem;
+}
+
+.listSet,
+.subList {
     color: white;
     width: 100%;
     cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1.5rem auto 1.5rem 1.5rem;
+    column-gap: 10px;
     align-items: center;
     padding: 1rem;
+    transition: 0.3s;
+    transition: 0.3s;
+}
+
+.subList {
+    grid-template-columns: 1.5rem auto;
 }
 
 hr {
@@ -186,9 +240,12 @@ hr {
     height: 1px;
     border: none;
     background-color: rgba(255, 255, 255, 0.5);
+    transition: 0.3s;
 }
 
-.listSet.active {
+.listSet.active,
+.listSet:active,
+.subList:active {
     background: rgba(0, 0, 0, 0.2);
 }
 
@@ -197,37 +254,14 @@ hr {
     align-items: center;
 }
 
-.listSet .icon {
-    width: 20px;
-    height: 20px;
-}
-
 .listSet .tag {
     display: flex;
     align-items: center;
 }
 
-.listSet .tag svg,
-.listSet .edit {
-    margin-right: 10px;
-}
-
-.listSet svg.addList {
-    width: 20px;
-    height: 20px;
-}
-
-.delete p {
+.modal p {
     font-size: 12px;
     margin: 10px 0;
-}
-.delete .modal button:nth-child(1) {
-    margin-top: 20px;
-}
-.delete button {
-    display: block !important;
-    margin: 10px auto;
-    float: none !important;
 }
 
 .copy {
@@ -242,14 +276,10 @@ hr {
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
-.canceldelete {
-    padding: 0 !important;
-}
 .donateModal .info-block {
     margin: 20px auto;
 }
 .donateModal h4 {
-    font-weight: 300;
     font-size: 14px;
 }
 
@@ -262,9 +292,10 @@ hr {
     width: 600px;
     margin: auto;
     position: relative;
-    background: rgba(0, 0, 0, 0.5);
     padding: 30px;
     border-radius: 10px;
+    transition: 0.3s;
+    background: rgba(25, 25, 25);
 }
 
 .ListName {
@@ -339,9 +370,8 @@ hr {
 }
 
 span.comp {
-    font-size: 9px;
-    font-weight: 400;
-    transform: translateY(-5px);
+    font-size: 10px;
+    font-weight: 500;
 }
 h2.empty {
     font-size: 12px;
@@ -355,8 +385,7 @@ h2.empty {
 }
 
 .buttons button,
-.buttons select,
-.delete button {
+.buttons select {
     display: inline-block;
     border: none;
     outline: none;
@@ -369,6 +398,7 @@ h2.empty {
     padding: 5px;
     letter-spacing: 1px;
     transition: 0.5s ease;
+    color: white;
 }
 
 button.disable {
@@ -377,6 +407,7 @@ button.disable {
 }
 
 button.clear {
+    color: white;
     background: #d32f2f;
     box-shadow: 0px 3px 8px #3f0101;
 }
@@ -388,6 +419,40 @@ select {
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
 }
 
+.border {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    fill: #333;
+    stroke: #9152ff;
+    stroke-miterlimit: 10;
+    stroke-width: 2;
+    overflow: visible;
+    transition: 0.3s;
+}
+
+.border .cls-1 {
+    stroke-dasharray: 304.272705078125;
+    stroke-dashoffset: -304.272705078125;
+    transition: all 0.5s;
+}
+.border .cls-2 {
+    stroke-dasharray: 353.7194519042969;
+    stroke-dashoffset: 353.7194519042969;
+    transition: all 0.5s;
+}
+
+.border.textarea .cls-1 {
+    stroke-dasharray: 567.130615234375;
+    stroke-dashoffset: 567.130615234375;
+    transition: all 0.5s;
+}
+.border.textarea .cls-2 {
+    stroke-dasharray: 567.1305541992188;
+    stroke-dashoffset: -567.1305541992188;
+    transition: all 0.5s;
+}
 .inputBlock {
     display: grid;
     place-items: center;
@@ -400,63 +465,87 @@ select {
 .input-container {
     width: 100%;
     height: 45px;
+    width: 100%;
     position: relative;
-    border-radius: 10px;
 }
 
-input[type="text"] {
+.Input {
     padding: 12px 15px;
     font-size: 16px;
     display: inline-block;
-    color: #333;
     border-radius: 10px;
     outline: none;
     border: none;
-    width: calc(100% - 5.5px);
-    height: calc(100% - 5px);
-    margin: 2.5px 0 0 2.5px;
-    z-index: 15;
-    position: relative;
     transition: 0.5s ease;
     width: 100%;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
-}
-
-input:focus,
-input:valid {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    background: none;
     color: white;
-    background-color: #333;
-}
-
-.input {
-    width: calc(100% + 5px);
-    position: absolute;
-    overflow: hidden;
-    border-radius: 8px;
-    height: 45px;
-    top: 0%;
-    left: 0%;
-}
-
-.input::before {
-    content: "";
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    transform: translate(0%, -101%);
-    border-radius: 8px;
-    width: 100%;
-    height: 100%;
-    background: #6544ff;
     z-index: 10;
-    transition: 0.5s ease;
+    resize: none;
 }
 
-input:focus + div::before,
-input:valid + div::before {
-    transform: translate(0%, 0%);
+textarea::-webkit-scrollbar {
+    width: 5px;
+    background: #9252ff60;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+textarea::-webkit-scrollbar-thumb {
+    width: 5px;
+    background: #9152ffaa;
+}
+.Input:focus + .border {
+    fill: none;
+}
+.Input:focus + .border .path,
+.Input:valid + .border .path {
+    stroke-dashoffset: 0;
+}
+.Input:focus + .border.textarea .path,
+.Input:valid + .border.textarea .path {
+    stroke-dashoffset: 0;
+}
+
+.input-container span {
+    color: white;
+    position: absolute;
+    top: 1.2rem;
+    left: 10px;
+    z-index: 5;
+    font-size: 14px;
+    transform: translateY(-50%);
+    transition: 0.3s;
+    opacity: 6;
+    padding: 0px 10px;
+}
+
+.Input:focus ~ span,
+.Input:valid ~ span {
+    top: 0;
+    left: 3%;
+    background: rgba(25, 25, 25);
+}
+
+.input-container.message {
+    height: 160px;
+}
+
+.modal .border {
+    fill: #222;
+}
+
+.modal .Input:focus + .border,
+.modal .Input:valid + .border {
+    fill: none;
+}
+.modal .Input:focus ~ span,
+.modal .Input:valid ~ span {
+    background: #333;
 }
 
 .plus {
@@ -475,6 +564,7 @@ input:valid + div::before {
 
 .listContainer {
     background: #222;
+    transition: 0.3s;
     border-radius: 10px;
     padding: 0px 10px;
     min-height: 45px;
@@ -527,7 +617,7 @@ div.label:first-child {
 .checkbox {
     stroke: white;
     stroke-width: 8;
-    fill: transparent;
+    fill: none !important;
     width: 30px;
 }
 
@@ -562,8 +652,10 @@ input[type="checkbox"]:checked + div svg.checkbox .check {
 
 .Todo > span {
     font-size: 16px;
+    font-weight: 900;
     position: relative;
     word-break: break-all;
+    transition: 0.3s;
 }
 
 input[type="checkbox"]:checked + div div div span:nth-child(1) {
@@ -575,15 +667,172 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 }
 
 .close {
-    color: red;
+    fill: #d32f2f !important;
     font-size: 20px;
-    text-shadow: 0px 0px 5px rgba(255, 0, 0, 0.6);
     display: inline-grid;
     height: 30px;
     width: 30px;
     place-items: center;
     cursor: pointer;
     transition: transform 0.2s ease-out;
+}
+
+.icon.closeModal {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+.social {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.social a {
+    display: inline-grid;
+    place-items: center;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 24px;
+    width: 45px;
+    height: 45px;
+    transform: rotateX(25deg);
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.social a svg {
+    fill: white !important;
+
+    filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, 0.3));
+}
+
+.social a.facebook {
+    background: #3b5999;
+}
+.social a.instagram {
+    background: #e4405f;
+}
+.social a.messenger {
+    background: #0084ff;
+}
+.social a.whatsapp {
+    background: #25d366;
+}
+
+/* Light Mode */
+.main.light .ham {
+    background: #dfdfdf;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.main.light .container {
+    background: #f5f5f5;
+}
+
+.main.light .ListName {
+    color: #333;
+}
+
+.main.light svg {
+    fill: #333;
+}
+.main.light .modal {
+    background: #eeeeee;
+    color: #333;
+}
+
+.main.light .modalBtn {
+    background: white;
+    color: #333;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.main.light .sideBar {
+    background: white;
+}
+
+.main.light .sideBar h2,
+.main.light .sideBar h3 {
+    color: #333;
+}
+
+.main.light .sideBar h2 {
+    background: #dfdfdf;
+}
+
+.main.light .sideBar hr {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.main.light .listSet.active {
+    background: #d6d6d6;
+}
+
+.main.light .listSet:hover,
+.main.light .subList:hover {
+    background: #e5e5e5;
+}
+
+.main.light .number h2,
+.main.light .number span {
+    color: #333;
+}
+
+.main.light .listContainer {
+    background: #dddddd;
+    color: #333;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.main.light .checkbox {
+    stroke: #333;
+}
+
+.main.light .Todo > span {
+    color: #333;
+}
+
+.main.light button.clear {
+    box-shadow: 0px 3px 8px #9600008a;
+}
+
+.main.light .input-container .Input:focus ~ span,
+.main.light .input-container .Input:valid ~ span {
+    color: #9152ff;
+    background: rgb(245, 245, 245);
+}
+.main.light .input-container .Input:focus + svg,
+.main.light .input-container .Input:valid + svg {
+    fill: none;
+}
+
+.main.light .Input {
+    color: #333;
+}
+.main.light .Input ~ span {
+    color: #333;
+}
+
+.main.light .input-container svg {
+    fill: #d6d6d6;
+}
+
+.main.light .inputBlock .input-container svg {
+    fill: #d6d6d6 !important;
+}
+
+.main.light .listContainer svg {
+    fill: none !important;
+}
+
+.main.light .inputBlock .Input:focus + svg,
+.main.light .inputBlock .Input:valid + svg {
+    fill: none !important;
+}
+
+.main.light .modal .input-container .Input:focus ~ span {
+    background: #eeeeee;
 }
 
 @media only screen and (max-width: 900px) {

@@ -1,7 +1,9 @@
 import React from "react";
 import EachTodo from "./EachTodo";
 
-export default function List({ props: { removeTodo, updateTodo, TodoListArray, filtered } }) {
+export default function List({
+    props: { removeTodo, updateTodo, TodoListArray, filtered, mode, whichMode },
+}) {
     var TodoBlocks = filtered.map((eachTodo, index) => {
         return (
             <EachTodo
@@ -15,5 +17,9 @@ export default function List({ props: { removeTodo, updateTodo, TodoListArray, f
         );
     });
 
-    return <div className="listContainer">{TodoListArray.length === 0 ? "" : TodoBlocks}</div>;
+    return (
+        <div className={`listContainer ${whichMode ? "darkMode" : "LightMode"}`}>
+            {TodoListArray.length === 0 ? "" : TodoBlocks}
+        </div>
+    );
 }

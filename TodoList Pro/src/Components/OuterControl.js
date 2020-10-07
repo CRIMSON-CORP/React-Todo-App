@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { MdDehaze, MdClear, MdAdd, MdEdit, MdDelete, MdList } from "react-icons/md";
-import { FiHeart } from "react-icons/fi";
+import {
+    MdDehaze,
+    MdClear,
+    MdAdd,
+    MdEdit,
+    MdDelete,
+    MdList,
+    MdDeleteSweep,
+    MdCheck,
+    MdSend,
+} from "react-icons/md";
+import { FiHeart, FiMoon, FiSun, FiPhone } from "react-icons/fi";
+import { FaFacebookF, FaInstagram, FaWhatsapp, FaFacebookMessenger } from "react-icons/fa";
+import { IconContext } from "react-icons";
 import $ from "jquery";
 
 function OuterControl({
@@ -13,59 +25,67 @@ function OuterControl({
         updateList,
         deleteList,
         currentList,
+        clearList,
+        changeMode,
+        whichMode,
+        sendForm,
     },
 }) {
     const [side, setSide] = useState(false);
     const [list, setList] = useState([]);
     const [currentListId, setCurrentListId] = useState("");
-
+    const [modes, setModes] = useState(true);
+    const [contactForm, setcontactForm] = useState({});
+    // creates Lists of TodoList Categories
     useEffect(() => {
         var list = app.map((app, index) => {
             return (
-                <li
-                    className="listSet"
-                    key={index}
-                    data-id={app.id}
-                    onClick={(event) => {
-                        event.persist();
-                        if (event.target.tagName === "svg" || event.target.tagName === "path") {
-                            return;
-                        }
-                        setCurrentList(index);
-                        setSide(false);
-                        $(".listSet").removeClass("active");
-                        $(`.listSet[data-id="${app.id}"]`).addClass("active");
+                <IconContext.Provider
+                    value={{
+                        size: "1.5rem",
+                        className: `ListSetIcon ${whichMode ? "" : "light"}`,
                     }}
+                    key={index}
                 >
-                    <div className="tag">
+                    <li
+                        className={`listSet ${whichMode ? "dark" : "light"}`}
+                        data-id={app.id}
+                        onClick={(event) => {
+                            event.persist();
+                            if (event.target.tagName === "svg" || event.target.tagName === "path") {
+                                return;
+                            }
+                            setCurrentList(index);
+                            setSide(false);
+                            $(".listSet").removeClass("active");
+                            $(`.listSet[data-id="${app.id}"]`).addClass("active");
+                        }}
+                    >
                         <MdList className="icon" />
                         <h3>{app.name}</h3>
-                    </div>
-                    <div className="icons">
                         <MdEdit
                             data-id={app.id}
                             className="icon edit"
                             onClick={() => {
                                 $(".rename").fadeIn();
-                                $(".renamebox").focus();
+                                $(".renamebox").val(app.name).select();
                                 setCurrentListId(app.id);
                             }}
                         />
                         <MdDelete
                             className="icon deleteIcon"
-                            fill="red"
                             data-id={app.id}
                             onClick={() => {
                                 $(".delete").fadeIn();
                                 setCurrentListId(app.id);
                             }}
                         />
-                    </div>
-                </li>
+                    </li>
+                </IconContext.Provider>
             );
         });
         setList(list);
-    }, [app, setCurrentList]);
+    }, [app, setCurrentList, whichMode]);
 
     if (side) {
         $(".container").click(() => {
@@ -76,59 +96,115 @@ function OuterControl({
     $(`.listSet`).removeClass("active");
     $(`.listSet:eq(${currentList})`).addClass("active");
 
+    if (whichMode) $(".modal").removeClass("light");
+    else $(".modal").addClass("light");
+
+    $(".contactModal .Input.email").blur(function () {
+        if (!/@/.test($(this).val())) {
+            $(this).next().css("stroke", "red");
+        } else {
+            $(this).next().css("stroke", "#9252ff");
+        }
+    });
+    function check(input) {
+        if (input.val().trim() === "") {
+            input.next().css("stroke", "red");
+        } else {
+            input.next().css("stroke", "#9252ff");
+        }
+    }
+    $(".contactModal .Input").blur(function () {
+        check($(this));
+    });
+    $(".contactModal .Input").keyup(function () {
+        check($(this));
+    });
     return (
         <>
-            <div className={"ham"}>
+            <div className={`ham ${whichMode ? "dark" : "light"}`}>
                 <MdDehaze
-                    role="img"
-                    aria-label="plus"
+                    size="1.5rem"
+                    className="icon"
                     onClick={() => {
                         setSide(true);
                     }}
-                    className="icon"
                 />
             </div>
-            <div className={`sideBar ${side ? "openBar" : "closeBar"}`}>
+            <div
+                className={`sideBar ${side ? "openBar" : "closeBar"} ${
+                    whichMode ? "" : "lightMode"
+                }`}
+            >
                 <h2>
                     Your List Set
                     <MdClear
-                        className={"icon"}
+                        size="1.5rem"
+                        className="icon"
                         onClick={() => {
                             setSide(false);
                         }}
                     />
                 </h2>
-
                 <ul>
                     {list}
                     <hr />
-                    <li
-                        className="addNew listSet"
-                        onClick={() => {
-                            $(".newModal").fadeIn();
-                            $(".new").focus();
-                        }}
-                    >
-                        <div className="tag">
-                            <MdAdd className="addList" />
-                            Add New List
-                        </div>
-                    </li>
-                    <li
-                        className="donate listSet"
-                        onClick={() => {
-                            $(".donateModal").fadeIn();
-                        }}
-                    >
-                        <div className="tag">
-                            <FiHeart fill="white" className="donateIcon" />
-                            Donate
-                        </div>
-                    </li>
+                    <IconContext.Provider value={{ size: "1.5rem" }}>
+                        <li
+                            className="subList"
+                            onClick={() => {
+                                $(".newModal").fadeIn();
+                                $(".new");
+                            }}
+                        >
+                            <MdAdd />
+                            <h3>Add New List</h3>
+                        </li>
+                        <li
+                            className="subList"
+                            onClick={() => {
+                                $(".clearListModal").fadeIn();
+                            }}
+                        >
+                            <MdDeleteSweep />
+                            <h3>Clear All Lists</h3>
+                        </li>
+
+                        <li
+                            className="subList"
+                            onClick={() => {
+                                setSide(false);
+                                changeMode();
+                                setModes(!modes);
+                            }}
+                        >
+                            {whichMode ? <FiSun /> : <FiMoon />}
+                            <h3>Turn on {whichMode ? "Light" : "Dark"} Mode</h3>
+                        </li>
+                        <hr />
+                        <li
+                            className="subList"
+                            onClick={() => {
+                                $(".contactModal").fadeIn();
+                            }}
+                        >
+                            <FiPhone style={{ strokeWidth: 1 }} />
+                            <h3>Contact Me</h3>
+                        </li>
+                        <li
+                            className="subList"
+                            onClick={() => {
+                                $(".donateModal").fadeIn();
+                            }}
+                        >
+                            <FiHeart style={{ strokeWidth: 1 }} />
+                            <h3>Donate</h3>
+                        </li>
+                    </IconContext.Provider>
                     <hr />
                 </ul>
             </div>
-            <div className={`modalCont newModal`} style={{ display: "none" }}>
+            {/* Sets name of New List */}
+            <div className="modalCont newModal">
                 <form
                     className="modal"
                     onSubmit={(event) => {
@@ -139,85 +215,106 @@ function OuterControl({
                         setSide(false);
                     }}
                 >
-                    <MdClear
-                        className={"icon"}
-                        style={{
-                            display: "block",
-                            marginLeft: "auto",
-                        }}
+                    <h3>list Name</h3>
+                    <div className="input-container">
+                        <input
+                            type="text"
+                            className="Input"
+                            name="inputBlock"
+                            onChange={({ target: { value } }) => {
+                                setNewListName(value);
+                            }}
+                            autoComplete="off"
+                            required={true}
+                        />
+                        <svg className="border" viewBox="0 0 275.05 40" preserveAspectRatio="none">
+                            <path
+                                className="cls-1 path"
+                                d="M139,39H268.22c4,0,7.3-2.78,7.3-6.21V8.21c0-3.43-3.27-6.21-7.3-6.21H139"
+                                transform="translate(-1.3 -0.77)"
+                            />
+                            <path
+                                className="cls-2 path"
+                                d="M164,2H11.24C6.43,2,2.52,4.78,2.52,8.21V32.79c0,3.43,3.91,6.21,8.72,6.21H160.32v0H164"
+                                transform="translate(-1.3 -0.77)"
+                            />
+                        </svg>
+                        <span>List Name...</span>
+                    </div>
+                    <button className="modalBtn save" type="submit">
+                        <MdCheck />
+                        <span>Save</span>
+                    </button>
+                    <button
+                        className="modalBtn"
+                        type="button"
                         onClick={() => {
                             $(".newModal").fadeOut();
                             $(".inputBox").val(null);
                         }}
-                    />
-
-                    <h3>Set New Todolist Name</h3>
-                    <div className="input-container">
-                        <input
-                            className="inputBox new"
-                            type="text"
-                            name="inputBlock"
-                            placeholder="Name..."
-                            autoComplete="off"
-                            required={true}
-                            onChange={({ target: { value } }) => {
-                                setNewListName(value);
-                            }}
-                        />
-                        <div className="input"></div>
-                    </div>
-                    <button className="setName" type="submit">
-                        Set Name
+                    >
+                        <MdClear />
+                        <span>Cancel</span>
                     </button>
                 </form>
             </div>
-
-            <div className="modalCont rename" style={{ display: "none" }}>
+            {/* Renames a list */}
+            <div className="modalCont rename">
                 <form
                     className="modal"
                     onSubmit={(event) => {
                         event.preventDefault();
-
                         $(".rename").fadeOut();
                         $(".inputBox").val(null);
                         updateList(currentListId);
                         setCurrentListId("");
                     }}
                 >
-                    <MdClear
-                        className={"icon"}
-                        style={{
-                            display: "block",
-                            marginLeft: "auto",
-                        }}
+                    <h3>Rename Todo</h3>
+                    <div className="input-container">
+                        <input
+                            type="text"
+                            className="Input renamebox"
+                            name="inputBlock"
+                            onChange={({ target: { value } }) => {
+                                setRename(value);
+                            }}
+                            autoComplete="off"
+                            required={true}
+                        />
+                        <svg className="border" viewBox="0 0 275.05 40" preserveAspectRatio="none">
+                            <path
+                                className="cls-1 path"
+                                d="M139,39H268.22c4,0,7.3-2.78,7.3-6.21V8.21c0-3.43-3.27-6.21-7.3-6.21H139"
+                                transform="translate(-1.3 -0.77)"
+                            />
+                            <path
+                                className="cls-2 path"
+                                d="M164,2H11.24C6.43,2,2.52,4.78,2.52,8.21V32.79c0,3.43,3.91,6.21,8.72,6.21H160.32v0H164"
+                                transform="translate(-1.3 -0.77)"
+                            />
+                        </svg>
+                    </div>
+
+                    <button className="modalBtn save" type="submit">
+                        <MdCheck />
+                        <span>Save</span>
+                    </button>
+                    <button
+                        className="modalBtn"
+                        type="button"
                         onClick={() => {
                             $(".rename").fadeOut();
                             $(".inputBox").val(null);
                         }}
-                    />
-
-                    <h3>Rename Todo</h3>
-                    <div className="input-container">
-                        <input
-                            className="inputBox renamebox"
-                            type="text"
-                            name="inputBlock"
-                            placeholder="New Name..."
-                            autoComplete="off"
-                            required={true}
-                            onChange={({ target: { value } }) => {
-                                setRename(value);
-                            }}
-                        />
-                        <div className="input"></div>
-                    </div>
-                    <button className="setName" type="submit">
-                        Set Name
+                    >
+                        <MdClear />
+                        <span>Cancel</span>
                     </button>
                 </form>
             </div>
-
-            <div className="modalCont delete" style={{ display: "none" }}>
+            {/* delets a list */}
+            <div className="modalCont delete">
                 <div className="modal" style={{ textAlign: "center" }}>
                     <MdDelete
                         fontSize="3rem"
@@ -228,30 +325,196 @@ function OuterControl({
                     <p>Entire List will be removed permanently</p>
 
                     <button
-                        className="deleteListBtn clear"
+                        className="modalBtn"
+                        type="button"
                         onClick={() => {
                             $(".delete").fadeOut();
-                            $(".inputBox").val(null);
-                            deleteList(currentListId);
-                            setSide(false);
-                            setCurrentListId("");
                         }}
                     >
-                        OK
+                        <MdClear />
+                        <span>Cancel</span>
                     </button>
                     <button
-                        className="canceldelete"
+                        className="modalBtn del"
+                        type="submit"
                         onClick={() => {
                             $(".delete").fadeOut();
-                            $(".inputBox").val(null);
-                            setCurrentListId("");
+                            deleteList(currentListId);
+                            setSide(false);
                         }}
                     >
-                        Cancel
+                        <MdCheck />
+                        <span>OK</span>
                     </button>
                 </div>
             </div>
+            {/* Clears all Lists */}
+            <div className="modalCont clearListModal">
+                <div className="modal" style={{ textAlign: "center" }}>
+                    <MdDelete
+                        fontSize="3rem"
+                        fill="red"
+                        className="icon"
+                        style={{ textShadow: "0px 0px 5px red" }}
+                    />
+                    <h3>Are you sure You want to Clear All Your Lists?</h3>
+                    <p>All Lists will be removed permanently and Cannot be recovered!</p>
+                    <button
+                        className="modalBtn"
+                        onClick={() => {
+                            $(".clearListModal").fadeOut();
+                        }}
+                    >
+                        <MdClear />
+                        <span>Cancel</span>
+                    </button>
+                    <button
+                        className="modalBtn del"
+                        onClick={() => {
+                            $(".clearListModal").fadeOut();
+                            clearList(currentListId);
+                        }}
+                    >
+                        <MdDeleteSweep />
+                        <span> Clear all Lists</span>
+                    </button>
+                </div>
+            </div>
+            {/* Contact Me Section */}
+            <div className="modalCont contactModal" style={{ display: "none", userSelect: "text" }}>
+                <div className="modal">
+                    <MdClear
+                        className={"icon closeModal"}
+                        size="1.5rem"
+                        onClick={() => {
+                            $(".contactModal").fadeOut();
+                        }}
+                    />
 
+                    <form
+                        className="contact"
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            sendForm(contactForm);
+                            $(".contactModal").fadeOut();
+                            setSide(false);
+                        }}
+                    >
+                        <h3>Contact Me</h3>
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                className="Input"
+                                name="fullName"
+                                onChange={({ target: { value } }) => {
+                                    setcontactForm((prev) => {
+                                        return { ...prev, fullname: value };
+                                    });
+                                }}
+                                autoComplete="off"
+                                required={true}
+                            />
+                            <svg
+                                className="border"
+                                viewBox="0 0 275.05 40"
+                                preserveAspectRatio="none"
+                            >
+                                <path
+                                    className="cls-1 path"
+                                    d="M139,39H268.22c4,0,7.3-2.78,7.3-6.21V8.21c0-3.43-3.27-6.21-7.3-6.21H139"
+                                    transform="translate(-1.3 -0.77)"
+                                />
+                                <path
+                                    className="cls-2 path"
+                                    d="M164,2H11.24C6.43,2,2.52,4.78,2.52,8.21V32.79c0,3.43,3.91,6.21,8.72,6.21H160.32v0H164"
+                                    transform="translate(-1.3 -0.77)"
+                                />
+                            </svg>
+                            <span>Full Name</span>
+                        </div>
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                className="Input email"
+                                name="email"
+                                onChange={({ target: { value } }) => {
+                                    setcontactForm((prev) => {
+                                        return { ...prev, email: value };
+                                    });
+                                }}
+                                autoComplete="off"
+                                required={true}
+                            />
+                            <svg
+                                className="border"
+                                viewBox="0 0 275.05 40"
+                                preserveAspectRatio="none"
+                            >
+                                <path
+                                    className="cls-1 path"
+                                    d="M139,39H268.22c4,0,7.3-2.78,7.3-6.21V8.21c0-3.43-3.27-6.21-7.3-6.21H139"
+                                    transform="translate(-1.3 -0.77)"
+                                />
+                                <path
+                                    className="cls-2 path"
+                                    d="M164,2H11.24C6.43,2,2.52,4.78,2.52,8.21V32.79c0,3.43,3.91,6.21,8.72,6.21H160.32v0H164"
+                                    transform="translate(-1.3 -0.77)"
+                                />
+                            </svg>
+                            <span>email</span>
+                        </div>
+                        <div className="input-container message">
+                            <textarea
+                                className="Input"
+                                name="inputBlock"
+                                onChange={({ target: { value } }) => {
+                                    setcontactForm((prev) => {
+                                        return { ...prev, message: value };
+                                    });
+                                }}
+                                required={true}
+                            ></textarea>
+                            <svg
+                                className="border textarea"
+                                viewBox="0 0 309 277"
+                                preserveAspectRatio="none"
+                            >
+                                <path
+                                    className="cls-1 path"
+                                    d="M154.5,1.5h138a15,15,0,0,1,15,15v244a15,15,0,0,1-15,15h-138"
+                                />
+                                <path
+                                    className="cls-2 path"
+                                    d="M154.5,275.5H16.5a15,15,0,0,1-15-15V16.5a15,15,0,0,1,15-15h138"
+                                />
+                            </svg>
+                            <span>Message</span>
+                        </div>
+                        <button className="modalBtn send" type="submit">
+                            <MdSend />
+                            <span>Send</span>
+                        </button>
+                    </form>
+                    <div className="social">
+                        <a href="https://www.facebook.com/crimson.oluwatowo/" className="facebook">
+                            <FaFacebookF />
+                        </a>
+                        <a href="https://www.instagram.com/crimson_corp/" className="instagram">
+                            <FaInstagram />
+                        </a>
+                        <a href="m.me/oluwatowo_rosanwo" className="messenger">
+                            <FaFacebookMessenger />
+                        </a>
+                        <a
+                            href="https://api.whatsapp.com/send?phone=+2348024537884&text=Hi20%Crimson%20%"
+                            className="whatsapp"
+                        >
+                            <FaWhatsapp />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {/* Donate Section */}
             <div className="modalCont donateModal" style={{ display: "none", userSelect: "text" }}>
                 <div className="modal">
                     <MdClear

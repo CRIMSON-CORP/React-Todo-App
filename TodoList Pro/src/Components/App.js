@@ -5,14 +5,18 @@ import List from "./Inner Component/List";
 import Control from "./Inner Component/Control";
 import $ from "jquery";
 
-export default function App({ props: { app } }) {
+export default function App({ props: { app, whichMode } }) {
+    const [id] = useState(app.id);
     const [Todo, setTodo] = useState({});
-    const [TodoListArray, setTodoListArray] = useState([]);
+    const [TodoListArray, setTodoListArray] = useState(() => {
+        var TodoLocal = localStorage.getItem(id);
+        if (TodoLocal === null || TodoLocal === undefined) return [];
+        else return JSON.parse(TodoLocal);
+    });
     const [done, setDone] = useState(0);
     const [progress, setProgress] = useState("");
     const [filtered, setFiltered] = useState([]);
     const [status, setStatus] = useState("All");
-    const [id] = useState(app.id);
 
     useEffect(() => {
         const DoneTodos = TodoListArray.filter((arr) => arr.completed === true);
@@ -43,13 +47,6 @@ export default function App({ props: { app } }) {
     }, [status]);
 
     useEffect(() => {
-        var TodoLocal = localStorage.getItem(id);
-        if (TodoLocal === null || TodoLocal === undefined)
-            localStorage.setItem(id, JSON.stringify([]));
-        else setTodoListArray(JSON.parse(TodoLocal));
-    }, [id]);
-
-    useEffect(() => {
         localStorage.setItem(id, JSON.stringify(TodoListArray));
     }, [TodoListArray, id]);
 
@@ -65,7 +62,7 @@ export default function App({ props: { app } }) {
 
     function sendProps(event) {
         event.preventDefault();
-        var inputBox = $(".inputBox");
+        var inputBox = $(".Input");
         let { Todo: todo } = Todo;
         if (todo.trim() === "" || todo.trim() === undefined) {
             inputBox.val(null).focus();
@@ -118,12 +115,14 @@ export default function App({ props: { app } }) {
                     done: done,
                     status: status,
                     statusHandler: statusHandler,
+                    whichMode: whichMode,
                 }}
             />
             <Input
                 props={{
                     sendProps: sendProps,
                     setInput: setInput,
+                    whichMode: whichMode,
                 }}
             />
             <List
@@ -132,6 +131,7 @@ export default function App({ props: { app } }) {
                     updateTodo: updateTodo,
                     TodoListArray: TodoListArray,
                     filtered: filtered,
+                    whichMode: whichMode,
                 }}
             />
         </div>

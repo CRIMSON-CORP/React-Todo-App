@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Control({
-    props: { progress, TodoListArray, clearDone, done, statusHandler, status },
+    props: { progress, TodoListArray, clearDone, done, statusHandler, status, mode, whichMode },
 }) {
     return (
         <div className="control">
@@ -26,7 +26,7 @@ export default function Control({
                             }}
                         ></circle>
                     </svg>
-                    <div className="number">
+                    <div className={`number ${whichMode ? "darkMode" : "LightMode"}`}>
                         {progress !== 0 || TodoListArray.length !== 0 ? (
                             <>
                                 <h2>

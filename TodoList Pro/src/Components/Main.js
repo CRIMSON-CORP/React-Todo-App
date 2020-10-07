@@ -3,6 +3,13 @@ import App from "./App";
 import uuid from "uuid";
 import OuterControl from "./OuterControl";
 import { MdDehaze } from "react-icons/md";
+import "animate.css";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
+
+// test
+// import Push from "push.js";
 
 function Main() {
     const [app, setApp] = useState(() => {
@@ -17,6 +24,11 @@ function Main() {
     });
     const [newListName, setNewListName] = useState("");
     const [reName, setRename] = useState("");
+    const [whichMode, setwhichMode] = useState(() => {
+        var mode = localStorage.getItem("mode");
+        if (mode === undefined || mode === null) return true;
+        else return JSON.parse(mode.toLowerCase());
+    });
 
     useEffect(() => {
         localStorage.setItem("AppLocal", JSON.stringify(app));
@@ -25,6 +37,10 @@ function Main() {
     useEffect(() => {
         localStorage.setItem("Index", JSON.stringify(currentList));
     }, [currentList]);
+
+    useEffect(() => {
+        localStorage.setItem("mode", whichMode);
+    }, [whichMode]);
 
     function addList() {
         let NewListProps = {
@@ -52,6 +68,55 @@ function Main() {
         setCurrentList(filteredList.length - 1);
         setApp(filteredList);
     }
+    function clearList() {
+        setApp([]);
+        localStorage.clear();
+    }
+
+    function changeMode() {
+        setwhichMode(!whichMode);
+    }
+
+    function sendForm(form) {
+        sendMail();
+
+        async function sendMail() {
+            let details = `
+            <h2>You recieved a message from ${form.fullname}</h2>
+            <h3>Message</h3>
+            <p>${form.message}</p>
+            <p>Sender's Email: <span>${form.email}</span></p>
+            `;
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                secure: false,
+                auth: {
+                    user: process.env.email,
+                    pass: process.env.password,
+                },
+                tls: {
+                    rejectUnauthorized: false,
+                    secureProtocol: "TLSv1_method",
+                },
+            });
+
+            // send mail with defined transport object
+            let maildata = {
+                from: form.email,
+                to: process.env.password,
+                subject: "You have Received a Message from Your Todo App",
+                html: details,
+            };
+            transporter.sendMail(maildata, (err, info) => {
+                if (err) {
+                    alert("An Error Occured, Please Check your Internet Settings and try again...");
+                    return;
+                } else {
+                    alert("Message Sent!");
+                }
+            });
+        }
+    }
 
     var content;
     app.length <= 0
@@ -63,9 +128,15 @@ function Main() {
                   </p>
               </div>
           ))
-        : (content = <App key={app[currentList].id} props={{ app: app[currentList] }} />);
+        : (content = (
+              <App
+                  key={app[currentList].id}
+                  props={{ app: app[currentList], whichMode: whichMode }}
+              />
+          ));
+
     return (
-        <div>
+        <div className={`main ${whichMode ? "" : "light"}`}>
             <OuterControl
                 props={{
                     app: app,
@@ -76,6 +147,10 @@ function Main() {
                     updateList: updateList,
                     deleteList: deleteList,
                     currentList: currentList,
+                    clearList: clearList,
+                    changeMode: changeMode,
+                    whichMode: whichMode,
+                    sendForm: sendForm,
                 }}
             />
             {content}
