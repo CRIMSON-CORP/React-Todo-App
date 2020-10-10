@@ -38,7 +38,6 @@ function OuterControl({
     const [list, setList] = useState([]);
     const [currentListId, setCurrentListId] = useState("");
     const [modes, setModes] = useState(true);
-    const [contactForm, setcontactForm] = useState({});
     const [copy, setCopy] = useState(false);
     // creates Lists of TodoList Categories
     useEffect(() => {
@@ -453,11 +452,6 @@ function OuterControl({
                                 type="text"
                                 className="Input"
                                 name="from_name"
-                                onChange={({ target: { value } }) => {
-                                    setcontactForm((prev) => {
-                                        return { ...prev, fullname: value };
-                                    });
-                                }}
                                 autoComplete="off"
                                 required={true}
                             />
@@ -484,11 +478,6 @@ function OuterControl({
                                 type="email"
                                 className="Input email"
                                 name="from_email"
-                                onChange={({ target: { value } }) => {
-                                    setcontactForm((prev) => {
-                                        return { ...prev, email: value };
-                                    });
-                                }}
                                 autoComplete="off"
                                 required={true}
                             />
@@ -511,16 +500,7 @@ function OuterControl({
                             <span>email</span>
                         </div>
                         <div className="input-container message">
-                            <textarea
-                                className="Input"
-                                name="message"
-                                onChange={({ target: { value } }) => {
-                                    setcontactForm((prev) => {
-                                        return { ...prev, message: value };
-                                    });
-                                }}
-                                required={true}
-                            ></textarea>
+                            <textarea className="Input" name="message" required={true}></textarea>
                             <svg
                                 className="border textarea"
                                 viewBox="0 0 309 277"
