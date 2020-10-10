@@ -19,6 +19,10 @@ export default function App({ props: { app, whichMode } }) {
     const [status, setStatus] = useState("All");
 
     useEffect(() => {
+        localStorage.setItem(id, JSON.stringify(TodoListArray));
+    }, [TodoListArray, id]);
+
+    useEffect(() => {
         const DoneTodos = TodoListArray.filter((arr) => arr.completed === true);
         var progress = Math.floor((DoneTodos.length / TodoListArray.length) * 100);
         if (isNaN(progress)) progress = 0;
@@ -45,10 +49,6 @@ export default function App({ props: { app, whichMode } }) {
     useEffect(() => {
         Trans(false);
     }, [status]);
-
-    useEffect(() => {
-        localStorage.setItem(id, JSON.stringify(TodoListArray));
-    }, [TodoListArray, id]);
 
     function Trans(x) {
         if (x) {
@@ -109,29 +109,29 @@ export default function App({ props: { app, whichMode } }) {
             <h1 className="ListName">{app.name}</h1>
             <Control
                 props={{
-                    progress: progress,
-                    TodoListArray: TodoListArray,
-                    clearDone: clearDone,
-                    done: done,
-                    status: status,
-                    statusHandler: statusHandler,
-                    whichMode: whichMode,
+                    progress,
+                    TodoListArray,
+                    clearDone,
+                    done,
+                    status,
+                    statusHandler,
+                    whichMode,
                 }}
             />
             <Input
                 props={{
-                    sendProps: sendProps,
-                    setInput: setInput,
-                    whichMode: whichMode,
+                    sendProps,
+                    setInput,
+                    whichMode,
                 }}
             />
             <List
                 props={{
-                    removeTodo: removeTodo,
-                    updateTodo: updateTodo,
-                    TodoListArray: TodoListArray,
-                    filtered: filtered,
-                    whichMode: whichMode,
+                    removeTodo,
+                    updateTodo,
+                    TodoListArray,
+                    filtered,
+                    whichMode,
                 }}
             />
         </div>

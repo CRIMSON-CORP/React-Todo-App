@@ -1,5 +1,5 @@
 import React from "react";
-import { MdClear } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 function EachTodo({
     props: {
@@ -8,7 +8,6 @@ function EachTodo({
         removeTodo,
     },
 }) {
-    var comp = completed;
     var Done = {
         opacity: 0.4,
         textDecoration: "line-through",
@@ -20,7 +19,7 @@ function EachTodo({
                 <input
                     type="checkbox"
                     data-id={`${id}`}
-                    checked={comp}
+                    checked={completed}
                     onChange={() => {
                         updateTodo(id);
                     }}
@@ -35,17 +34,16 @@ function EachTodo({
                             <polyline className="check" points="22.5,47.5 42.5,67.5 78.5,31.5 " />
                         </svg>
                     </div>
-                    <span style={comp ? Done : null}>
+                    <span style={completed ? Done : null}>
                         {Todo} <span className="cross"></span>
                     </span>
                 </div>
             </label>
-            <MdClear
-                className={"close"}
-                fill="red"
+            <MdDelete
+                className={"deleteIcon icon"}
+                size="1.5rem"
                 style={{
-                    transform: comp ? "scale(1)" : "scale(0)",
-                    fontWeight: "bolder",
+                    transform: completed ? "scale(1)" : "scale(0)",
                 }}
                 onClick={() => {
                     removeTodo(id);

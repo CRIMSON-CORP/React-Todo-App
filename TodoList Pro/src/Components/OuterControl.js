@@ -8,9 +8,10 @@ import {
     MdList,
     MdDeleteSweep,
     MdCheck,
+    MdError,
     MdSend,
 } from "react-icons/md";
-import { FiHeart, FiMoon, FiSun, FiPhone } from "react-icons/fi";
+import { FiHeart, FiMoon, FiSun, FiPhone, FiLoader, FiCopy } from "react-icons/fi";
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaFacebookMessenger } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import $ from "jquery";
@@ -29,6 +30,8 @@ function OuterControl({
         changeMode,
         whichMode,
         sendForm,
+        formStatus,
+        setFormStatus,
     },
 }) {
     const [side, setSide] = useState(false);
@@ -36,6 +39,7 @@ function OuterControl({
     const [currentListId, setCurrentListId] = useState("");
     const [modes, setModes] = useState(true);
     const [contactForm, setcontactForm] = useState({});
+    const [copy, setCopy] = useState(false);
     // creates Lists of TodoList Categories
     useEffect(() => {
         var list = app.map((app, index) => {
@@ -87,41 +91,80 @@ function OuterControl({
         setList(list);
     }, [app, setCurrentList, whichMode]);
 
-    if (side) {
-        $(".container").click(() => {
-            setSide(false);
-        });
-    }
-
     $(`.listSet`).removeClass("active");
     $(`.listSet:eq(${currentList})`).addClass("active");
 
     if (whichMode) $(".modal").removeClass("light");
     else $(".modal").addClass("light");
 
-    $(".contactModal .Input.email").blur(function () {
-        if (!/@/.test($(this).val())) {
-            $(this).next().css("stroke", "red");
+    if (side) {
+        $(".sideBarUnderLay")
+            .fadeIn()
+            .click(() => {
+                setSide(false);
+            });
+    } else {
+        $(".sideBarUnderLay").fadeOut();
+    }
+
+    $(".contactModal .Input.email").blur(function (event) {
+        if (!/@/.test(event.target.value.trim())) {
+            $(this).addClass("err");
         } else {
-            $(this).next().css("stroke", "#9252ff");
+            $(this).removeClass("err");
         }
     });
     function check(input) {
         if (input.val().trim() === "") {
-            input.next().css("stroke", "red");
+            input.addClass("err");
         } else {
-            input.next().css("stroke", "#9252ff");
+            input.removeClass("err");
         }
     }
-    $(".contactModal .Input").blur(function () {
+    $(".contactModal .Input:not('.email')").blur(function () {
         check($(this));
     });
-    $(".contactModal .Input").keyup(function () {
+    $(".contactModal .Input.err").keyup(function () {
         check($(this));
     });
+    var sendBtn;
+    switch (formStatus) {
+        case "sending":
+            sendBtn = (
+                <button className="modalBtn sendBtn sending" type="submit">
+                    <FiLoader className="loading" />
+                    <span>Sending</span>
+                </button>
+            );
+            break;
+        case "sent":
+            sendBtn = (
+                <button className="modalBtn sendBtn sent" type="submit">
+                    <MdCheck />
+                    <span>Sent</span>
+                </button>
+            );
+            break;
+        case "error":
+            sendBtn = (
+                <button className="modalBtn sendBtn error" type="submit">
+                    <MdError />
+                    <span>Error Occured!</span>
+                </button>
+            );
+            break;
+        default:
+            sendBtn = (
+                <button className="modalBtn sendBtn send" type="submit">
+                    <MdSend />
+                    <span>Send</span>
+                </button>
+            );
+    }
+
     return (
         <>
-            <div className={`ham ${whichMode ? "dark" : "light"}`}>
+            <div className="ham">
                 <MdDehaze
                     size="1.5rem"
                     className="icon"
@@ -130,11 +173,8 @@ function OuterControl({
                     }}
                 />
             </div>
-            <div
-                className={`sideBar ${side ? "openBar" : "closeBar"} ${
-                    whichMode ? "" : "lightMode"
-                }`}
-            >
+            <div className="sideBarUnderLay"></div>
+            <div className={`sideBar ${side ? "openBar" : ""} ${whichMode ? "" : "lightMode"}`}>
                 <h2>
                     Your List Set
                     <MdClear
@@ -177,7 +217,7 @@ function OuterControl({
                                 setModes(!modes);
                             }}
                         >
-                            {whichMode ? <FiSun /> : <FiMoon />}
+                            {whichMode ? <FiSun fill="white" /> : <FiMoon stroke="transparent" />}
                             <h3>Turn on {whichMode ? "Light" : "Dark"} Mode</h3>
                         </li>
                         <hr />
@@ -187,7 +227,10 @@ function OuterControl({
                                 $(".contactModal").fadeIn();
                             }}
                         >
-                            <FiPhone style={{ strokeWidth: 1 }} />
+                            <FiPhone
+                                style={{ strokeWidth: 1 }}
+                                fill={`${whichMode ? "white" : "#333"}`}
+                            />
                             <h3>Contact Me</h3>
                         </li>
                         <li
@@ -196,7 +239,10 @@ function OuterControl({
                                 $(".donateModal").fadeIn();
                             }}
                         >
-                            <FiHeart style={{ strokeWidth: 1 }} />
+                            <FiHeart
+                                style={{ strokeWidth: 1 }}
+                                fill={`${whichMode ? "white" : "#333"}`}
+                            />
                             <h3>Donate</h3>
                         </li>
                     </IconContext.Provider>
@@ -210,7 +256,7 @@ function OuterControl({
                     onSubmit={(event) => {
                         event.preventDefault();
                         $(".newModal").fadeOut();
-                        $(".inputBox").val(null);
+                        $(".Input").val(null);
                         addList();
                         setSide(false);
                     }}
@@ -250,7 +296,7 @@ function OuterControl({
                         type="button"
                         onClick={() => {
                             $(".newModal").fadeOut();
-                            $(".inputBox").val(null);
+                            $(".Input").val(null);
                         }}
                     >
                         <MdClear />
@@ -265,7 +311,7 @@ function OuterControl({
                     onSubmit={(event) => {
                         event.preventDefault();
                         $(".rename").fadeOut();
-                        $(".inputBox").val(null);
+                        $(".Input").val(null);
                         updateList(currentListId);
                         setCurrentListId("");
                     }}
@@ -305,7 +351,7 @@ function OuterControl({
                         type="button"
                         onClick={() => {
                             $(".rename").fadeOut();
-                            $(".inputBox").val(null);
+                            $(".Input").val(null);
                         }}
                     >
                         <MdClear />
@@ -318,7 +364,7 @@ function OuterControl({
                 <div className="modal" style={{ textAlign: "center" }}>
                     <MdDelete
                         fontSize="3rem"
-                        fill="red"
+                        className="bin"
                         style={{ textShadow: "0px 0px 5px red" }}
                     />
                     <h3>Are you sure You want to Delete this List?</h3>
@@ -351,10 +397,9 @@ function OuterControl({
             {/* Clears all Lists */}
             <div className="modalCont clearListModal">
                 <div className="modal" style={{ textAlign: "center" }}>
-                    <MdDelete
+                    <MdDeleteSweep
                         fontSize="3rem"
-                        fill="red"
-                        className="icon"
+                        className="icon bin"
                         style={{ textShadow: "0px 0px 5px red" }}
                     />
                     <h3>Are you sure You want to Clear All Your Lists?</h3>
@@ -387,7 +432,10 @@ function OuterControl({
                         className={"icon closeModal"}
                         size="1.5rem"
                         onClick={() => {
+                            $(".contactModal .Input").val(null);
                             $(".contactModal").fadeOut();
+                            $(".contactModal .Input").removeClass("err");
+                            setFormStatus("send");
                         }}
                     />
 
@@ -396,8 +444,10 @@ function OuterControl({
                         onSubmit={(event) => {
                             event.preventDefault();
                             sendForm(contactForm);
-                            $(".contactModal").fadeOut();
-                            setSide(false);
+                            setFormStatus("sending");
+                            setTimeout(() => {
+                                setFormStatus("sent");
+                            }, 3000);
                         }}
                     >
                         <h3>Contact Me</h3>
@@ -434,7 +484,7 @@ function OuterControl({
                         </div>
                         <div className="input-container">
                             <input
-                                type="text"
+                                type="email"
                                 className="Input email"
                                 name="email"
                                 onChange={({ target: { value } }) => {
@@ -490,10 +540,7 @@ function OuterControl({
                             </svg>
                             <span>Message</span>
                         </div>
-                        <button className="modalBtn send" type="submit">
-                            <MdSend />
-                            <span>Send</span>
-                        </button>
+                        {sendBtn}
                     </form>
                     <div className="social">
                         <a href="https://www.facebook.com/crimson.oluwatowo/" className="facebook">
@@ -518,13 +565,11 @@ function OuterControl({
             <div className="modalCont donateModal" style={{ display: "none", userSelect: "text" }}>
                 <div className="modal">
                     <MdClear
-                        className={"icon"}
-                        style={{
-                            display: "block",
-                            marginLeft: "auto",
-                        }}
+                        className={"icon closeModal"}
+                        size="1.5rem"
                         onClick={() => {
                             $(".donateModal").fadeOut();
+                            setCopy(false);
                         }}
                     />
 
@@ -541,10 +586,10 @@ function OuterControl({
                     <div className="info-block">
                         <h4>- Donate</h4>
                         <p>
-                            Please if You really Like my Work and have a Dollar or two to spare,
-                            Kindly make a Donation To me as This will enhance my Progress and
-                            Productivity and also make me work harder and Develop more Apps that you
-                            will Definately find usefull
+                            Please if You really Like my Work and have a some money to spare, Kindly
+                            make a Donation To me as This will enhance my Progress and Productivity
+                            and also make me work harder and Develop more Apps that you will
+                            Definately find usefull
                         </p>
                     </div>
 
@@ -555,17 +600,30 @@ function OuterControl({
                         Account Name: Oluwatowo Rosanwo <br />
                     </pre>
                     <button
-                        className="copy"
+                        className={`copy modalBtn sendBtn ${copy ? "sent" : "send"}`}
                         onClick={() => {
                             var temp = $("<input>");
                             $(".donateModal .modal").append(temp);
                             temp.val($("#acc").text()).select();
                             document.execCommand("copy");
                             temp.remove();
-                            alert("Account Number Copied, Thank You So Much!");
+                            setCopy(true);
+                            setTimeout(() => {
+                                alert("Account Number Copied, Thank You So Much!");
+                            }, 1000);
                         }}
                     >
-                        Copy Account Number
+                        {copy ? (
+                            <>
+                                <MdCheck />
+                                <span>Copied</span>
+                            </>
+                        ) : (
+                            <>
+                                <FiCopy />
+                                <span>Copy Account Number</span>
+                            </>
+                        )}
                     </button>
                 </div>
             </div>

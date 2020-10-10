@@ -15,6 +15,9 @@
     color: white;
 }
 
+/* Outer Control Style */
+
+/* Hamburger Bar */
 .ham {
     position: fixed;
     top: 0;
@@ -29,20 +32,19 @@
     transition: 0.3s;
 }
 
+/* Icons */
 .icon {
     cursor: pointer;
     display: inline-block;
     transition: 0.3s;
 }
 
-.deleteIcon {
+.deleteIcon,
+.bin {
     fill: #d32f2f !important;
 }
 
-div.close.closeSideBar {
-    font-size: 1.2rem;
-}
-
+/* Modal Styling */
 .modalCont {
     width: 100%;
     height: 100%;
@@ -57,7 +59,7 @@ div.close.closeSideBar {
 .modal {
     z-index: 101;
     width: clamp(300px, 50%, 600px);
-    max-height: 95vh;
+    min-height: 1px;
     position: fixed;
     background-color: #333;
     border-radius: 10px;
@@ -70,7 +72,8 @@ div.close.closeSideBar {
 }
 
 .modal h3 {
-    font: size 1.3rem;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
 }
 .modal .input-container {
     margin: 20px auto;
@@ -90,7 +93,7 @@ div.close.closeSideBar {
     overflow: hidden;
     cursor: pointer;
     color: white;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.247);
     transition: 0.3s;
 }
 
@@ -99,7 +102,6 @@ div.close.closeSideBar {
     width: 100%;
     height: 100%;
     padding: 5px;
-    fill: white !important;
 }
 
 .modalBtn span {
@@ -109,68 +111,87 @@ div.close.closeSideBar {
 
 .del,
 .save,
-.send {
-    background: #444 !important;
+.sendBtn {
+    background: #333 !important;
 }
+
+.del span,
+.save span,
+.sendBtn span {
+    color: white !important;
+}
+
 .del svg {
-    background: #b71c1c;
+    background: #d50000;
 }
 .del span {
     background: #d32f2f;
 }
 
-.del span,
-.save span,
-.send span {
-    color: white !important;
-}
-
 .save svg {
-    background: #388e3c;
+    background: #2e7d32;
 }
 .save span {
     background: #4caf50;
 }
-.send {
+.sendBtn {
     float: none;
     margin-left: 0;
 }
-.send svg {
-    background: #532f92;
+
+/* contact send Btn Styles */
+/* deafult */
+.sendBtn.send svg {
+    background: #6200ea;
 }
-.send span {
-    background: #9252ff;
+.sendBtn.send span {
+    background: #7c4dff;
+}
+/* sending */
+.sendBtn.sending svg {
+    background: #1a237e;
+}
+.sendBtn.sending span {
+    background: #303f9f;
+}
+
+/* sent */
+.sendBtn.sent svg {
+    background: #2e7d32;
+}
+.sendBtn.sent span {
+    background: #4caf50;
+}
+
+/* error */
+.sendBtn.error svg {
+    background: #d50000;
+}
+.sendBtn.error span {
+    background: #d32f2f;
 }
 
 .delete .modalBtn,
 .clearListModal .modalBtn {
     text-align: center;
     float: none;
+    margin: 0px 10px;
 }
 
 .noList {
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-flow: wrap column;
-    justify-content: center;
-    align-items: center;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
     text-align: center;
-    top: 50%;
-    position: absolute;
-    transform: translateY(-50%);
 }
 
 .dir {
     margin-bottom: -3px;
 }
 
-.closeBtn {
-    padding: 0;
-}
-
 .sideBar {
-    position: absolute;
+    position: fixed;
     width: clamp(280px, 70%, 500px);
     top: 0;
     left: 0;
@@ -180,24 +201,31 @@ div.close.closeSideBar {
     height: 100%;
     transition: all 0.3s ease-out;
     overflow-y: scroll;
+    user-select: auto;
+    transform: translateX(-100%);
+}
+
+.sideBarUnderLay {
+    width: 100%;
+    height: 100%;
+    z-index: 98;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
 }
 
 .sideBar::-webkit-scrollbar {
     width: 5px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.1.5);
 }
 .sideBar::-webkit-scrollbar-thumb {
     width: 5px;
-    background: rgba(0, 0, 0, 0.3);
-}
-.sideBar.closeBar {
-    transform: translateX(-100%);
-    box-shadow: none;
+    background: rgba(0, 0, 0, 0.4);
 }
 .sideBar.openBar {
     transform: translateX(0);
-    box-shadow: 10px 0px 20px rgba(0, 0, 0, 0.5);
-    user-select: select auto;
 }
 
 .sideBar h2 {
@@ -227,7 +255,6 @@ div.close.closeSideBar {
     align-items: center;
     padding: 1rem;
     transition: 0.3s;
-    transition: 0.3s;
 }
 
 .subList {
@@ -249,45 +276,26 @@ hr {
     background: rgba(0, 0, 0, 0.2);
 }
 
-.icons {
-    display: flex;
-    align-items: center;
-}
-
-.listSet .tag {
-    display: flex;
-    align-items: center;
-}
-
-.modal p {
+.modal p,
+.modal pre {
     font-size: 12px;
     margin: 10px 0;
 }
 
 .copy {
-    padding: 5px 10px;
-    margin-top: 20px;
-    color: white;
-    background: #444;
-    border-radius: 5px;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+    margin: 20px 0;
+    float: none;
+}
+
+.copy svg {
+    color: transparent;
 }
 
 .donateModal .info-block {
-    margin: 20px auto;
-}
-.donateModal h4 {
-    font-size: 14px;
+    margin: 15px auto;
 }
 
-.donateModal p,
-.donateModal pre {
-    font-size: 10px;
-}
-
+/* Outer Control Ends */
 .container {
     width: 600px;
     margin: auto;
@@ -443,16 +451,15 @@ select {
     transition: all 0.5s;
 }
 
-.border.textarea .cls-1 {
+.border.textarea .path {
     stroke-dasharray: 567.130615234375;
     stroke-dashoffset: 567.130615234375;
     transition: all 0.5s;
 }
 .border.textarea .cls-2 {
-    stroke-dasharray: 567.1305541992188;
     stroke-dashoffset: -567.1305541992188;
-    transition: all 0.5s;
 }
+
 .inputBlock {
     display: grid;
     place-items: center;
@@ -499,7 +506,8 @@ textarea::-webkit-scrollbar-thumb {
     width: 5px;
     background: #9152ffaa;
 }
-.Input:focus + .border {
+.Input:focus + .border,
+.Input:valid + .border {
     fill: none;
 }
 .Input:focus + .border .path,
@@ -525,10 +533,27 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .Input:focus ~ span,
-.Input:valid ~ span {
+.Input:valid ~ span,
+.Input.err ~ span {
     top: 0;
     left: 3%;
+    font-size: 10px;
+    color: #9152ff;
     background: rgba(25, 25, 25);
+}
+
+.Input.err + .border .path {
+    stroke-dashoffset: 0 !important;
+}
+
+.Input.err + .border {
+    stroke: red !important;
+    fill: none !important;
+}
+
+.Input.err ~ span {
+    color: red !important;
+    background: #333;
 }
 
 .input-container.message {
@@ -654,7 +679,7 @@ input[type="checkbox"]:checked + div svg.checkbox .check {
     font-size: 16px;
     font-weight: 900;
     position: relative;
-    word-break: break-all;
+    word-break: break-word;
     transition: 0.3s;
 }
 
@@ -664,17 +689,6 @@ input[type="checkbox"]:checked + div div div span:nth-child(1) {
 
 input[type="checkbox"]:checked + div div div span:nth-child(2) {
     width: 22px;
-}
-
-.close {
-    fill: #d32f2f !important;
-    font-size: 20px;
-    display: inline-grid;
-    height: 30px;
-    width: 30px;
-    place-items: center;
-    cursor: pointer;
-    transition: transform 0.2s ease-out;
 }
 
 .icon.closeModal {
@@ -698,12 +712,11 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     width: 45px;
     height: 45px;
     transform: rotateX(25deg);
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.15), 0px 7px 8px rgba(0, 0, 0, 0.247);
 }
 
 .social a svg {
     fill: white !important;
-
     filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, 0.3));
 }
 
@@ -720,22 +733,39 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     background: #25d366;
 }
 
+.loading line {
+    animation: spin 1.5s ease infinite;
+    transform-origin: center;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* Light Mode */
 .main.light .ham {
     background: #dfdfdf;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.2);
 }
 
 .main.light .container {
     background: #f5f5f5;
 }
 
-.main.light .ListName {
+.main.light .container {
     color: #333;
 }
 
 .main.light svg {
     fill: #333;
+}
+
+.main.light .modalBtn svg {
+    fill: #fff;
 }
 .main.light .modal {
     background: #eeeeee;
@@ -745,7 +775,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 .main.light .modalBtn {
     background: white;
     color: #333;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 .main.light .sideBar {
@@ -765,23 +795,18 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     background: rgba(0, 0, 0, 0.5);
 }
 
-.main.light .listSet.active {
+.main.light .listSet.active,
+.main.light .listSet:active,
+.main.light .subList:active {
     background: #d6d6d6;
 }
 
-.main.light .listSet:hover,
-.main.light .subList:hover {
-    background: #e5e5e5;
-}
-
-.main.light .number h2,
-.main.light .number span {
+.main.light .number {
     color: #333;
 }
 
 .main.light .listContainer {
     background: #dddddd;
-    color: #333;
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -789,18 +814,19 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     stroke: #333;
 }
 
-.main.light .Todo > span {
-    color: #333;
-}
-
 .main.light button.clear {
     box-shadow: 0px 3px 8px #9600008a;
 }
 
-.main.light .input-container .Input:focus ~ span,
-.main.light .input-container .Input:valid ~ span {
+.main.light .Input:focus ~ span,
+.main.light .Input:valid ~ span {
     color: #9152ff;
-    background: rgb(245, 245, 245);
+    background: #f5f5f5;
+}
+.main.light .modal .Input:focus ~ span,
+.main.light .modal .Input:valid ~ span {
+    color: #9152ff;
+    background: #eeeeee;
 }
 .main.light .input-container .Input:focus + svg,
 .main.light .input-container .Input:valid + svg {
@@ -813,25 +839,19 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 .main.light .Input ~ span {
     color: #333;
 }
+.main.light .Input.err ~ span {
+    background: #eeeeee;
+}
 
 .main.light .input-container svg {
     fill: #d6d6d6;
 }
 
-.main.light .inputBlock .input-container svg {
-    fill: #d6d6d6 !important;
-}
-
-.main.light .listContainer svg {
+.main.light .Todo svg {
     fill: none !important;
 }
 
-.main.light .inputBlock .Input:focus + svg,
-.main.light .inputBlock .Input:valid + svg {
-    fill: none !important;
-}
-
-.main.light .modal .input-container .Input:focus ~ span {
+.main.light .modal .Input:focus ~ span {
     background: #eeeeee;
 }
 
@@ -927,11 +947,5 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 
     div.label .Todo > span {
         font-size: 12px;
-    }
-
-    div.close {
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
     }
 }
