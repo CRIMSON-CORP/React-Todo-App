@@ -5,10 +5,15 @@ const dotenv = require("dotenv");
 const path = require("path");
 const server = express();
 dotenv.config();
-server.use(express.static(path.join(__dirname, "Client")));
+server.use(express.static(__dirname));
+server.use(express.static(__dirname, "Client"));
 server.use(express.static(path.join(__dirname, "Client", "build")));
 server.use(express.json());
 server.use(bodyParser.urlencoded({ extended: false }));
+
+server.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "Client", "build", "index.html"));
+});
 
 server.post("/contact_req", async (req, res) => {
     let details = `
@@ -49,7 +54,4 @@ server.post("/contact_req", async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 
-server.listen(PORT, (err) => {
-    if (err) throw err;
-    console.log("Server Running on 3001");
-});
+server.listen(PORT);
