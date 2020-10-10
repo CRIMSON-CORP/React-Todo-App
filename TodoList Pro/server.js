@@ -2,8 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const path = require("path");
 const server = express();
 dotenv.config();
+server.use(express.static(path.join(__dirname, "Client")));
+server.use(express.static(path.join(__dirname, "Client", "build")));
 server.use(express.json());
 server.use(bodyParser.urlencoded({ extended: false }));
 
