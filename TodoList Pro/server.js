@@ -6,7 +6,6 @@ const path = require("path");
 const server = express();
 dotenv.config();
 server.use(express.static(__dirname));
-server.use(express.static(__dirname, "Client"));
 server.use(express.static(path.join(__dirname, "Client", "build")));
 server.use(express.json());
 server.use(bodyParser.urlencoded({ extended: false }));
