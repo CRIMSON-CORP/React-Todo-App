@@ -1,5 +1,5 @@
 {
-    "name": "new-project-react",
+    "name": "todo-app-react",
     "version": "0.5.0",
     "private": true,
     "homepage": "https://crimson-corp.github.io/React-Todo-App/",
@@ -10,14 +10,21 @@
         "animate.css": "^4.1.1",
         "emailjs-com": "^2.6.3",
         "jquery": "^3.5.1",
+        "local-storage": "^2.0.0",
         "push.js": "^1.0.12",
         "react": "^16.13.1",
+        "react-compound-timer": "^1.2.0",
         "react-dom": "^16.13.1",
         "react-icons": "^3.11.0",
+        "react-interval-hook": "^1.1.2",
         "react-notification-component": "^1.1.4",
         "react-notifications-component": "^2.4.1",
         "react-scripts": "3.4.1",
-        "react-transition-group": "^1.2.1"
+        "react-spring": "^8.0.27",
+        "react-tiny-transition": "^2.3.0",
+        "react-transition-group": "^1.2.1",
+        "timer-node": "^3.0.0",
+        "use-sound": "^1.0.2"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -25,7 +32,7 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d build",
+        "deploy": "gh-pages -d build"
     },
     "eslintConfig": {
         "extends": "react-app"

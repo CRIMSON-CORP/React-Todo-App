@@ -3,7 +3,6 @@ import {
     MdDehaze,
     MdClear,
     MdAdd,
-    MdEdit,
     MdDelete,
     MdList,
     MdDeleteSweep,
@@ -11,24 +10,37 @@ import {
     MdError,
     MdSend,
 } from "react-icons/md";
-import { FiHeart, FiMoon, FiSun, FiPhone, FiLoader, FiCopy } from "react-icons/fi";
-import { FaFacebookF, FaInstagram, FaWhatsapp, FaFacebookMessenger } from "react-icons/fa";
+import { FiHeart, FiMoon, FiSun, FiPhone, FiLoader, FiCopy, FiHelpCircle } from "react-icons/fi";
+import {
+    FaFacebookF,
+    FaInstagram,
+    FaWhatsapp,
+    FaFacebookMessenger,
+    FaGithub,
+} from "react-icons/fa";
 import { IconContext } from "react-icons";
+import { FiEdit } from "react-icons/fi";
 import $ from "jquery";
+import create from "./help-vids/Create Task.mp4";
+import newList from "./help-vids/Newlist.mp4";
+import edit_rem from "./help-vids/Editing_Reminder.mp4";
+import renameList from "./help-vids/RenameList.mp4";
+import blue from "./help-vids/new.PNG";
+import yell from "./help-vids/near.PNG";
+import pass from "./help-vids/passed.PNG";
 
+import { store } from "react-notifications-component";
 function OuterControl({
     props: {
         app,
-        setNewListName,
         addList,
         setCurrentList,
-        setRename,
         updateList,
         deleteList,
         currentList,
         clearList,
-        changeMode,
         whichMode,
+        setwhichMode,
         sendForm,
         formStatus,
         setFormStatus,
@@ -37,9 +49,8 @@ function OuterControl({
     const [side, setSide] = useState(false);
     const [list, setList] = useState([]);
     const [currentListId, setCurrentListId] = useState("");
-    const [modes, setModes] = useState(true);
-    const [contactForm, setcontactForm] = useState({});
     const [copy, setCopy] = useState(false);
+    const [ListName, setListName] = useState("");
     // creates Lists of TodoList Categories
     useEffect(() => {
         var list = app.map((app, index) => {
@@ -48,12 +59,12 @@ function OuterControl({
                     value={{
                         size: "1.5rem",
                         className: `ListSetIcon ${whichMode ? "" : "light"}`,
+                        style: { fill: whichMode ? "white" : "#333" },
                     }}
                     key={index}
                 >
                     <li
                         className={`listSet ${whichMode ? "dark" : "light"}`}
-                        data-id={app.id}
                         onClick={(event) => {
                             event.persist();
                             if (event.target.tagName === "svg" || event.target.tagName === "path") {
@@ -67,8 +78,8 @@ function OuterControl({
                     >
                         <MdList className="icon" />
                         <h3>{app.name}</h3>
-                        <MdEdit
-                            data-id={app.id}
+                        <FiEdit
+                            style={{ stroke: whichMode ? "white" : "#333", fill: "none" }}
                             className="icon edit"
                             onClick={() => {
                                 $(".rename").fadeIn();
@@ -77,8 +88,7 @@ function OuterControl({
                             }}
                         />
                         <MdDelete
-                            className="icon deleteIcon"
-                            data-id={app.id}
+                            className="icon bin"
                             onClick={() => {
                                 $(".delete").fadeIn();
                                 setCurrentListId(app.id);
@@ -94,9 +104,6 @@ function OuterControl({
     $(`.listSet`).removeClass("active");
     $(`.listSet:eq(${currentList})`).addClass("active");
 
-    if (whichMode) $(".modal").removeClass("light");
-    else $(".modal").addClass("light");
-
     if (side) {
         $(".sideBarUnderLay")
             .fadeIn()
@@ -107,12 +114,22 @@ function OuterControl({
         $(".sideBarUnderLay").fadeOut();
     }
 
-    $(".contactModal .Input.email").blur(function (event) {
-        if (!/@/.test(event.target.value.trim())) {
-            $(this).addClass("err");
+    function checkEmail(event, x) {
+        var val = event.target.value.trim();
+        if (!/@/.test(val) || val === "") {
+            x.addClass("err");
         } else {
-            $(this).removeClass("err");
+            x.removeClass("err");
         }
+    }
+
+    $(".contactModal .Input.email").on({
+        keyup: function (event) {
+            checkEmail(event, $(this));
+        },
+        blur: function (event) {
+            checkEmail(event, $(this));
+        },
     });
     function check(input) {
         if (input.val().trim() === "") {
@@ -121,45 +138,56 @@ function OuterControl({
             input.removeClass("err");
         }
     }
-    $(".contactModal .Input:not('.email')").blur(function () {
-        check($(this));
+    $(".contactModal .Input:not(.email)").on({
+        blur: function () {
+            check($(this));
+        },
+
+        keyup: function () {
+            check($(this));
+        },
     });
-    $(".contactModal .Input.err").keyup(function () {
-        check($(this));
-    });
-    var sendBtn;
+
+    var sendBtn = {
+        className: "",
+        icon: "",
+        text: "",
+    };
     switch (formStatus) {
         case "sending":
-            sendBtn = (
-                <button className="modalBtn sendBtn sending" type="submit">
-                    <FiLoader className="loading" />
-                    <span>Sending</span>
-                </button>
-            );
+            sendBtn.className = sendBtn.text = "Sending";
+            sendBtn.icon = <FiLoader className="loading" />;
             break;
         case "sent":
-            sendBtn = (
-                <button className="modalBtn sendBtn sent" type="submit">
-                    <MdCheck />
-                    <span>Sent</span>
-                </button>
-            );
+            sendBtn.className = sendBtn.text = "Sent";
+            sendBtn.icon = <MdCheck />;
             break;
         case "error":
-            sendBtn = (
-                <button className="modalBtn sendBtn error" type="submit">
-                    <MdError />
-                    <span>Error Occured!</span>
-                </button>
-            );
+            sendBtn.className = "Error";
+            sendBtn.text = "An Error Occured!";
+            sendBtn.icon = <MdError />;
             break;
         default:
-            sendBtn = (
-                <button className="modalBtn sendBtn send" type="submit">
-                    <MdSend />
-                    <span>Send</span>
-                </button>
-            );
+            sendBtn.className = sendBtn.text = "Send";
+            sendBtn.icon = <MdSend />;
+    }
+
+    function copyComp() {
+        store.addNotification({
+            title: "Copied!",
+            message: "Account Number Copied, Thank You so Much!",
+            type: "success",
+            container: "top-center",
+            animationIn: ["animated", "jackInTheBox"],
+            animationOut: ["animated", "bounceOut"],
+            dismiss: {
+                duration: 3000,
+                onScreen: true,
+                showIcon: true,
+                touch: true,
+                click: true,
+            },
+        });
     }
 
     return (
@@ -188,12 +216,13 @@ function OuterControl({
                 <ul>
                     {list}
                     <hr />
-                    <IconContext.Provider value={{ size: "1.5rem" }}>
+                    <IconContext.Provider
+                        value={{ size: "1.5rem", style: { fill: whichMode ? "white" : "#333" } }}
+                    >
                         <li
                             className="subList"
                             onClick={() => {
                                 $(".newModal").fadeIn();
-                                $(".new");
                             }}
                         >
                             <MdAdd />
@@ -213,8 +242,7 @@ function OuterControl({
                             className="subList"
                             onClick={() => {
                                 setSide(false);
-                                changeMode();
-                                setModes(!modes);
+                                setwhichMode(!whichMode);
                             }}
                         >
                             {whichMode ? <FiSun fill="white" /> : <FiMoon stroke="transparent" />}
@@ -224,13 +252,19 @@ function OuterControl({
                         <li
                             className="subList"
                             onClick={() => {
+                                $(".helpModal").fadeIn();
+                            }}
+                        >
+                            <FiHelpCircle style={{ fill: whichMode ? "none" : "#333" }} />
+                            <h3>How to use</h3>
+                        </li>
+                        <li
+                            className="subList"
+                            onClick={() => {
                                 $(".contactModal").fadeIn();
                             }}
                         >
-                            <FiPhone
-                                style={{ strokeWidth: 1 }}
-                                fill={`${whichMode ? "white" : "#333"}`}
-                            />
+                            <FiPhone style={{ strokeWidth: 0 }} />
                             <h3>Contact Me</h3>
                         </li>
                         <li
@@ -239,10 +273,7 @@ function OuterControl({
                                 $(".donateModal").fadeIn();
                             }}
                         >
-                            <FiHeart
-                                style={{ strokeWidth: 1 }}
-                                fill={`${whichMode ? "white" : "#333"}`}
-                            />
+                            <FiHeart style={{ strokeWidth: 0 }} />
                             <h3>Donate</h3>
                         </li>
                     </IconContext.Provider>
@@ -250,14 +281,14 @@ function OuterControl({
                 </ul>
             </div>
             {/* Sets name of New List */}
-            <div className="modalCont newModal">
+            <div className="modalCont newModal right">
                 <form
                     className="modal"
                     onSubmit={(event) => {
                         event.preventDefault();
                         $(".newModal").fadeOut();
                         $(".Input").val(null);
-                        addList();
+                        addList(ListName);
                         setSide(false);
                     }}
                 >
@@ -268,7 +299,7 @@ function OuterControl({
                             className="Input"
                             name="inputBlock"
                             onChange={({ target: { value } }) => {
-                                setNewListName(value);
+                                setListName(value);
                             }}
                             autoComplete="off"
                             required={true}
@@ -292,7 +323,7 @@ function OuterControl({
                         <span>Save</span>
                     </button>
                     <button
-                        className="modalBtn"
+                        className="modalBtn cancel"
                         type="button"
                         onClick={() => {
                             $(".newModal").fadeOut();
@@ -305,14 +336,14 @@ function OuterControl({
                 </form>
             </div>
             {/* Renames a list */}
-            <div className="modalCont rename">
+            <div className="modalCont rename right">
                 <form
                     className="modal"
                     onSubmit={(event) => {
                         event.preventDefault();
                         $(".rename").fadeOut();
                         $(".Input").val(null);
-                        updateList(currentListId);
+                        updateList(currentListId, ListName);
                         setCurrentListId("");
                     }}
                 >
@@ -323,7 +354,7 @@ function OuterControl({
                             className="Input renamebox"
                             name="inputBlock"
                             onChange={({ target: { value } }) => {
-                                setRename(value);
+                                setListName(value);
                             }}
                             autoComplete="off"
                             required={true}
@@ -347,7 +378,7 @@ function OuterControl({
                         <span>Save</span>
                     </button>
                     <button
-                        className="modalBtn"
+                        className="modalBtn cancel"
                         type="button"
                         onClick={() => {
                             $(".rename").fadeOut();
@@ -360,18 +391,14 @@ function OuterControl({
                 </form>
             </div>
             {/* delets a list */}
-            <div className="modalCont delete">
-                <div className="modal" style={{ textAlign: "center" }}>
-                    <MdDelete
-                        fontSize="3rem"
-                        className="bin"
-                        style={{ textShadow: "0px 0px 5px red" }}
-                    />
+            <div className="modalCont delete center">
+                <div className="modal">
+                    <MdDelete fontSize="3rem" className="bin" />
                     <h3>Are you sure You want to Delete this List?</h3>
                     <p>Entire List will be removed permanently</p>
 
                     <button
-                        className="modalBtn"
+                        className="modalBtn cancel"
                         type="button"
                         onClick={() => {
                             $(".delete").fadeOut();
@@ -395,17 +422,13 @@ function OuterControl({
                 </div>
             </div>
             {/* Clears all Lists */}
-            <div className="modalCont clearListModal">
-                <div className="modal" style={{ textAlign: "center" }}>
-                    <MdDeleteSweep
-                        fontSize="3rem"
-                        className="icon bin"
-                        style={{ textShadow: "0px 0px 5px red" }}
-                    />
+            <div className="modalCont clearListModal center">
+                <div className="modal">
+                    <MdDeleteSweep fontSize="3rem" className="bin" />
                     <h3>Are you sure You want to Clear All Your Lists?</h3>
                     <p>All Lists will be removed permanently and Cannot be recovered!</p>
                     <button
-                        className="modalBtn"
+                        className="modalBtn cancel"
                         onClick={() => {
                             $(".clearListModal").fadeOut();
                         }}
@@ -417,7 +440,8 @@ function OuterControl({
                         className="modalBtn del"
                         onClick={() => {
                             $(".clearListModal").fadeOut();
-                            clearList(currentListId);
+                            clearList();
+                            setSide(false);
                         }}
                     >
                         <MdDeleteSweep />
@@ -453,11 +477,6 @@ function OuterControl({
                                 type="text"
                                 className="Input"
                                 name="from_name"
-                                onChange={({ target: { value } }) => {
-                                    setcontactForm((prev) => {
-                                        return { ...prev, fullname: value };
-                                    });
-                                }}
                                 autoComplete="off"
                                 required={true}
                             />
@@ -484,11 +503,6 @@ function OuterControl({
                                 type="email"
                                 className="Input email"
                                 name="from_email"
-                                onChange={({ target: { value } }) => {
-                                    setcontactForm((prev) => {
-                                        return { ...prev, email: value };
-                                    });
-                                }}
                                 autoComplete="off"
                                 required={true}
                             />
@@ -511,16 +525,7 @@ function OuterControl({
                             <span>email</span>
                         </div>
                         <div className="input-container message">
-                            <textarea
-                                className="Input"
-                                name="message"
-                                onChange={({ target: { value } }) => {
-                                    setcontactForm((prev) => {
-                                        return { ...prev, message: value };
-                                    });
-                                }}
-                                required={true}
-                            ></textarea>
+                            <textarea className="Input" name="message" required={true}></textarea>
                             <svg
                                 className="border textarea"
                                 viewBox="0 0 309 277"
@@ -537,7 +542,10 @@ function OuterControl({
                             </svg>
                             <span>Message</span>
                         </div>
-                        {sendBtn}
+                        <button className={`modalBtn sendBtn ${sendBtn.className}`} type="submit">
+                            {sendBtn.icon}
+                            <span>{sendBtn.text}</span>
+                        </button>
                     </form>
                     <div className="social">
                         <a href="https://www.facebook.com/crimson.oluwatowo/" className="facebook">
@@ -554,6 +562,12 @@ function OuterControl({
                             className="whatsapp"
                         >
                             <FaWhatsapp />
+                        </a>
+                        <a
+                            href="https://https://github.com/CRIMSON-CORP/React-Todo-App/"
+                            className="github"
+                        >
+                            <FaGithub />
                         </a>
                     </div>
                 </div>
@@ -576,8 +590,20 @@ function OuterControl({
                         <p>
                             My Name is Oluwatowo Rosanwo Mayowa, I'm a 200L Student of The
                             University Of Ibadan studying Food Technology, I started Web Development
-                            in 2018 and Now I'm an Intermediate Web Developer and Aspiring UI/UX
-                            Deisgner, Im also a Logo/Video Editor.
+                            in 2018 and Now I'm a Self Taught Intermediate Full Stack Web Developer
+                            and Aspiring UI/UX Deisgner, Im also a Logo/Video Editor.
+                        </p>
+                        <p>
+                            I've had intense Self training on basics of Web Development which
+                            include HTML,CSS and Vanilla JAVASCRIPT, I Studied jQuery and React
+                            (This PWA was build With React), as well as back-end Frameworks Like
+                            NodeJS Express, and Database Query Language MySQL and Ive Built Projects
+                            With all These Technologies.
+                        </p>
+                        <p>
+                            I'm really good at solving problems and really bad at giving up on a
+                            project, I aspire to be hired as an Intern and Then gradute to Being a
+                            Frelance Developer.
                         </p>
                     </div>
                     <div className="info-block">
@@ -597,7 +623,7 @@ function OuterControl({
                         Account Name: Oluwatowo Rosanwo <br />
                     </pre>
                     <button
-                        className={`copy modalBtn sendBtn ${copy ? "sent" : "send"}`}
+                        className={`copy modalBtn sendBtn ${copy ? "Sent" : "Send"}`}
                         onClick={() => {
                             var temp = $("<input>");
                             $(".donateModal .modal").append(temp);
@@ -605,9 +631,7 @@ function OuterControl({
                             document.execCommand("copy");
                             temp.remove();
                             setCopy(true);
-                            setTimeout(() => {
-                                alert("Account Number Copied, Thank You So Much!");
-                            }, 1000);
+                            copyComp();
                         }}
                     >
                         {copy ? (
@@ -622,6 +646,93 @@ function OuterControl({
                             </>
                         )}
                     </button>
+                </div>
+            </div>
+            {/* How to use section */}
+            <div className="modalCont helpModal" style={{ display: "none", userSelect: "text" }}>
+                <div className="modal">
+                    <MdClear
+                        className={"icon closeModal"}
+                        size="1.5rem"
+                        onClick={() => {
+                            $(".helpModal").fadeOut();
+                        }}
+                    />
+
+                    <h3>How To Use</h3>
+                    <div className="info-block">
+                        <h4>What the App is used for</h4>
+                        <p>
+                            Todo App is a Web Application Designed By Crimson Corp, it is designed
+                            specifically for creating Todo Lists.
+                        </p>
+                        <p>
+                            Now, one of the most important reasons for keeping a Todo list is the
+                            organization Organizing your tasks with a list can make everything much
+                            more managable and make you feel grounded. Seeing a clear outline of
+                            your completed and uncompleted tasks will help you feel organized and
+                            mentally focused
+                        </p>
+                    </div>
+                    <div className="info-block">
+                        <h4>Creating a List</h4>
+                        <p>
+                            To create a List, Click the three line icon at Top left corner and click
+                            "Add New List", then Write the name of the list and Click Save
+                        </p>
+                        <video autoPlay={true} loop={true}>
+                            <source src={newList} type="video/mp4" />
+                        </video>
+                    </div>
+                    <div className="info-block">
+                        <h4>Creating a Task</h4>
+                        <p>
+                            To create a task, Simply Write it in the Input Field and press the Plus
+                            Button to add it to the List
+                        </p>
+                        <video autoPlay={true} loop={true}>
+                            <source src={create} type="video/mp4" />
+                        </video>
+                    </div>
+                    <div className="info-block">
+                        <h4>Editing a Task and Setting Reminder</h4>
+                        <p>
+                            To Edit a Task Simply Click the pen on paper icon at the right of every
+                            task, you can decide to change the task name if you wish, to set
+                            Reminder Simply add the Date you want to set reminder for and Click Save
+                        </p>
+                        <video autoPlay={true} loop={true}>
+                            <source src={edit_rem} type="video/mp4" />
+                        </video>
+                    </div>
+                    <div className="info-block">
+                        <h4>Rename a List</h4>
+                        <p>
+                            To Rename a List Simply Click the pen on paper icon at the right of
+                            every List, write the New name of the List and Click Save
+                        </p>
+                        <video autoPlay={true} loop={true}>
+                            <source src={renameList} type="video/mp4" />
+                        </video>
+                    </div>
+                    <div className="info-block">
+                        <h3>Icon wheel Description</h3>
+                        <div className="icon_descript">
+                            <img src={blue} alt="Blue wheel" />
+                            <p>Blue wheel means that your task Reminder is Running</p>
+                        </div>
+                        <div className="icon_descript">
+                            <img src={yell} alt="Yellow wheel" />
+                            <p>
+                                Yellow wheel means that your task Reminder has Thirty minutes Left
+                                to Due Time!
+                            </p>
+                        </div>
+                        <div className="icon_descript">
+                            <img src={pass} alt="Red wheel" />
+                            <p>Red wheel means that your task Reminder has passed Due Time!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

@@ -10,13 +10,30 @@
     min-height: 100vh;
     background: #333;
     user-select: none;
-    padding: 100px 0;
     overflow-x: hidden;
     color: white;
 }
 
-/* Outer Control Style */
+a,
+button,
+input,
+select,
+textarea {
+    outline: none !important;
+    color: white;
+    border: none;
+}
 
+a:active,
+button:active,
+input:active,
+select:active,
+textarea:active {
+    transition: box-shadow 0.2s ease;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Outer Control Style */
 /* Hamburger Bar */
 .ham {
     position: fixed;
@@ -39,7 +56,6 @@
     transition: 0.3s;
 }
 
-.deleteIcon,
 .bin {
     fill: #d32f2f !important;
 }
@@ -69,42 +85,45 @@
     transform: translate(-50%, -50%);
     padding: 20px;
     transition: 0.3s;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.5), 0px 12px 20px rgba(0, 0, 0, 0.3);
 }
 
+.modalCont.center {
+    text-align: center;
+}
+
+.modalCont.right .modalBtn {
+    float: right;
+    margin-left: 20px;
+}
 .modal::-webkit-scrollbar {
     width: 5px;
-    background: rgba(0, 0, 0, 0.1.5);
+    background: rgba(0, 0, 0, 0.15);
 }
 .modal::-webkit-scrollbar-thumb {
-    width: 5px;
     background: rgba(0, 0, 0, 0.4);
 }
 
 .modal h3 {
     font-size: 1.3rem;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .modal .input-container {
-    margin: 20px auto;
+    margin: 15px auto;
 }
 
 .modalBtn {
     display: inline-grid;
     grid-template-columns: 25px auto;
     place-items: center;
-    border: none;
     background: #444;
     min-width: 1px;
     min-height: 25px;
-    margin-left: 15px;
-    float: right;
     border-radius: 5px;
     overflow: hidden;
     cursor: pointer;
-    color: white;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.247);
     transition: 0.3s;
 }
@@ -113,24 +132,12 @@
     background: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
-    padding: 5px;
+    padding: 3px;
 }
 
 .modalBtn span {
     padding: 5px 10px;
     font-weight: 900;
-}
-
-.del,
-.save,
-.sendBtn {
-    background: #333 !important;
-}
-
-.del span,
-.save span,
-.sendBtn span {
-    color: white !important;
 }
 
 .del svg {
@@ -146,47 +153,43 @@
 .save span {
     background: #4caf50;
 }
-.sendBtn {
-    float: none;
-    margin-left: 0;
-}
 
 /* contact send Btn Styles */
 /* deafult */
-.sendBtn.send svg {
+.sendBtn.Send svg {
     background: #6200ea;
+    fill: white;
+    color: white;
 }
-.sendBtn.send span {
+.sendBtn.Send span {
     background: #7c4dff;
 }
 /* sending */
-.sendBtn.sending svg {
+.sendBtn.Sending svg {
     background: #1a237e;
 }
-.sendBtn.sending span {
+.sendBtn.Sending span {
     background: #303f9f;
 }
 
 /* sent */
-.sendBtn.sent svg {
+.sendBtn.Sent svg {
     background: #2e7d32;
 }
-.sendBtn.sent span {
+.sendBtn.Sent span {
     background: #4caf50;
 }
 
 /* error */
-.sendBtn.error svg {
+.sendBtn.Error svg {
     background: #d50000;
 }
-.sendBtn.error span {
+.sendBtn.Error span {
     background: #d32f2f;
 }
 
 .delete .modalBtn,
 .clearListModal .modalBtn {
-    text-align: center;
-    float: none;
     margin: 0px 10px;
 }
 
@@ -198,8 +201,9 @@
     text-align: center;
 }
 
-.dir {
-    margin-bottom: -3px;
+.noList p {
+    display: flex;
+    align-items: center;
 }
 
 .sideBar {
@@ -258,7 +262,6 @@
 
 .listSet,
 .subList {
-    color: white;
     width: 100%;
     cursor: pointer;
     display: grid;
@@ -278,7 +281,7 @@ hr {
     margin: 10px auto;
     height: 1px;
     border: none;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.25);
     transition: 0.3s;
 }
 
@@ -292,25 +295,21 @@ hr {
 .modal pre {
     font-size: 12px;
     margin: 10px 0;
+    line-height: 1.5;
 }
 
 .copy {
     margin: 20px 0;
-    float: none;
 }
 
-.copy svg {
-    color: transparent;
-}
-
-.donateModal .info-block {
-    margin: 15px auto;
+.modal .info-block {
+    margin: 20px auto;
 }
 
 /* Outer Control Ends */
 .container {
     width: 600px;
-    margin: auto;
+    margin: 100px auto;
     position: relative;
     padding: 30px;
     border-radius: 10px;
@@ -363,10 +362,6 @@ hr {
     stroke-dashoffset: 0;
 }
 
-.box svg circle + .grad {
-    stroke: url("#grad");
-}
-
 .box .number {
     position: absolute;
     top: 0;
@@ -407,8 +402,6 @@ h2.empty {
 .buttons button,
 .buttons select {
     display: inline-block;
-    border: none;
-    outline: none;
     width: 115px;
     height: 30px;
     border-radius: 5px;
@@ -418,7 +411,6 @@ h2.empty {
     padding: 5px;
     letter-spacing: 1px;
     transition: 0.5s ease;
-    color: white;
 }
 
 button.disable {
@@ -427,14 +419,12 @@ button.disable {
 }
 
 button.clear {
-    color: white;
     background: #d32f2f;
     box-shadow: 0px 3px 8px #3f0101;
 }
 
 select {
     background: #222;
-    color: white;
     background: rgb(77, 77, 77);
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
 }
@@ -493,8 +483,6 @@ select {
     font-size: 16px;
     display: inline-block;
     border-radius: 10px;
-    outline: none;
-    border: none;
     transition: 0.5s ease;
     width: 100%;
     height: 100%;
@@ -503,7 +491,6 @@ select {
     top: 0;
     z-index: 1;
     background: none;
-    color: white;
     z-index: 10;
     resize: none;
 }
@@ -532,7 +519,6 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .input-container span {
-    color: white;
     position: absolute;
     top: 1.2rem;
     left: 10px;
@@ -590,8 +576,6 @@ textarea::-webkit-scrollbar-thumb {
     border-radius: 50%;
     height: 40px;
     width: 40px;
-    border: none;
-    outline: none;
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -612,7 +596,9 @@ textarea::-webkit-scrollbar-thumb {
 
 div.label {
     height: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 25px;
+    align-content: center;
     min-height: 45px;
     align-items: center;
     border-bottom: 1px solid #555;
@@ -687,7 +673,7 @@ input[type="checkbox"]:checked + div svg.checkbox .check {
     flex: 80%;
 }
 
-.Todo > span {
+.Todo span {
     font-size: 16px;
     font-weight: 900;
     position: relative;
@@ -712,7 +698,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 .social {
     margin-top: 20px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .social a {
@@ -743,6 +729,9 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 }
 .social a.whatsapp {
     background: #25d366;
+}
+.social a.github {
+    background: #6e5494;
 }
 
 .loading line {
@@ -789,9 +778,13 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 }
 
 .main.light .modalBtn {
+    color: white;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.15), 0px 5px 6px rgba(0, 0, 0, 0.28);
+}
+
+.main.light .modalBtn.cancel {
     background: white;
     color: #333;
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 .main.light .sideBar {
@@ -863,14 +856,93 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     fill: #d6d6d6;
 }
 
-.main.light .Todo svg {
-    fill: none !important;
+.main.light .label svg {
+    fill: none;
 }
 
 .main.light .modal .Input:focus ~ span {
     background: #eeeeee;
 }
 
+.main.light .noList {
+    background: #d7d7d7;
+    color: #333;
+}
+
+/* Todo option */
+#normal,
+#close {
+    fill: #7c4dff;
+    animation: roll linear 3s infinite;
+}
+
+#close {
+    fill: #fbc02d;
+}
+#passed {
+    fill: #d32f2f;
+}
+
+.TodoEdit .modal .cls-1 {
+    transform: translateY(-1px);
+}
+
+.notif {
+    top: 0;
+    left: 0;
+}
+@keyframes roll {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* options anim */
+.op-cont {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.op {
+    position: absolute;
+}
+
+.label .Todo span.eta {
+    position: absolute;
+    bottom: 5px;
+    font-size: 8px;
+    right: 10px;
+}
+
+.modal video {
+    width: 100%;
+    height: auto;
+}
+
+.icon_descript {
+    display: grid;
+    grid-template-columns: 40px auto;
+    align-items: center;
+    column-gap: 10px;
+    margin: 15px auto;
+}
+
+.icon_descript img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.icon_descript p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
 @media only screen and (max-width: 900px) {
     .container {
         width: 80%;
@@ -910,6 +982,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
         width: 100%;
         min-height: 100vh;
         border-radius: 0px;
+        margin: 0;
     }
 
     button.plus {
@@ -946,7 +1019,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
         height: 20px;
     }
 
-    .checkbox {
+    .label svg {
         width: 20px;
         height: 20px;
     }
@@ -954,6 +1027,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     label {
         padding: 15px;
         padding-left: 0;
+        position: relative;
     }
 
     .Todo {

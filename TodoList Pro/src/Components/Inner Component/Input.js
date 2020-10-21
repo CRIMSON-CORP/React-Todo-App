@@ -1,25 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MdAdd } from "react-icons/md";
 
-export default function Input({ props: { sendProps, setInput } }) {
+const examples = [
+    "Cook Dinner",
+    "Wash clothes",
+    "See a Friend",
+    "Wash the Car",
+    "Read a Book",
+    "Hit the Gym",
+    "Pay Electricity Bill",
+    "Drink Plenty of water",
+];
+
+export default function Input({ props: { sendProps } }) {
+    const [focus, setFocus] = useState(false);
+    const [line, setLine] = useState("");
+    const [input, setInput] = useState("");
+    useEffect(() => {
+        focus
+            ? setLine("What Do you want Todo?...")
+            : setLine("eg. " + examples[Math.floor(Math.random() * 8)]);
+    }, [focus]);
     return (
-        <form className="inputBlock" onSubmit={sendProps}>
+        <form
+            className="inputBlock"
+            onSubmit={(event) => {
+                event.preventDefault();
+                sendProps(input);
+            }}
+        >
             <div className="input-container">
                 <input
                     type="text"
                     className="Input"
                     name="inputBlock"
-                    onChange={setInput}
+                    onChange={({ target: { value } }) => {
+                        setInput(value);
+                    }}
+                    onFocus={() => {
+                        setFocus(true);
+                    }}
+                    onBlur={() => {
+                        setFocus(false);
+                    }}
                     autoComplete="off"
                     required="required"
                 />
-                <svg
-                    className="border"
-                    data-name="Layer 1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 275.05 40"
-                    preserveAspectRatio="none"
-                >
+                <svg className="border" viewBox="0 0 275.05 40" preserveAspectRatio="none">
                     <path
                         className="cls-1 path"
                         d="M139,39H268.22c4,0,7.3-2.78,7.3-6.21V8.21c0-3.43-3.27-6.21-7.3-6.21H139"
@@ -31,7 +58,7 @@ export default function Input({ props: { sendProps, setInput } }) {
                         transform="translate(-1.3 -0.77)"
                     />
                 </svg>
-                <span>What Do you want Todo?...</span>
+                {<span>{line}</span>}
             </div>
             <button className="plus" type="submit">
                 <MdAdd fill="#222" className="icon" size="1.2rem" />

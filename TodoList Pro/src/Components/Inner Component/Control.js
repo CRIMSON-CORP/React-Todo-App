@@ -1,14 +1,13 @@
 import React from "react";
-
 export default function Control({
-    props: { progress, TodoListArray, clearDone, done, statusHandler, status, mode, whichMode },
+    props: { id, progress, TodoListArray, clearDone, done, statusHandler, status, whichMode },
 }) {
     return (
         <div className="control">
             <div className="box">
                 <div className="percent">
                     <svg>
-                        <linearGradient id="grad" x1="0" y1="0" x2="100%" y2="100%">
+                        <linearGradient id={`grad_${id}`} x1="0" y1="0" x2="100%" y2="100%">
                             <stop offset="0%" stopColor="#ff0612"></stop>
                             <stop offset="100%" stopColor="#6544ff"></stop>
                         </linearGradient>
@@ -23,6 +22,7 @@ export default function Control({
                                 strokeDashoffset:
                                     250.92137145996094 - (250.92137145996094 * progress) / 100,
                                 strokeWidth: progress === 0 ? "0px" : "10px",
+                                stroke: `url("#grad_${id}")`,
                             }}
                         ></circle>
                     </svg>

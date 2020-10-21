@@ -4,14 +4,13 @@ import Input from "./Inner Component/Input";
 import List from "./Inner Component/List";
 import Control from "./Inner Component/Control";
 import $ from "jquery";
+import ls from "local-storage";
 
-export default function App({ props: { app, whichMode } }) {
+export default function App({ props: { app } }) {
     const [id] = useState(app.id);
     const [Todo, setTodo] = useState({});
     const [TodoListArray, setTodoListArray] = useState(() => {
-        var TodoLocal = localStorage.getItem(id);
-        if (TodoLocal === null || TodoLocal === undefined) return [];
-        else return JSON.parse(TodoLocal);
+        return ls.get(id) === null ? [] : ls.get(id);
     });
     const [done, setDone] = useState(0);
     const [progress, setProgress] = useState("");
@@ -19,7 +18,7 @@ export default function App({ props: { app, whichMode } }) {
     const [status, setStatus] = useState("All");
 
     useEffect(() => {
-        localStorage.setItem(id, JSON.stringify(TodoListArray));
+        ls.set(id, TodoListArray);
     }, [TodoListArray, id]);
 
     useEffect(() => {
@@ -28,22 +27,19 @@ export default function App({ props: { app, whichMode } }) {
         if (isNaN(progress)) progress = 0;
         setProgress(progress);
         setDone(DoneTodos.length);
-    }, [progress, TodoListArray]);
+    }, [TodoListArray]);
 
     useEffect(() => {
-        function FilterLogic() {
-            switch (status) {
-                case "Completed":
-                    setFiltered(TodoListArray.filter((arr) => arr.completed === true));
-                    break;
-                case "Uncompleted":
-                    setFiltered(TodoListArray.filter((arr) => arr.completed === false));
-                    break;
-                default:
-                    setFiltered(TodoListArray);
-            }
+        switch (status) {
+            case "Completed":
+                setFiltered(TodoListArray.filter((arr) => arr.completed === true));
+                break;
+            case "Uncompleted":
+                setFiltered(TodoListArray.filter((arr) => arr.completed === false));
+                break;
+            default:
+                setFiltered(TodoListArray);
         }
-        FilterLogic();
     }, [TodoListArray, status]);
 
     useEffect(() => {
@@ -60,24 +56,23 @@ export default function App({ props: { app, whichMode } }) {
         }
     }
 
-    function sendProps(event) {
-        event.preventDefault();
+    function sendProps(todo) {
         var inputBox = $(".Input");
-        let { Todo: todo } = Todo;
         if (todo.trim() === "" || todo.trim() === undefined) {
             inputBox.val(null).focus();
             return alert("Please write a Task");
         }
+        Todo.Todo = todo;
         Todo.id = uuid.v4();
         Todo.completed = false;
+        Todo.DateOptions = {
+            futureDate: null,
+            reminder: false,
+        };
         setTodoListArray((prev) => [...prev, Todo]);
         inputBox.val(null).focus();
         setTodo({});
         setStatus("All");
-    }
-
-    function setInput({ target: { value } }) {
-        setTodo({ Todo: value });
     }
 
     function updateTodo(id) {
@@ -90,9 +85,51 @@ export default function App({ props: { app, whichMode } }) {
         );
     }
 
+    function AddUpdate(id, { name, date }) {
+        if (name) {
+            setTodoListArray(
+                TodoListArray.map((arr) => {
+                    if (arr.id === id) arr.Todo = name;
+                    return arr;
+                })
+            );
+        }
+        if (date) {
+            setDate(id, date);
+        }
+
+        function setDate(id, date) {
+            setTodoListArray(
+                TodoListArray.map((arr) => {
+                    if (arr.id === id) {
+                        arr.DateOptions = {
+                            futureDate: date,
+                            reminder: true,
+                        };
+                    }
+                    return arr;
+                })
+            );
+        }
+    }
+
+    function removeReminder(id) {
+        setTodoListArray(
+            TodoListArray.map((arr) => {
+                if (arr.id === id) {
+                    arr.DateOptions.reminder = false;
+                    arr.DateOptions.futureDate = null;
+                }
+                return arr;
+            })
+        );
+        ls.remove(`Rem_${id}`);
+    }
+
     function removeTodo(id) {
         Trans(false);
         setTodoListArray(TodoListArray.filter((arr) => arr.id !== id));
+        ls.remove(`Rem_${id}`);
     }
 
     function clearDone() {
@@ -105,24 +142,22 @@ export default function App({ props: { app, whichMode } }) {
     }
 
     return (
-        <div className="container">
+        <div className="container" data-id={id}>
             <h1 className="ListName">{app.name}</h1>
             <Control
                 props={{
+                    id,
                     progress,
                     TodoListArray,
                     clearDone,
                     done,
                     status,
                     statusHandler,
-                    whichMode,
                 }}
             />
             <Input
                 props={{
                     sendProps,
-                    setInput,
-                    whichMode,
                 }}
             />
             <List
@@ -131,7 +166,8 @@ export default function App({ props: { app, whichMode } }) {
                     updateTodo,
                     TodoListArray,
                     filtered,
-                    whichMode,
+                    AddUpdate,
+                    removeReminder,
                 }}
             />
         </div>
