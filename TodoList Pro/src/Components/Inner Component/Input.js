@@ -40,7 +40,8 @@ export default function Input({ props: { sendProps } }) {
                     onFocus={() => {
                         setFocus(true);
                     }}
-                    onBlur={() => {
+                    onBlur={({ target: { value } }) => {
+                        if (value) return;
                         setFocus(false);
                     }}
                     autoComplete="off"

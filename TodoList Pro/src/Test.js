@@ -1,63 +1,48 @@
 import React, { useState } from "react";
-import { useTransition, animated } from "react-spring";
 import { Md3DRotation, MdDelete, MdSettings } from "react-icons/md";
+import Transition from "react-motion-ui-pack/lib/Transition";
 
 export default function Test() {
-    const [toggle, set] = useState("one");
-
-    const transition = useTransition(toggle, null, {
-        from: { transform: "scale(0)", position: "absolute" },
-        enter: { transform: "scale(1)" },
-        leave: { transform: "scale(0)" },
-    });
+    const [toggle, set] = useState({ hello: true, hi: true });
+    const [toggle1, set1] = useState(false);
 
     return (
         <div>
-            {transition.map(({ item, key, props }) => {
-                switch (item) {
-                    case "one":
-                        return (
-                            <animated.h1 style={props} key={key}>
-                                <MdDelete className={"bin icon"} size="1.5rem" />
-                            </animated.h1>
-                        );
-                    case "two":
-                        return (
-                            <animated.h1 style={props} key={key}>
-                                <MdSettings className="icon settings" size="1.5rem" />
-                            </animated.h1>
-                        );
-                    default:
-                        return (
-                            <animated.h1 style={props} key={key}>
-                                <Md3DRotation className="icon settings" size="1.5rem" />
-                            </animated.h1>
-                        );
-                }
-            })}
+            <Transition component={false}>
+                {toggle.hello && <h1 key="helo">hello World</h1>}
+            </Transition>
+            <Transition component={false}>{toggle.hi && <h1 key="hi">hi</h1>}</Transition>
             <button
-                onClick={() => {
-                    set("one");
+                style={{
+                    background: "#222",
+                    color: "white",
+                    borderRadius: 5,
+                    margin: "200px 20px 0",
+                    padding: 10,
                 }}
-                style={{ marginTop: 200 }}
+                onClick={() => {
+                    set((prev) => {
+                        return { ...prev, hello: !prev.hello };
+                    });
+                }}
             >
-                change
+                toggle hello
             </button>
             <button
-                onClick={() => {
-                    set("two");
+                style={{
+                    background: "#222",
+                    color: "white",
+                    borderRadius: 5,
+                    margin: "200px 20px 0",
+                    padding: 10,
                 }}
-                style={{ marginTop: 200 }}
-            >
-                change
-            </button>
-            <button
                 onClick={() => {
-                    set("fff");
+                    set((prev) => {
+                        return { ...prev, hi: !prev.hi };
+                    });
                 }}
-                style={{ marginTop: 200 }}
             >
-                change
+                toggle hi
             </button>
         </div>
     );

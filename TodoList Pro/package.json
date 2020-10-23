@@ -17,6 +17,7 @@
         "react-dom": "^16.13.1",
         "react-icons": "^3.11.0",
         "react-interval-hook": "^1.1.2",
+        "react-motion-ui-pack": "^0.10.3",
         "react-notification-component": "^1.1.4",
         "react-notifications-component": "^2.4.1",
         "react-scripts": "3.4.1",

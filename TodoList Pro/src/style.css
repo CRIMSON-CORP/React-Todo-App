@@ -64,17 +64,26 @@ textarea:active {
 .modalCont {
     width: 100%;
     height: 100%;
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 140;
+    pointer-events: none;
+}
+
+.ModalUnderLay {
+    width: 100%;
+    height: 100%;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .modal {
-    z-index: 101;
-    width: clamp(300px, 50%, 600px);
+    pointer-events: all;
+    width: clamp(300px, 50%, 500px);
     min-height: 1px;
     max-height: 95vh;
     position: fixed;
@@ -218,7 +227,6 @@ textarea:active {
     transition: all 0.3s ease-out;
     overflow-y: scroll;
     user-select: auto;
-    transform: translateX(-100%);
 }
 
 .sideBarUnderLay {
@@ -229,7 +237,6 @@ textarea:active {
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.4);
-    display: none;
 }
 
 .sideBar::-webkit-scrollbar {
@@ -239,9 +246,6 @@ textarea:active {
 .sideBar::-webkit-scrollbar-thumb {
     width: 5px;
     background: rgba(0, 0, 0, 0.4);
-}
-.sideBar.openBar {
-    transform: translateX(0);
 }
 
 .sideBar h2 {
@@ -773,7 +777,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     stroke: #fff;
 }
 .main.light .modal {
-    background: #eeeeee;
+    background: #fefefe;
     color: #333;
 }
 
@@ -835,7 +839,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
 .main.light .modal .Input:focus ~ span,
 .main.light .modal .Input:valid ~ span {
     color: #9152ff;
-    background: #eeeeee;
+    background: #fefefe;
 }
 .main.light .input-container .Input:focus + svg,
 .main.light .input-container .Input:valid + svg {
@@ -860,10 +864,6 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     fill: none;
 }
 
-.main.light .modal .Input:focus ~ span {
-    background: #eeeeee;
-}
-
 .main.light .noList {
     background: #d7d7d7;
     color: #333;
@@ -883,8 +883,8 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     fill: #d32f2f;
 }
 
-.TodoEdit .modal .cls-1 {
-    transform: translateY(-1px);
+.modal .cls-1 {
+    transform: translateY(-0.8px);
 }
 
 .notif {
@@ -919,7 +919,8 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     right: 10px;
 }
 
-.modal video {
+.modal video,
+.modal img {
     width: 100%;
     height: auto;
 }
@@ -942,6 +943,10 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     margin: 0;
     display: flex;
     align-items: center;
+}
+
+.helpModal .info-block:last-child h4 {
+    margin: 10px 0;
 }
 @media only screen and (max-width: 900px) {
     .container {

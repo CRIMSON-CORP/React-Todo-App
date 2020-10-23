@@ -7,6 +7,8 @@ import Push from "push.js";
 import { store } from "react-notifications-component";
 import ls from "local-storage";
 import { useTransition, animated } from "react-spring";
+import Border from "../Border";
+import Transition from "react-motion-ui-pack/lib/Transition";
 function EachTodo({
     props: {
         eachTodo: {
@@ -33,14 +35,15 @@ function EachTodo({
         else return "";
     });
     const [toggle, setToggle] = useState("edit");
+    const [modal, setModal] = useState(false);
     const { start, stop } = useInterval(
         () => {
             var rem = ls.get(`Rem_${id}`);
-            rem === undefined || rem === null ? (rem = false) : (rem = JSON.parse(rem));
+            rem === null ? (rem = false) : (rem = JSON.parse(rem));
             if (rem) return;
             if (reminder && !completed && Date.now() >= Date.parse(futureDate) && !rem) {
                 Push.create(`Reminder: ${Todo}`, {
-                    requireInteraction: false,
+                    requireInteraction: true,
                     vibrate: [500, 200, 500],
                 });
                 setTodoStatus("passed");
@@ -69,6 +72,11 @@ function EachTodo({
         } else setToggle("edit");
     }, [reminder, completed]);
 
+    useEffect(() => {
+        if (modal) {
+            setTimeout(() => $(".TodoEdit .Input[type='text']").val(Todo).select());
+        }
+    }, [modal, Todo]);
     var Done = {
         opacity: 0.4,
         textDecoration: "line-through",
@@ -82,11 +90,10 @@ function EachTodo({
 
     return (
         <>
-            <div className="label" data-id={`${id}`}>
+            <div className="label">
                 <label>
                     <input
                         type="checkbox"
-                        data-id={`${id}`}
                         checked={completed}
                         onChange={() => {
                             updateTodo(id);
@@ -124,7 +131,6 @@ function EachTodo({
                                             onClick={() => {
                                                 removeTodo(id);
                                             }}
-                                            data-id={id}
                                         />
                                     </animated.div>
                                 );
@@ -135,9 +141,8 @@ function EachTodo({
                                             className="icon settings"
                                             id={TodoStatus}
                                             size="1.5rem"
-                                            data-id={id}
                                             onClick={() => {
-                                                $(`.TodoEdit[data-id=${id}]`).fadeIn();
+                                                setModal(true);
                                                 $(".TodoEdit .Input[type='text']")
                                                     .val(Todo)
                                                     .select();
@@ -150,12 +155,8 @@ function EachTodo({
                                     <animated.div style={props} key={key} className="op">
                                         <FiEdit
                                             size="1.5rem"
-                                            data-id={id}
                                             onClick={() => {
-                                                $(`.TodoEdit[data-id=${id}]`).fadeIn();
-                                                $(".TodoEdit .Input[type='text']")
-                                                    .val(Todo)
-                                                    .select();
+                                                setModal(true);
                                             }}
                                         />
                                     </animated.div>
@@ -164,113 +165,113 @@ function EachTodo({
                     })}
                 </div>
             </div>
-            <div className="modalCont TodoEdit right" data-id={id}>
-                <div className="modal">
-                    <h3>More Options</h3>
-                    <h4>Edit task</h4>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            className="Input"
-                            autoComplete="off"
-                            onChange={({ target: { value } }) => {
-                                setTodoOp((prev) => ({ ...prev, name: value }));
-                            }}
-                        />
-                        <svg className="border" viewBox="0 0 275.05 40" preserveAspectRatio="none">
-                            <path
-                                className="cls-1 path"
-                                d="M139,39H268.22c4,0,7.3-2.78,7.3-6.21V8.21c0-3.43-3.27-6.21-7.3-6.21H139"
-                                transdiv="translate(-1.3 -0.77)"
-                            />
-                            <path
-                                className="cls-2 path"
-                                d="M164,2H11.24C6.43,2,2.52,4.78,2.52,8.21V32.79c0,3.43,3.91,6.21,8.72,6.21H160.32v0H164"
-                                transform="translate(-1.3 -0.77)"
-                            />
-                        </svg>
-                        <span>Edit Task</span>
-                    </div>
-                    <h4>Set Reminder for</h4>
-                    <div className="input-container">
-                        <input
-                            className="Input"
-                            type="datetime-local"
-                            defaultValue={TodoOp.date}
-                            onChange={({ target: { value } }) => {
-                                setTodoOp((prev) => ({ ...prev, date: value }));
-                            }}
-                        />
-                        <svg className="border" viewBox="0 0 275.05 40" preserveAspectRatio="none">
-                            <path
-                                className="cls-1 path"
-                                d="M139,39H268.22c4,0,7.3-2.78,7.3-6.21V8.21c0-3.43-3.27-6.21-7.3-6.21H139"
-                                transdiv="translate(-1.3 -0.77)"
-                            />
-                            <path
-                                className="cls-2 path"
-                                d="M164,2H11.24C6.43,2,2.52,4.78,2.52,8.21V32.79c0,3.43,3.91,6.21,8.72,6.21H160.32v0H164"
-                                transform="translate(-1.3 -0.77)"
-                            />
-                        </svg>
-                    </div>
 
-                    {reminder ? (
-                        <button
-                            className="modalBtn del"
-                            style={{ float: "none", margin: "0 0 20px 0", display: "grid" }}
-                            onClick={() => {
-                                removeReminder(id);
-                                stop();
-                                $(".TodoEdit").fadeOut();
-                            }}
-                        >
-                            <MdClear />
-                            <span> Remove Current Reminder?</span>
-                        </button>
-                    ) : null}
-                    <button
-                        className="modalBtn save"
+            <Transition
+                component={false}
+                appear={{ translateY: 50, opacity: 0 }}
+                enter={{ opacity: 1, translateY: 0 }}
+                leave={{ translateY: -50, opacity: 0 }}
+            >
+                {modal && (
+                    <div className="modalCont TodoEdit right" key="modal">
+                        <div className="modal">
+                            <h3>More Options</h3>
+                            <h4>Edit task</h4>
+                            <div className="input-container">
+                                <input
+                                    type="text"
+                                    className="Input"
+                                    autoComplete="off"
+                                    onChange={({ target: { value } }) => {
+                                        setTodoOp((prev) => ({ ...prev, name: value }));
+                                    }}
+                                />
+                                <Border />
+                                <span>Edit Task</span>
+                            </div>
+                            <h4>Set Reminder for</h4>
+                            <div className="input-container">
+                                <input
+                                    className="Input"
+                                    type="datetime-local"
+                                    defaultValue={TodoOp.date}
+                                    onChange={({ target: { value } }) => {
+                                        setTodoOp((prev) => ({ ...prev, date: value }));
+                                    }}
+                                />
+                                <Border />
+                            </div>
+
+                            {reminder ? (
+                                <button
+                                    className="modalBtn del"
+                                    style={{ float: "none", margin: "0 0 20px 0", display: "grid" }}
+                                    onClick={() => {
+                                        removeReminder(id);
+                                        stop();
+                                        $(".TodoEdit").fadeOut();
+                                    }}
+                                >
+                                    <MdClear />
+                                    <span> Remove Current Reminder?</span>
+                                </button>
+                            ) : null}
+                            <button
+                                className="modalBtn save"
+                                onClick={() => {
+                                    if (Date.parse(TodoOp.date) <= Date.now()) {
+                                        store.addNotification({
+                                            message:
+                                                "Setting Date in the Past will not trigger Reminder!",
+                                            type: "warning",
+                                            container: "top-center",
+                                            insert: "top",
+                                            animationIn: ["animated", "bounceIn"],
+                                            animationOut: ["animated", "fadeOut"],
+                                            dismiss: {
+                                                duration: 3000,
+                                                onScreen: true,
+                                                showIcon: true,
+                                                touch: true,
+                                                click: true,
+                                            },
+                                        });
+                                        return;
+                                    }
+                                    AddUpdate(id, TodoOp);
+                                    start();
+                                    ls.set(`Rem_${id}`, false);
+                                    setModal(false);
+                                }}
+                            >
+                                <MdCheck />
+                                <span>Save</span>
+                            </button>
+                            <button
+                                className="modalBtn cancel"
+                                type="button"
+                                onClick={() => {
+                                    setModal(false);
+                                }}
+                            >
+                                <MdClear />
+                                <span>Cancel</span>
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </Transition>
+            <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
+                {modal && (
+                    <div
+                        key="underlay"
+                        className="ModalUnderLay"
                         onClick={() => {
-                            if (Date.parse(TodoOp.date) <= Date.now()) {
-                                store.addNotification({
-                                    message: "Setting Date in the Past will not trigger Reminder!",
-                                    type: "warning",
-                                    container: "top-center",
-                                    insert: "top",
-                                    animationIn: ["animated", "bounceIn"],
-                                    animationOut: ["animated", "fadeOut"],
-                                    dismiss: {
-                                        duration: 3000,
-                                        onScreen: true,
-                                        showIcon: true,
-                                        touch: true,
-                                        click: true,
-                                    },
-                                });
-                                return;
-                            }
-                            AddUpdate(id, TodoOp);
-                            start();
-                            ls.set(`Rem_${id}`, false);
-                            $(".TodoEdit").fadeOut();
+                            setModal(false);
                         }}
-                    >
-                        <MdCheck />
-                        <span>Save</span>
-                    </button>
-                    <button
-                        className="modalBtn cancel"
-                        type="button"
-                        onClick={() => {
-                            $(".TodoEdit").fadeOut();
-                        }}
-                    >
-                        <MdClear />
-                        <span>Cancel</span>
-                    </button>
-                </div>
-            </div>
+                    ></div>
+                )}
+            </Transition>
         </>
     );
 }
