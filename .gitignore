@@ -1,11 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-TodoList Pro/.vscode
-TodoList Pro/.env
-TodoList Pro/.env
+.vscode
+.env
+.env
 # dependencies
-TodoList Pro/node_modules
-TodoList Pro/.pnp
-TodoList Pro/.pnp.js
+/node_modules
+.pnp
+.pnp.js
 
 # testing
 TodoList Pro//coverage
