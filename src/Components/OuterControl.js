@@ -128,7 +128,6 @@ function OuterControl({
     }
 
     function check({ target: { value } }) {
-        console.log(value);
         if (value.trim() === "") {
             return true;
         } else {
