@@ -64,6 +64,9 @@ function OuterControl({
     const [contactModal, setContactModal] = useState(false);
     const [donateModal, setDonateModal] = useState(false);
     const [helpModal, setHelpModal] = useState(false);
+    const [nameErr, setNameErr] = useState(false);
+    const [emailErr, setEmailErr] = useState(false);
+    const [messageErr, setMessageErr] = useState(false);
 
     // creates Lists of TodoList Categories
     useEffect(() => {
@@ -115,39 +118,29 @@ function OuterControl({
         setList(list);
     }, [app, setCurrentList, whichMode, currentList]);
 
-    function checkEmail(event, x) {
+    function checkEmail(event) {
         var val = event.target.value.trim();
         if (!/@/.test(val) || val === "") {
-            x.addClass("err");
+            setEmailErr(true);
         } else {
-            x.removeClass("err");
+            setEmailErr(false);
         }
     }
 
-    $(".contactModal .Input.email").on({
-        keyup: function (event) {
-            checkEmail(event, $(this));
-        },
-        blur: function (event) {
-            checkEmail(event, $(this));
-        },
-    });
-    function check(input) {
-        if (input.val().trim() === "") {
-            input.addClass("err");
+    function check({ target: { value } }) {
+        console.log(value);
+        if (value.trim() === "") {
+            return true;
         } else {
-            input.removeClass("err");
+            return false;
         }
     }
-    $(".contactModal .Input:not(.email)").on({
-        blur: function () {
-            check($(this));
-        },
 
-        keyup: function () {
-            check($(this));
-        },
-    });
+    function closeContactModal() {
+        setNameErr(false);
+        setEmailErr(false);
+        setMessageErr(false);
+    }
 
     var sendBtn = {
         className: "",
@@ -507,8 +500,8 @@ function OuterControl({
                                 size="1.5rem"
                                 onClick={() => {
                                     setContactModal(false);
-                                    $(".contactModal .Input").removeClass("err");
                                     setFormStatus("send");
+                                    closeContactModal();
                                 }}
                             />
 
@@ -521,13 +514,19 @@ function OuterControl({
                                 }}
                             >
                                 <h3>Contact Me</h3>
-                                <div className="input-container">
+                                <div className={`input-container `}>
                                     <input
                                         type="text"
-                                        className="Input"
+                                        className={`Input ${nameErr ? "err" : ""}`}
                                         name="from_name"
                                         autoComplete="off"
                                         required={true}
+                                        onKeyUp={(event) => {
+                                            setNameErr(check(event));
+                                        }}
+                                        onBlur={(event) => {
+                                            setNameErr(check(event));
+                                        }}
                                     />
                                     <Border />
                                     <span>Full Name</span>
@@ -535,19 +534,27 @@ function OuterControl({
                                 <div className="input-container">
                                     <input
                                         type="email"
-                                        className="Input email"
+                                        className={`Input email ${emailErr ? "err" : ""}`}
                                         name="from_email"
                                         autoComplete="off"
                                         required={true}
+                                        onKeyUp={checkEmail}
+                                        onBlur={checkEmail}
                                     />
                                     <Border />
                                     <span>email</span>
                                 </div>
                                 <div className="input-container message">
                                     <textarea
-                                        className="Input"
+                                        className={`Input ${messageErr ? "err" : ""}`}
                                         name="message"
                                         required={true}
+                                        onKeyUp={(event) => {
+                                            setMessageErr(check(event));
+                                        }}
+                                        onBlur={(event) => {
+                                            setMessageErr(check(event));
+                                        }}
                                     ></textarea>
                                     <svg
                                         className="border textarea"

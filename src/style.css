@@ -853,7 +853,7 @@ input[type="checkbox"]:checked + div div div span:nth-child(2) {
     color: #333;
 }
 .main.light .Input.err ~ span {
-    background: #eeeeee;
+    background: #fefefe;
 }
 
 .main.light .input-container svg {
