@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/React-Todo-App/static/css/main.dc1db1b6.chunk.css",
-    "main.js": "/React-Todo-App/static/js/main.703c06ad.chunk.js",
-    "main.js.map": "/React-Todo-App/static/js/main.703c06ad.chunk.js.map",
+    "main.js": "/React-Todo-App/static/js/main.a1caca91.chunk.js",
+    "main.js.map": "/React-Todo-App/static/js/main.a1caca91.chunk.js.map",
     "runtime-main.js": "/React-Todo-App/static/js/runtime-main.eb8ed301.js",
     "runtime-main.js.map": "/React-Todo-App/static/js/runtime-main.eb8ed301.js.map",
     "static/css/2.8044c660.chunk.css": "/React-Todo-App/static/css/2.8044c660.chunk.css",
-    "static/js/2.0e469ac2.chunk.js": "/React-Todo-App/static/js/2.0e469ac2.chunk.js",
-    "static/js/2.0e469ac2.chunk.js.map": "/React-Todo-App/static/js/2.0e469ac2.chunk.js.map",
+    "static/js/2.26a7e564.chunk.js": "/React-Todo-App/static/js/2.26a7e564.chunk.js",
+    "static/js/2.26a7e564.chunk.js.map": "/React-Todo-App/static/js/2.26a7e564.chunk.js.map",
     "index.html": "/React-Todo-App/index.html",
-    "precache-manifest.ce80be7e011f74c991af616c600e700e.js": "/React-Todo-App/precache-manifest.ce80be7e011f74c991af616c600e700e.js",
+    "precache-manifest.5ce9f1114ac110227ecee09236b411ea.js": "/React-Todo-App/precache-manifest.5ce9f1114ac110227ecee09236b411ea.js",
     "service-worker.js": "/React-Todo-App/service-worker.js",
     "static/css/2.8044c660.chunk.css.map": "/React-Todo-App/static/css/2.8044c660.chunk.css.map",
     "static/css/main.dc1db1b6.chunk.css.map": "/React-Todo-App/static/css/main.dc1db1b6.chunk.css.map",
-    "static/js/2.0e469ac2.chunk.js.LICENSE.txt": "/React-Todo-App/static/js/2.0e469ac2.chunk.js.LICENSE.txt",
+    "static/js/2.26a7e564.chunk.js.LICENSE.txt": "/React-Todo-App/static/js/2.26a7e564.chunk.js.LICENSE.txt",
     "static/media/Create Task.mp4": "/React-Todo-App/static/media/Create Task.bdcc0fe6.mp4",
     "static/media/Editing_Reminder.mp4": "/React-Todo-App/static/media/Editing_Reminder.30c75d32.mp4",
     "static/media/Newlist.mp4": "/React-Todo-App/static/media/Newlist.0c664a84.mp4",
@@ -27,8 +27,8 @@
   "entrypoints": [
     "static/js/runtime-main.eb8ed301.js",
     "static/css/2.8044c660.chunk.css",
-    "static/js/2.0e469ac2.chunk.js",
+    "static/js/2.26a7e564.chunk.js",
     "static/css/main.dc1db1b6.chunk.css",
-    "static/js/main.703c06ad.chunk.js"
+    "static/js/main.a1caca91.chunk.js"
   ]
 }
