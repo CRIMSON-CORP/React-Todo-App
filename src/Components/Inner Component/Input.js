@@ -24,9 +24,12 @@ export default function Input({ props: { sendProps } }) {
     return (
         <form
             className="inputBlock"
-            onSubmit={(event) => {
+            onSubmit={function (event) {
                 event.preventDefault();
                 sendProps(input);
+                setInput(null);
+                document.querySelector(".inputBlock input").value = null;
+                document.querySelector(".inputBlock input").focus();
             }}
         >
             <div className="input-container">

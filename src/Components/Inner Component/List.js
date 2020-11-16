@@ -2,7 +2,7 @@ import React from "react";
 import EachTodo from "./EachTodo";
 
 export default function List({
-    props: { removeTodo, updateTodo, TodoListArray, filtered, AddUpdate, removeReminder },
+    props: { removeTodo, updateTodo, TodoListArray, filtered, AddUpdate, removeReminder, trans },
 }) {
     var TodoBlocks = filtered.map((eachTodo, index) => {
         return (
@@ -14,6 +14,7 @@ export default function List({
                     removeTodo,
                     AddUpdate,
                     removeReminder,
+                    trans,
                 }}
             />
         );

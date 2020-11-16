@@ -21,6 +21,7 @@ function EachTodo({
         removeTodo,
         AddUpdate,
         removeReminder,
+        trans,
     },
 }) {
     const [TodoOp, setTodoOp] = useState({
@@ -41,7 +42,7 @@ function EachTodo({
             var rem = ls.get(`Rem_${id}`);
             rem === null ? (rem = false) : (rem = JSON.parse(rem));
             if (rem) return;
-            if (reminder && !completed && Date.now() >= Date.parse(futureDate) && !rem) {
+            if (reminder && completed === false && Date.now() >= Date.parse(futureDate) && !rem) {
                 Push.create(`Reminder: ${Todo}`, {
                     requireInteraction: true,
                     vibrate: [500, 200, 500],
@@ -49,13 +50,10 @@ function EachTodo({
                 setTodoStatus("passed");
                 stop();
                 ls.set(`Rem_${id}`, true);
-            } else if (
-                reminder &&
-                completed === false &&
-                Date.now() >= Date.parse(futureDate) - 1800000 &&
-                !rem
-            ) {
-                setTodoStatus("close");
+
+                if (Date.now() >= Date.parse(futureDate) - 1800000) {
+                    setTodoStatus("close");
+                }
             } else if (reminder && completed === false) {
                 setTodoStatus("normal");
             }
@@ -108,10 +106,12 @@ function EachTodo({
                             <svg viewBox="0 0 100 100" className="checkbox">
                                 <path
                                     className="st0"
+                                    style={{ transition: trans ? ".4s" : "none" }}
                                     d="M85,92H15c-3.9,0-7-3.1-7-7V15c0-3.9,3.1-7,7-7h70c3.9,0,7,3.1,7,7v70C92,88.9,88.9,92,85,92z"
                                 />
                                 <polyline
                                     className="check"
+                                    style={{ transition: trans ? ".4s" : "none" }}
                                     points="22.5,47.5 42.5,67.5 78.5,31.5 "
                                 />
                             </svg>

@@ -5,7 +5,6 @@ import OuterControl from "./OuterControl";
 import { MdDehaze } from "react-icons/md";
 import "animate.css";
 import emailjs from "emailjs-com";
-import $ from "jquery";
 
 function Main() {
     const ls = localStorage;
@@ -19,6 +18,9 @@ function Main() {
         return ls.getItem("mode") === null ? true : JSON.parse(ls.getItem("mode").toLowerCase());
     });
     const [formStatus, setFormStatus] = useState("send");
+    const [mainCurrentListId, setMainCurrentListId] = useState(() => {
+        return ls.getItem("Index") === null ? 0 : app[Number.parseInt(ls.getItem("Index"))].id;
+    });
 
     useEffect(() => {
         localStorage.setItem("AppLocal", JSON.stringify(app));
@@ -26,10 +28,8 @@ function Main() {
 
     useEffect(() => {
         ls.setItem("Index", JSON.stringify(currentList));
-        $(`.container`).css({ display: "none" });
-        $(`.container[data-id="${app[currentList] ? app[currentList].id : ""}"]`).css({
-            display: "block",
-        });
+        ls.setItem("IndexID", JSON.stringify(app[currentList].id));
+        setMainCurrentListId(app[currentList].id);
         // eslint-disable-next-line
     }, [currentList, app]);
 
@@ -97,7 +97,7 @@ function Main() {
               </div>
           ))
         : (content = app.map((app, Index) => {
-              return <App key={Index} props={{ app }} />;
+              return <App key={Index} props={{ app, clID: mainCurrentListId }} />;
           }));
 
     return (

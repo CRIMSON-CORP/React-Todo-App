@@ -674,9 +674,10 @@ function OuterControl({
                             <button
                                 className={`copy modalBtn sendBtn ${copy ? "Sent" : "Send"}`}
                                 onClick={() => {
-                                    var temp = $("<input>");
-                                    $(".donateModal .modal").append(temp);
-                                    temp.val($("#acc").text()).select();
+                                    var temp = document.createElement("input");
+                                    document.querySelector(".donateModal .modal").appendChild(temp);
+                                    temp.value = document.querySelector("#acc").innerHTML;
+                                    temp.select();
                                     document.execCommand("copy");
                                     temp.remove();
                                     setCopy(true);

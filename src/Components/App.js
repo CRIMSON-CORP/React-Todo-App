@@ -3,10 +3,9 @@ import uuid from "uuid";
 import Input from "./Inner Component/Input";
 import List from "./Inner Component/List";
 import Control from "./Inner Component/Control";
-import $ from "jquery";
 import ls from "local-storage";
 
-export default function App({ props: { app } }) {
+export default function App({ props: { app, clID } }) {
     const [id] = useState(app.id);
     const [Todo, setTodo] = useState({});
     const [TodoListArray, setTodoListArray] = useState(() => {
@@ -16,10 +15,16 @@ export default function App({ props: { app } }) {
     const [progress, setProgress] = useState("");
     const [filtered, setFiltered] = useState([]);
     const [status, setStatus] = useState("All");
+    const [show, setShow] = useState(false);
+    const [trans, setTrans] = useState(true);
 
     useEffect(() => {
         ls.set(id, TodoListArray);
     }, [TodoListArray, id]);
+
+    useEffect(() => {
+        clID === app.id ? setShow(true) : setShow(false);
+    }, [clID, app.id]);
 
     useEffect(() => {
         const DoneTodos = TodoListArray.filter((arr) => arr.completed === true);
@@ -42,24 +47,8 @@ export default function App({ props: { app } }) {
         }
     }, [TodoListArray, status]);
 
-    useEffect(() => {
-        Trans(false);
-    }, [status]);
-
-    function Trans(x) {
-        if (x) {
-            $(".checkbox path").css("transition", ".4s");
-            $(".check").css("transition", ".4s");
-        } else {
-            $(".checkbox path").css("transition", "none");
-            $(".check").css("transition", "none");
-        }
-    }
-
     function sendProps(todo) {
-        var inputBox = $(".Input");
         if (todo.trim() === "" || todo.trim() === undefined) {
-            inputBox.val(null).focus();
             return alert("Please write a Task");
         }
         Todo.Todo = todo;
@@ -70,13 +59,12 @@ export default function App({ props: { app } }) {
             reminder: false,
         };
         setTodoListArray((prev) => [...prev, Todo]);
-        inputBox.val(null).focus();
         setTodo({});
         setStatus("All");
     }
 
     function updateTodo(id) {
-        Trans(true);
+        setTrans(true);
         setTodoListArray(
             TodoListArray.map((arr) => {
                 if (arr.id === id) arr.completed = !arr.completed;
@@ -127,22 +115,23 @@ export default function App({ props: { app } }) {
     }
 
     function removeTodo(id) {
-        Trans(false);
+        setTrans(false);
         setTodoListArray(TodoListArray.filter((arr) => arr.id !== id));
         ls.remove(`Rem_${id}`);
     }
 
     function clearDone() {
-        Trans(false);
+        setTrans(false);
         setTodoListArray(TodoListArray.filter((arr) => arr.completed === false));
     }
 
     function statusHandler({ target: { value } }) {
         setStatus(value);
+        setTrans(false);
     }
 
     return (
-        <div className="container" data-id={id}>
+        <div className="container" data-id={id} style={{ display: show ? "block" : "none" }}>
             <h1 className="ListName">{app.name}</h1>
             <Control
                 props={{
@@ -168,6 +157,7 @@ export default function App({ props: { app } }) {
                     filtered,
                     AddUpdate,
                     removeReminder,
+                    trans,
                 }}
             />
         </div>
