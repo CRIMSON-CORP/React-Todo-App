@@ -12,7 +12,7 @@ const examples = [
     "Drink Plenty of water",
 ];
 
-export default function Input({ props: { sendProps } }) {
+export default function Input({ props: { id, sendProps } }) {
     const [focus, setFocus] = useState(false);
     const [line, setLine] = useState("");
     const [input, setInput] = useState("");
@@ -27,12 +27,13 @@ export default function Input({ props: { sendProps } }) {
             onSubmit={function (event) {
                 event.preventDefault();
                 sendProps(input);
-                setInput(null);
-                document.querySelector(".inputBlock input").value = null;
-                document.querySelector(".inputBlock input").focus();
+                setInput("");
+                var inputBox = document.querySelector(`.input-container[data-id="${id}"] input`);
+                inputBox.value = "";
+                inputBox.focus();
             }}
         >
-            <div className="input-container">
+            <div className="input-container" data-id={id}>
                 <input
                     type="text"
                     className="Input"
@@ -48,7 +49,7 @@ export default function Input({ props: { sendProps } }) {
                         setFocus(false);
                     }}
                     autoComplete="off"
-                    required="required"
+                    required={true}
                 />
                 <svg className="border" viewBox="0 0 275.05 40" preserveAspectRatio="none">
                     <path

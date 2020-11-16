@@ -146,6 +146,7 @@ export default function App({ props: { app, clID } }) {
             />
             <Input
                 props={{
+                    id,
                     sendProps,
                 }}
             />

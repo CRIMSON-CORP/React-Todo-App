@@ -19,17 +19,23 @@ function Main() {
     });
     const [formStatus, setFormStatus] = useState("send");
     const [mainCurrentListId, setMainCurrentListId] = useState(() => {
-        return ls.getItem("Index") === null ? 0 : app[Number.parseInt(ls.getItem("Index"))].id;
+        return ls.getItem("Index") === null
+            ? 0
+            : app[Number.parseInt(ls.getItem("Index"))] === undefined
+            ? ""
+            : app[Number.parseInt(ls.getItem("Index"))].id;
     });
-
     useEffect(() => {
         localStorage.setItem("AppLocal", JSON.stringify(app));
     }, [app]);
 
     useEffect(() => {
         ls.setItem("Index", JSON.stringify(currentList));
-        ls.setItem("IndexID", JSON.stringify(app[currentList].id));
-        setMainCurrentListId(app[currentList].id);
+        ls.setItem(
+            "IndexID",
+            JSON.stringify(app[currentList] === undefined ? "" : app[currentList].id)
+        );
+        setMainCurrentListId(app[currentList] === undefined ? "" : app[currentList].id);
         // eslint-disable-next-line
     }, [currentList, app]);
 
@@ -58,10 +64,11 @@ function Main() {
     }
 
     function deleteList(id) {
-        ls.removeItem(id);
+        var index = app.findIndex((app) => app.id === id);
         var filteredList = app.filter((app) => app.id !== id);
-        setCurrentList(filteredList.length - 1);
+        setCurrentList(index <= 0 ? (index = 0) : --index);
         setApp(filteredList);
+        ls.removeItem(id);
     }
     function clearList() {
         setApp([]);
