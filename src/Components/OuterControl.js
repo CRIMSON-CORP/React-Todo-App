@@ -1,13 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import {
-    MdDehaze,
-    MdClear,
-    MdDelete,
-    MdDeleteSweep,
-    MdCheck,
-    MdError,
-    MdSend,
-} from "react-icons/md";
+import React, { useState, useEffect } from "react";
+import { MdDehaze, MdClear, MdCheck, MdError, MdSend } from "react-icons/md";
 import { FiLoader, FiCopy } from "react-icons/fi";
 import {
     FaFacebookF,
@@ -31,7 +23,7 @@ import {
 import Transition from "react-motion-ui-pack/lib/Transition";
 import Border from "./Border";
 import List from "./OuterComponent/List";
-import { AppContext, Side } from "./utils/Contexts";
+import { Side } from "./utils/Contexts";
 function OuterControl({
     props: {
         app,
@@ -47,21 +39,15 @@ function OuterControl({
     },
 }) {
     const [side, setSide] = useState(false);
-    const [currentListId, setCurrentListId] = useState("");
     const [copy, setCopy] = useState(false);
 
     // Modals
-    const [newListModal, setNewListModal] = useState(false);
-    const [renameListModal, setRenameListModal] = useState(false);
-    const [deleteListModal, setDeleteListModal] = useState(false);
-    const [clearListModal, setClearListModal] = useState(false);
     const [contactModal, setContactModal] = useState(false);
     const [donateModal, setDonateModal] = useState(false);
     const [helpModal, setHelpModal] = useState(false);
     const [nameErr, setNameErr] = useState(false);
     const [emailErr, setEmailErr] = useState(false);
     const [messageErr, setMessageErr] = useState(false);
-    const AppFromContext = useContext(AppContext);
 
     // creates Lists of TodoList Categories
     useEffect(() => {}, [app, setCurrentList, currentList]);
