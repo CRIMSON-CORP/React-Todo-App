@@ -25,18 +25,7 @@ import Border from "./Border";
 import List from "./OuterComponent/List";
 import { Side } from "./utils/Contexts";
 function OuterControl({
-    props: {
-        app,
-        addList,
-        setCurrentList,
-        updateList,
-        deleteList,
-        currentList,
-        clearList,
-        sendForm,
-        formStatus,
-        setFormStatus,
-    },
+    props: { app, setCurrentList, currentList, sendForm, formStatus, setFormStatus },
 }) {
     const [side, setSide] = useState(false);
     const [copy, setCopy] = useState(false);
@@ -48,9 +37,6 @@ function OuterControl({
     const [nameErr, setNameErr] = useState(false);
     const [emailErr, setEmailErr] = useState(false);
     const [messageErr, setMessageErr] = useState(false);
-
-    // creates Lists of TodoList Categories
-    useEffect(() => {}, [app, setCurrentList, currentList]);
     // appContext
 
     function checkEmail(event) {
@@ -115,14 +101,21 @@ function OuterControl({
                     <div
                         key="underlay"
                         className="sideBarUnderLay"
-                        onClick={() => {
+                        onTouchStart={() => {
+                            setSide(false);
+                        }}
+                        onMouseDown={() => {
                             setSide(false);
                         }}
                     ></div>
                 )}
             </Transition>
             <Side.Provider value={{ side, setSide }}>
-                <List />
+                <List
+                    setDonateModal={setDonateModal}
+                    setHelpModal={setHelpModal}
+                    setContactModal={setContactModal}
+                />
             </Side.Provider>
 
             {/* Contact Me Section */}

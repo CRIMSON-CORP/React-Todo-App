@@ -9,17 +9,14 @@ import NewListModal from "./Modals/NewListModal";
 import RenameList from "./Modals/RenameList";
 import DeleteListModal from "./Modals/DeleteListModal";
 import ClearListModal from "./Modals/ClearListModal";
-function List() {
+function List({ setDonateModal, setHelpModal, setContactModal }) {
     const { app, whichMode, setwhichMode, currentList, setCurrentList } = useContext(AppContext);
     const { side, setSide } = useContext(Side);
     const [newListModal, setNewListModal] = useState(false);
     const [deleteListModal, setDeleteListModal] = useState(false);
     const [clearListModal, setClearListModal] = useState(false);
-    const [contactModal, setContactModal] = useState(false);
-    const [donateModal, setDonateModal] = useState(false);
     const [currentListId, setCurrentListId] = useState("");
     const [renameListModal, setRenameListModal] = useState(false);
-    const [helpModal, setHelpModal] = useState(false);
 
     const mode = whichMode ? "dark" : "light";
     var list = app.map((App, index) => {
@@ -167,13 +164,7 @@ function List() {
                 <ClearListModal props={{ clearListModal, setClearListModal }} />
             </ListID.Provider>
             <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
-                {(newListModal ||
-                    renameListModal ||
-                    deleteListModal ||
-                    donateModal ||
-                    helpModal ||
-                    clearListModal ||
-                    contactModal) && (
+                {(newListModal || renameListModal || deleteListModal) && (
                     <div
                         key="underlay"
                         className="ModalUnderLay"
